@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:basin_warding",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": "minecraft:warded_iron_ingot",
+  "cost": 1
+}

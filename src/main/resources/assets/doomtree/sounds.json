@@ -1,0 +1,10 @@
+{
+	"doomtree.creak": {
+		"category": "neutral",
+		"sounds": [
+			"doomtree:creak1",
+			"doomtree:creak2"
+		],
+		"subtitle": "subtitle.doomtree.creak"
+	}
+}

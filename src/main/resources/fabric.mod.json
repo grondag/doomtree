@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "doomtree",
+	"version": "${version}",
+	"name": "The Doom Tree",
+	"description": "Is it a tree? Is it an eldritch horror? Why not both?",
+	"authors": [
+		{
+			"name": "Grondag",
+			"contact": {
+				"github": "https://github.com/grondag"
+			}
+		}
+	],
+	"contributors": [
+	],
+	"contact": {
+		"homepage": "https://github.com/grondag/doomtree",
+		"sources": "https://github.com/grondag/doomtree"
+	},
+	"license": "MIT",
+	"icon": "assets/doomtree/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"grondag.doomtree.DoomTree"
+		],
+		"client": [
+			"grondag.doomtree.DoomTreeClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.4.0",
+		"fabric": "*"
+	}
+}

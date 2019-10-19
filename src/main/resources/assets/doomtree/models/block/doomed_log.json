@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "doomtree:block/doomed_log_top",
+        "side": "doomtree:block/doomed_log"
+    }
+}

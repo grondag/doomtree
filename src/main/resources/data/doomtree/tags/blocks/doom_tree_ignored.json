@@ -1,0 +1,20 @@
+{
+	"replace": false,
+	"values": [
+		"doomtree:miasma",
+		"doomtree:doom_gleam",
+		"doomtree:doom_tree_heart",
+		"doomtree:doom_sapling",
+		"doomtree:doom_leaves",
+		"doomtree:doom_log_p",
+		"doomtree:doom_log_channel_p",
+		"doomtree:doom_log_terminal_p",
+		"doomtree:doom_log",
+		"doomtree:doom_log_channel",
+		"doomtree:doom_log_terminal",
+		"doomtree:doomed_log",
+		"doomtree:doomed_earth",
+		"doomtree:doomed_stone",
+		"doomtree:ichor"
+	]
+}

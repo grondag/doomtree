@@ -1,0 +1,11 @@
+{
+	"type": "doomtree:ichor_recipe",
+	"input": [
+		{
+			"item": "minecraft:water_bucket"
+		}
+	],
+	"result": {
+		"item": "doomtree:ichor_bucket"
+	}
+}

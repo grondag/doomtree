@@ -1,0 +1,19 @@
+{
+	"replace": false,
+	"values": [
+		"doomtree:warded_iron_ingot",
+		"doomtree:warded_iron_nugget",
+		"doomtree:warded_diamond",
+		"doomtree:warded_stick",
+		"doomtree:warded_iron_helmet",
+		"doomtree:warded_iron_chestplate",
+		"doomtree:warded_iron_leggings",
+		"doomtree:warded_iron_boots",
+		"doomtree:warded_iron_shovel",
+		"doomtree:warded_iron_hoe",
+		"doomtree:warded_iron_pickaxe",
+		"doomtree:warded_iron_axe",
+		"doomtree:warded_iron_sword",
+		"doomtree:doomed_stone"
+	]
+}

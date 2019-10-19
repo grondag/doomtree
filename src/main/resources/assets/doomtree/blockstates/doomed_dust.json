@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "": [
+            { "model": "doomtree:block/doomed_dust" },
+            { "model": "doomtree:block/doomed_dust", "y": 90 },
+            { "model": "doomtree:block/doomed_dust", "y": 180 },
+            { "model": "doomtree:block/doomed_dust", "y": 270 }
+        ]
+    }
+}

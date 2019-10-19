@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "": [
+            { "model": "doomtree:block/doomed_stone" },
+            { "model": "doomtree:block/doomed_stone_mirrored" },
+            { "model": "doomtree:block/doomed_stone", "y": 180 },
+            { "model": "doomtree:block/doomed_stone_mirrored", "y": 180 }
+        ]
+    }
+}
