@@ -11,8 +11,6 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import com.google.common.collect.ImmutableList;
-
 import grondag.doomtree.DoomTree;
 import grondag.doomtree.block.AlchemicalBasinBlockEntity;
 import grondag.fermion.client.models.SimpleModel;
@@ -35,12 +33,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.ExtendedBlockView;
 
 public class AlchemicalBasin extends SimpleModel {
-	public static final List<Identifier> TEXTURES = ImmutableList.of(
-			DoomTree.id("block/alchemical_basin_base"),
-			DoomTree.id("block/alchemical_basin_side_a"),
-			DoomTree.id("block/alchemical_basin_side_b"),
-			DoomTree.id("block/alchemical_basin_feet"),
-			DoomTree.id("block/alchemical_basin_frame"));
+	public static final List<Identifier> TEXTURES = DoomTree.REG.idList(
+			"block/alchemical_basin_base",
+			"block/alchemical_basin_side_a",
+			"block/alchemical_basin_side_b",
+			"block/alchemical_basin_feet",
+			"block/alchemical_basin_frame");
 
 	protected final Sprite[] sprites = new Sprite[TEXTURES.size()];
 	protected static final int BASE = 0;

@@ -3,8 +3,6 @@ package grondag.doomtree.model;
 import java.util.List;
 import java.util.function.Function;
 
-import com.google.common.collect.ImmutableList;
-
 import grondag.doomtree.DoomTree;
 import grondag.fermion.client.models.SimpleModels;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
@@ -15,11 +13,11 @@ import net.minecraft.util.math.Direction;
 
 public class DoomLogChannel extends DoomLog {
 	
-	public static final List<Identifier> CHANNEL_TEXTURES = ImmutableList.of(
-			DoomTree.id("block/doom_log_channel_0_0"),
-			DoomTree.id("block/doom_log_channel_0_1"),
-			DoomTree.id("block/doom_log_channel_0_2"),
-			DoomTree.id("block/doom_log_channel_0_3"));
+	public static final List<Identifier> CHANNEL_TEXTURES = DoomTree.REG.idList(
+			"block/doom_log_channel_0_0",
+			"block/doom_log_channel_0_1",
+			"block/doom_log_channel_0_2",
+			"block/doom_log_channel_0_3");
 	
 	protected final Sprite[] channelSprite = new Sprite[4];
     

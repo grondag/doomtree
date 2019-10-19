@@ -3,8 +3,6 @@ package grondag.doomtree.model;
 import java.util.List;
 import java.util.function.Function;
 
-import com.google.common.collect.ImmutableList;
-
 import grondag.doomtree.DoomTree;
 import grondag.doomtree.block.DoomLogBlock;
 import grondag.fermion.client.models.SimpleModels;
@@ -17,8 +15,7 @@ import net.minecraft.util.math.Direction;
 
 public class DoomLogTerminal extends DoomLog {
 	
-	public static final List<Identifier> TERMINAL_TEXTURES = ImmutableList.of(
-			DoomTree.id("block/doom_log_terminal"));
+	public static final List<Identifier> TERMINAL_TEXTURES = DoomTree.REG.idList("block/doom_log_terminal");
 	
 	protected final Sprite termimnalSprite;
     

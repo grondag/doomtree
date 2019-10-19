@@ -1,8 +1,14 @@
 package grondag.doomtree.recipe;
 
-import com.google.gson.*;
+import java.util.ArrayList;
 
-import grondag.doomtree.DoomTree;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -12,16 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
-
 public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
-	private IchorRecipeSerializer() {
-		// NO-OP
-	}
-
-	public static final IchorRecipeSerializer INSTANCE = new IchorRecipeSerializer();
-	public static final Identifier ID = DoomTree.id("witch_water_recipe");
-
 	private static final String INPUT_KEY = "input";
 	private static final String RESULT_KEY = "result";
 	private static final String ITEM_KEY = "item";

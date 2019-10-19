@@ -11,33 +11,26 @@ import grondag.doomtree.registry.DoomRecipes;
 import grondag.doomtree.registry.DoomSounds;
 import grondag.doomtree.registry.DoomTags;
 import grondag.doomtree.treeheart.DoomTreeTracker;
+import grondag.fermion.registrar.Registrar;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.server.ServerStartCallback;
 import net.fabricmc.fabric.api.event.server.ServerStopCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.util.Identifier;
 
 public class DoomTree implements ModInitializer {
 	public static final String MOD_ID = "doomtree";
 	public static final Logger LOGGER = LogManager.getLogger("The Doom Tree");
-	public static final ItemGroup GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> new ItemStack(DoomBlocks.DOOM_LOG));
-	
-	public static Identifier id(String name) {
-		return new Identifier(MOD_ID, name);
-	}
+	public static final Registrar REG = new Registrar(MOD_ID, "doom_log_p");
 	
 	@Override
 	public void onInitialize() {
-		DoomBlocks.init();
-		DoomFluids.init();
-		DoomItems.init();
-		DoomRecipes.init();
-		DoomSounds.init();
-		DoomTags.init();
+		DoomBlocks.values();
+		DoomFluids.values();
+		DoomItems.values();
+		DoomRecipes.values();
+		DoomSounds.values();
+		DoomTags.values();
 		
 		ServerStopCallback.EVENT.register(s -> DoomTreeTracker.clear());
 		ServerStartCallback.EVENT.register(BasinWardingRecipeHelper::init);

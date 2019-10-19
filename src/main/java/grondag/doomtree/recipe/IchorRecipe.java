@@ -1,5 +1,13 @@
 package grondag.doomtree.recipe;
 
+import static grondag.doomtree.DoomTree.REG;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import grondag.doomtree.registry.DoomRecipes;
 import net.minecraft.inventory.BasicInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
@@ -8,13 +16,6 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import grondag.doomtree.DoomTree;
 
 public class IchorRecipe implements Recipe<BasicInventory> {
 	private final List<Ingredient> ingredients;
@@ -94,7 +95,7 @@ public class IchorRecipe implements Recipe<BasicInventory> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return IchorRecipeSerializer.INSTANCE;
+		return DoomRecipes.ICHOR_RECIPE_SERIALIZER;
 	}
 
 	@Override
@@ -104,7 +105,7 @@ public class IchorRecipe implements Recipe<BasicInventory> {
 
 	public static class Type implements RecipeType<IchorRecipe> {
 		public static final Type INSTANCE = new Type();
-		public static final Identifier ID = DoomTree.id("witch_water_recipe");
+		public static final Identifier ID = REG.id("ichor_recipe");
 
 		private Type() {
 			// NO-OP

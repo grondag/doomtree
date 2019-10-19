@@ -5,8 +5,6 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import com.google.common.collect.ImmutableList;
-
 import grondag.doomtree.DoomTree;
 import grondag.doomtree.block.DoomLogBlock;
 import grondag.fermion.client.models.SimpleModel;
@@ -33,15 +31,15 @@ import net.minecraft.world.ExtendedBlockView;
 
 public class DoomLog extends SimpleModel {
 
-	public static final List<Identifier> TEXTURES = ImmutableList.of(
-			DoomTree.id("block/doom_log_0_0"),
-			DoomTree.id("block/doom_log_0_1"),
-			DoomTree.id("block/doom_log_0_2"),
-			DoomTree.id("block/doom_log_0_3"),
-			DoomTree.id("block/doom_log_1_0"),
-			DoomTree.id("block/doom_log_1_1"),
-			DoomTree.id("block/doom_log_1_2"),
-			DoomTree.id("block/doom_log_1_3"));
+	public static final List<Identifier> TEXTURES = DoomTree.REG.idList(
+			"block/doom_log_0_0",
+			"block/doom_log_0_1",
+			"block/doom_log_0_2",
+			"block/doom_log_0_3",
+			"block/doom_log_1_0",
+			"block/doom_log_1_1",
+			"block/doom_log_1_2",
+			"block/doom_log_1_3");
 
 	protected final Sprite innerSide;
 	protected final Sprite innerTop;

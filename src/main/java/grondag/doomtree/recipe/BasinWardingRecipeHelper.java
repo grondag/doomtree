@@ -1,10 +1,11 @@
 package grondag.doomtree.recipe;
 
+import static grondag.doomtree.DoomTree.REG;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import grondag.doomtree.DoomTree;
 import grondag.doomtree.registry.DoomRecipes;
 import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -28,7 +29,7 @@ public class BasinWardingRecipeHelper implements SimpleSynchronousResourceReload
 	private final Identifier id;
 
 	private BasinWardingRecipeHelper() {
-		this.id = DoomTree.id("private/basin_recipes_" + (++idCounter));
+		this.id = REG.id("private/basin_recipes_" + (++idCounter));
 	}
 
 	@Override
