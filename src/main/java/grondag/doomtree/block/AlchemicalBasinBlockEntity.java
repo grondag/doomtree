@@ -1,7 +1,7 @@
 package grondag.doomtree.block;
 
 import grondag.doomtree.registry.DoomBlocks;
-import grondag.fermion.world.RenderRefreshProxy;
+import grondag.fermion.client.RenderRefreshProxy;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.fabricmc.fabric.api.rendering.data.v1.RenderAttachmentBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -104,7 +104,7 @@ public class AlchemicalBasinBlockEntity extends BlockEntity implements Tickable,
 		final BlockPos pos = this.pos;
 
 		if (pos != null) {
-			RenderRefreshProxy.RENDER_REFRESH_HANDLER.accept(pos);
+			RenderRefreshProxy.refresh(pos);
 		}
 	}
 
