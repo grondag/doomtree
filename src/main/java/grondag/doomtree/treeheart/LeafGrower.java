@@ -47,26 +47,26 @@ public class LeafGrower {
 				if (x * x + z * z > 16) continue;
 
 				if(sqd > 1) {
-					placeCount += setLeaf(world, mPos.setFromLong(BlockPos.add(pos, x, 0, z)));
+					placeCount += setLeaf(world, mPos.set(BlockPos.add(pos, x, 0, z)));
 				}
 				
 				if (sqd > 9) continue;
 				
-				placeCount += setLeaf(world, mPos.setFromLong(BlockPos.add(pos, x, 1, z)));
+				placeCount += setLeaf(world, mPos.set(BlockPos.add(pos, x, 1, z)));
 				
 				
 				if(sqd > 1) {
 					if(clearAround(logs, RelativePos.relativePos(origin, BlockPos.add(pos, x, 0, z)))) {
-						placeCount += setLeaf(world, mPos.setFromLong(BlockPos.add(pos, x, -1, z)));
+						placeCount += setLeaf(world, mPos.set(BlockPos.add(pos, x, -1, z)));
 					}
 				}
 				
 				if (sqd > 4) continue;
 				
-				placeCount += setLeaf(world, mPos.setFromLong(BlockPos.add(pos, x, 2, z)));
+				placeCount += setLeaf(world, mPos.set(BlockPos.add(pos, x, 2, z)));
 				
 				if (sqd == 0) {
-					placeCount += setLeaf(world, mPos.setFromLong(BlockPos.add(pos, x, 3, z)));
+					placeCount += setLeaf(world, mPos.set(BlockPos.add(pos, x, 3, z)));
 				}
 			}
 		}

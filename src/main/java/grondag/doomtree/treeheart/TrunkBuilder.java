@@ -59,7 +59,7 @@ class TrunkBuilder extends IntHeapPriorityQueue {
 
 		for (int i = 0; i < CHECK_LIMIT; i++) {
 			if (heart.power >= 50 && !this.isEmpty()) {
-				mPos.setFromLong(RelativePos.absolutePos(originX, originY, originZ, dequeueInt()));
+				mPos.set(RelativePos.absolutePos(originX, originY, originZ, dequeueInt()));
 				final BlockState currentState = world.getBlockState(mPos);
 
 				if(currentState.getBlock() == Blocks.BEDROCK) {
