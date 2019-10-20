@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"rrr",
+		"rbr",
+		"rrr"
+	],
+	"key": {
+		"b": {
+			"item": "doomtree:alchemical_basin_frame"
+		},
+		"r": {
+			"item": "minecraft:redstone"
+		}
+	},
+	"result": {
+		"item": "doomtree:inert_alchemical_brazier"
+	}
+}

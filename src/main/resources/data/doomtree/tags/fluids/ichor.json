@@ -1,7 +1,6 @@
 {
 	"replace": false,
 	"values": [
-		"doomtree:ichor",
-		"doomtree:ichor_flowing"
+		"doomtree:ichor"
 	]
 }

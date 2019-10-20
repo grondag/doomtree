@@ -1,42 +1,28 @@
 package grondag.doomtree.recipe;
 
-import grondag.doomtree.registry.DoomBlocks;
-import grondag.doomtree.registry.DoomRecipes;
+import grondag.fermion.recipe.SimpleRecipe;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-public class BasinWardingRecipe implements Recipe<Inventory> {
+public abstract class AlchemicalRecipe implements SimpleRecipe<Inventory> {
 	public final Ingredient ingredient;
 	public final ItemStack result;
 	public final Identifier id;
 	public final String group;
 	public final int cost;
 
-	public BasinWardingRecipe(Identifier id, String group, Ingredient ingredient, int cost, ItemStack result) {
+	public AlchemicalRecipe(Identifier id, String group, Ingredient ingredient, int cost, ItemStack result) {
 		this.id = id;
 		this.group = group;
 		this.ingredient = ingredient;
 		this.result = result;
 		this.cost = cost;
-	}
-
-	@Override
-	public RecipeType<?> getType() {
-		return DoomRecipes.WARDING_RECIPE_TYPE;
-	}
-
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return DoomRecipes.WARDING_RECIPE_SERIALIZER;
 	}
 
 	@Override
@@ -51,12 +37,6 @@ public class BasinWardingRecipe implements Recipe<Inventory> {
 
 	public boolean matches(ItemStack stack) {
 		return ingredient.method_8093(stack);
-	}
-	
-	@Override
-	@Environment(EnvType.CLIENT)
-	public ItemStack getRecipeKindIcon() {
-		return new ItemStack(DoomBlocks.ALCHEMICAL_BASIN_BLOCK);
 	}
 	
 	@Override
@@ -86,5 +66,10 @@ public class BasinWardingRecipe implements Recipe<Inventory> {
 	@Override
 	public ItemStack craft(Inventory inventory) {
 		return result.copy();
+	}
+	
+	@FunctionalInterface
+	public static interface Factory<T extends AlchemicalRecipe> {
+		T create(Identifier id, String group, Ingredient ingredient, int cost, ItemStack result);
 	}
 }

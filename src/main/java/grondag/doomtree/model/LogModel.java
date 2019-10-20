@@ -29,7 +29,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ExtendedBlockView;
 
-public class DoomLog extends SimpleModel {
+public class LogModel extends SimpleModel {
 
 	public static final List<Identifier> TEXTURES = DoomTree.REG.idList(
 			"block/doom_log_0_0",
@@ -48,7 +48,7 @@ public class DoomLog extends SimpleModel {
 	protected final RenderMaterial innerMaterial = renderer.materialFinder().emissive(0, true).disableAo(0, true).disableDiffuse(0, true).find();
 	protected final RenderMaterial outerMaterial = renderer.materialFinder().blendMode(0, BlockRenderLayer.TRANSLUCENT).find();
 
-	protected DoomLog(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
+	protected LogModel(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
 		super(sprite, ModelHelper.MODEL_TRANSFORM_BLOCK);
 		innerSide = spriteMap.apply(new Identifier("minecraft:block/water_flow"));
 		innerTop = spriteMap.apply(new Identifier("minecraft:block/water_still"));
@@ -135,8 +135,8 @@ public class DoomLog extends SimpleModel {
 		emitFace(qe, face, bits, height);
 	}
 	
-	public static DoomLog create(Function<Identifier, Sprite> spriteMap) {
-		return new DoomLog(spriteMap.apply(TEXTURES.get(0)), spriteMap);
+	public static LogModel create(Function<Identifier, Sprite> spriteMap) {
+		return new LogModel(spriteMap.apply(TEXTURES.get(0)), spriteMap);
 	}
 
 	protected void glow(QuadEmitter qe, int height) {

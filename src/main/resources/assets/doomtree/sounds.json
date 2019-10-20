@@ -1,10 +1,7 @@
 {
-	"doomtree.creak": {
+	"doomtree.boil": {
 		"category": "neutral",
-		"sounds": [
-			"doomtree:creak1",
-			"doomtree:creak2"
-		],
-		"subtitle": "subtitle.doomtree.creak"
+		"sounds": ["doomtree:boil"],
+		"subtitle": "subtitle.doomtree.boil"
 	}
 }

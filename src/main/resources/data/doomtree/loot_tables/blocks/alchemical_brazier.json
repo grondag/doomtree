@@ -6,7 +6,7 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "doomtree:alchemical_basin"
+					"name": "doomtree:alchemical_brazier"
 				}
 			],
 			"conditions": [

@@ -1,6 +1,6 @@
 package grondag.doomtree.treeheart;
 
-import grondag.doomtree.packet.DoomTreePacket;
+import grondag.doomtree.packet.DoomPacket;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomTags;
@@ -8,8 +8,6 @@ import it.unimi.dsi.fastutil.HashCommon;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntHeapPriorityQueue;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
-import net.fabricmc.fabric.api.server.PlayerStream;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -17,7 +15,6 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.network.Packet;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -171,9 +168,7 @@ class Troll extends IntHeapPriorityQueue {
 	static void placeMiasma(BlockPos pos, World world) {
 		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
-		final Packet<?> packet = DoomTreePacket.misama(pos);
-		PlayerStream.around(world, pos, 32).forEach(p -> 
-		ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, packet));
+		DoomPacket.misama(world, pos);
 	}
 
 	int[] toIntArray() {

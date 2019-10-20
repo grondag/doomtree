@@ -7,6 +7,6 @@ import net.minecraft.sound.SoundEvent;
 public enum DoomSounds {
 	;
 
-	public static final SoundEvent CREAK = REG.sound("creak");
+	public static final SoundEvent BOIL = REG.sound("boil");
 
 }

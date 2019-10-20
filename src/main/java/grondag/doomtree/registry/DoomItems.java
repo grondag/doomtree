@@ -29,6 +29,7 @@ public enum DoomItems {
 	public static Item WARDING_ESSENCE_ITEM = REG.item("warding_essence");
 	public static Item DOOM_FRAGMENT_ITEM = REG.item("doom_fragment");
 	public static Item ALCHEMICAL_BASIN_FRAME = REG.item("alchemical_basin_frame");
+	public static Item ALCHEMICAL_BRAZIER_FRAME = REG.item("alchemical_brazier_frame");
 	public static Item WARDED_IRON_INGOT = REG.item("warded_iron_ingot");
 	public static Item WARDED_IRON_NUGGET = REG.item("warded_iron_nugget");
 	public static Item WARDED_DIAMOND = REG.item("warded_diamond");

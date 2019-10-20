@@ -2,8 +2,11 @@ package grondag.doomtree.registry;
 
 import static grondag.doomtree.DoomTree.REG;
 
-import grondag.doomtree.block.AlchemicalBasinBlock;
-import grondag.doomtree.block.AlchemicalBasinBlockEntity;
+import grondag.doomtree.block.AlchemicalBlock;
+import grondag.doomtree.block.BasinBlock;
+import grondag.doomtree.block.BasinBlockEntity;
+import grondag.doomtree.block.BrazierBlock;
+import grondag.doomtree.block.BrazierBlockEntity;
 import grondag.doomtree.block.DoomGleamBlock;
 import grondag.doomtree.block.DoomHeartBlock;
 import grondag.doomtree.block.DoomLeafBlock;
@@ -11,9 +14,9 @@ import grondag.doomtree.block.DoomLogBlock;
 import grondag.doomtree.block.DoomSaplingBlock;
 import grondag.doomtree.block.DoomedBlock;
 import grondag.doomtree.block.DoomedLogBlock;
+import grondag.doomtree.block.InertAlchemicalBlock;
 import grondag.doomtree.block.MiasmaBlock;
 import grondag.doomtree.ichor.IchorBlock;
-import grondag.doomtree.ichor.IchorBubbleColumnBlock;
 import grondag.doomtree.treeheart.DoomHeartBlockEntity;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
@@ -27,7 +30,6 @@ public enum DoomBlocks {
 	;
 
 	public static final Block ICHOR_BLOCK = REG.blockNoItem("ichor", new IchorBlock(DoomFluids.ICHOR, FabricBlockSettings.copy(Blocks.WATER).build()));
-	public static final Block ICHOR_BUBBLE_COLUMN = REG.blockNoItem("ichor_bubble_column", new IchorBubbleColumnBlock(FabricBlockSettings.copy(Blocks.BUBBLE_COLUMN).build()));
 
 	public static Block DOOM_SAPLING = REG.block("doom_sapling", new DoomSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).build()));
 	public static Block MIASMA_BLOCK = REG.blockNoItem("miasma", new MiasmaBlock());
@@ -51,9 +53,15 @@ public enum DoomBlocks {
 	public static Block DOOMED_RESIDUE_BLOCK = REG.block("doomed_residue_block", new Block(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.SAND).build()));
 	public static Block WARDING_ESSENCE_BLOCK = REG.block("warding_essence_block", new Block(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.SAND).build()));
 
-	public static Block ALCHEMICAL_BASIN_BLOCK = REG.block("alchemical_basin", new AlchemicalBasinBlock(FabricBlockSettings.of(Material.METAL).breakByHand(true).strength(0.5F, 0.5F).lightLevel(5).build()));
-	public static final BlockEntityType<AlchemicalBasinBlockEntity> ALCHEMICAL_BASIN = REG.blockEntityType("alchemical_basin", AlchemicalBasinBlockEntity::new, ALCHEMICAL_BASIN_BLOCK);
+	public static AlchemicalBlock BASIN_BLOCK = REG.block("alchemical_basin", new BasinBlock(FabricBlockSettings.of(Material.METAL).breakByHand(true).strength(0.5F, 0.5F).build()));
+	public static Block INERT_BASIN_BLOCK = REG.block("inert_alchemical_basin", new InertAlchemicalBlock(BASIN_BLOCK));
+	public static final BlockEntityType<BasinBlockEntity> BASIN_BLOCK_ENTITY = REG.blockEntityType("alchemical_basin", BasinBlockEntity::new, BASIN_BLOCK);
 
+	public static AlchemicalBlock BRAZIER_BLOCK = REG.block("alchemical_brazier", new BrazierBlock(FabricBlockSettings.of(Material.METAL).breakByHand(true).strength(0.5F, 0.5F).build()));
+	public static Block INERT_BRAZIER_BLOCK = REG.block("inert_alchemical_brazier", new InertAlchemicalBlock(BRAZIER_BLOCK));
+	public static final BlockEntityType<BrazierBlockEntity> BRAZIER_BLOCK_ENTITY = REG.blockEntityType("alchemical_brazier", BrazierBlockEntity::new, BASIN_BLOCK);
+
+	
 	static FabricBlockSettings logSettings() {
 		return FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 2).strength(3.0F, 20.0F);
 	}

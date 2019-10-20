@@ -97,6 +97,5 @@ public class IchorBlock extends FluidBlock {
 	private void spawnCraftingResult(World world, BlockPos pos, ItemStack result) {
 		ItemEntity itemEntity = new ItemEntity(world, pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5, result);
 		world.spawnEntity(itemEntity);
-		// todo: add particles and/or an animation when dropping the recipe result
 	}
 }

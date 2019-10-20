@@ -1,8 +1,11 @@
 package grondag.doomtree.ichor;
 
+import grondag.doomtree.registry.DoomBlocks;
+import grondag.doomtree.registry.DoomFluids;
+import grondag.doomtree.registry.DoomItems;
+import grondag.doomtree.registry.DoomTags;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
@@ -20,14 +23,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.ViewableWorld;
-import net.minecraft.world.World;
-
-import java.util.Random;
-
-import grondag.doomtree.registry.DoomBlocks;
-import grondag.doomtree.registry.DoomFluids;
-import grondag.doomtree.registry.DoomItems;
-import grondag.doomtree.registry.DoomTags;
 
 public class IchorFluid extends BaseFluid {
 	@Override
@@ -42,12 +37,12 @@ public class IchorFluid extends BaseFluid {
 	
 	@Override
 	protected boolean isInfinite() {
-		return true;
+		return false;
 	}
 	
 	@Override
 	protected BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.SOLID;
+		return BlockRenderLayer.TRANSLUCENT;
 	}
 	
 	@Override
@@ -64,28 +59,6 @@ public class IchorFluid extends BaseFluid {
 	@Override
 	public boolean method_15777(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
 		return direction == Direction.DOWN && !fluid.matches(DoomTags.ICHOR);
-	}
-	
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void randomDisplayTick(World world, BlockPos blockPos, FluidState fluidState, Random random) {
-		if (random.nextInt(10) == 0) {
-			world.addParticle(ParticleTypes.BUBBLE_POP,
-				(double) blockPos.getX() + 0.5D + (random.nextFloat() - 0.5F),
-				(double) blockPos.getY() + (fluidState.getHeight(world, blockPos) * (1F / 7F)) + 1F,
-				(double) blockPos.getZ() + 0.5D + (random.nextFloat() - 0.5F),
-				0.0D, 0.0D, 0.0D
-			);
-		}
-		
-		if (random.nextInt(15) == 0) {
-			world.addParticle(ParticleTypes.BUBBLE,
-				(double) blockPos.getX() + 0.5D + (random.nextFloat() - 0.5F),
-				(double) blockPos.getY() + (fluidState.getHeight(world, blockPos) * (1F / 7F)) + 1F,
-				(double) blockPos.getZ() + 0.5D + (random.nextFloat() - 0.5F),
-				0.0D, 0.0D, 0.0D
-			);
-		}
 	}
 	
 	@Override

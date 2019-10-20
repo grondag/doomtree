@@ -2,6 +2,7 @@ package grondag.doomtree.recipe;
 
 import com.google.gson.JsonObject;
 
+import grondag.doomtree.recipe.AlchemicalRecipe.Factory;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
@@ -11,9 +12,15 @@ import net.minecraft.util.JsonHelper;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.registry.Registry;
 
-public class BasinWardingRecipeSerializer implements RecipeSerializer<BasinWardingRecipe> {
+public class AlchemicalRecipeSerializer<T extends AlchemicalRecipe> implements RecipeSerializer<T> {
+	protected final Factory<T> factory;
+	
+	public AlchemicalRecipeSerializer(Factory<T> factory) {
+		this.factory = factory;
+	}
+	
 	@Override
-	public BasinWardingRecipe read(Identifier identifier, JsonObject jsonObject) {
+	public T read(Identifier identifier, JsonObject jsonObject) {
 		String group = JsonHelper.getString(jsonObject, "group", "");
 		Ingredient ingredient;
 		if (JsonHelper.hasArray(jsonObject, "ingredient")) {
@@ -25,20 +32,20 @@ public class BasinWardingRecipeSerializer implements RecipeSerializer<BasinWardi
 		String result = JsonHelper.getString(jsonObject, "result");
 		ItemStack itemStack = new ItemStack((ItemConvertible)Registry.ITEM.get(new Identifier(result)), 1);
 		int cost = JsonHelper.getInt(jsonObject, "cost");
-		return new BasinWardingRecipe(identifier, group, ingredient, cost, itemStack);
+		return factory.create(identifier, group, ingredient, cost, itemStack);
 	}
 
 	@Override
-	public BasinWardingRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
+	public T read(Identifier identifier, PacketByteBuf packetByteBuf) {
 		String group = packetByteBuf.readString(32767);
 		Ingredient ingredient = Ingredient.fromPacket(packetByteBuf);
 		ItemStack result = packetByteBuf.readItemStack();
 		int cost = packetByteBuf.readVarInt();
-		return new BasinWardingRecipe(identifier, group, ingredient, cost, result);
+		return factory.create(identifier, group, ingredient, cost, result);
 	}
 
 	@Override
-	public void write(PacketByteBuf packetByteBuf, BasinWardingRecipe recipe) {
+	public void write(PacketByteBuf packetByteBuf, AlchemicalRecipe recipe) {
 		packetByteBuf.writeString(recipe.group);
 		recipe.ingredient.write(packetByteBuf);
 		packetByteBuf.writeItemStack(recipe.result);

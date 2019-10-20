@@ -1,8 +1,8 @@
 {
-  "type": "doomtree:basin_warding",
+  "type": "doomtree:alchemical_basin",
   "ingredient": {
     "item": "minecraft:iron_ingot"
   },
-  "result": "minecraft:warded_iron_ingot",
-  "cost": 1
+  "result": "doomtree:warded_iron_ingot",
+  "cost": 9600
 }

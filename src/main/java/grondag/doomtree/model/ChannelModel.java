@@ -11,7 +11,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
-public class DoomLogChannel extends DoomLog {
+public class ChannelModel extends LogModel {
 	
 	public static final List<Identifier> CHANNEL_TEXTURES = DoomTree.REG.idList(
 			"block/doom_log_channel_0_0",
@@ -21,7 +21,7 @@ public class DoomLogChannel extends DoomLog {
 	
 	protected final Sprite[] channelSprite = new Sprite[4];
     
-	protected DoomLogChannel(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
+	protected ChannelModel(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
 		super(sprite, spriteMap);
 		for (int i = 0; i < 4; i++) {
 			channelSprite[i] = spriteMap.apply(CHANNEL_TEXTURES.get(i));
@@ -44,7 +44,7 @@ public class DoomLogChannel extends DoomLog {
 		qe.emit();
 	}
 	
-	public static DoomLogChannel create(Function<Identifier, Sprite> spriteMap) {
-		return new DoomLogChannel(spriteMap.apply(CHANNEL_TEXTURES.get(0)), spriteMap);
+	public static ChannelModel create(Function<Identifier, Sprite> spriteMap) {
+		return new ChannelModel(spriteMap.apply(CHANNEL_TEXTURES.get(0)), spriteMap);
 	}
 }

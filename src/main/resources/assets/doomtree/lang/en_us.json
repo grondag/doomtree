@@ -19,6 +19,7 @@
 	"block.doomtree.doomed_log": "Doomed Log",
 	"block.doomtree.doomed_dust": "Doomed Dust",
 	"block.doomtree.doomed_residue_block": "Doomed Residue Block",
-	"block.doomtree.warding_essence_block": "Wardding Essence Block",
+	"block.doomtree.warding_essence_block": "Warding Essence Block",
+	"block.doomtree.inert_alchemical_basin": "Inert Alchemical Basin",
 	"block.doomtree.alchemical_basin": "Alchemical Basin"
 }

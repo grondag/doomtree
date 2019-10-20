@@ -13,13 +13,13 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
-public class DoomLogTerminal extends DoomLog {
+public class TerminalModel extends LogModel {
 	
 	public static final List<Identifier> TERMINAL_TEXTURES = DoomTree.REG.idList("block/doom_log_terminal");
 	
 	protected final Sprite termimnalSprite;
     
-	protected DoomLogTerminal(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
+	protected TerminalModel(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
 		super(sprite, spriteMap);
 		termimnalSprite = spriteMap.apply(TERMINAL_TEXTURES.get(0));
 	}
@@ -44,7 +44,7 @@ public class DoomLogTerminal extends DoomLog {
 		qe.emit();
 	}
 	
-	public static DoomLogTerminal create(Function<Identifier, Sprite> spriteMap) {
-		return new DoomLogTerminal(spriteMap.apply(TERMINAL_TEXTURES.get(0)), spriteMap);
+	public static TerminalModel create(Function<Identifier, Sprite> spriteMap) {
+		return new TerminalModel(spriteMap.apply(TERMINAL_TEXTURES.get(0)), spriteMap);
 	}
 }

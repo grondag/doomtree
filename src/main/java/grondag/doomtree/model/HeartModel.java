@@ -6,9 +6,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 
-public class DoomTreeHeart extends DoomLogTerminal {
+public class HeartModel extends TerminalModel {
 	
-	protected DoomTreeHeart(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
+	protected HeartModel(Sprite sprite, Function<Identifier, Sprite> spriteMap) {
 		super(sprite, spriteMap);
 	}
 	
@@ -27,7 +27,7 @@ public class DoomTreeHeart extends DoomLogTerminal {
 		return 0xFF000000 | CHANNEL_HIGH_COLOR;
 	}
 	
-	public static DoomTreeHeart create(Function<Identifier, Sprite> spriteMap) {
-		return new DoomTreeHeart(spriteMap.apply(TERMINAL_TEXTURES.get(0)), spriteMap);
+	public static HeartModel create(Function<Identifier, Sprite> spriteMap) {
+		return new HeartModel(spriteMap.apply(TERMINAL_TEXTURES.get(0)), spriteMap);
 	}
 }
