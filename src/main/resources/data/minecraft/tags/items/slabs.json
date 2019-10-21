@@ -1,5 +1,8 @@
 {
 	"replace": false,
 	"values": [
+		"doomtree:warded_stone_slab",
+		"doomtree:warded_stone_brick_slab",
+		"doomtree:warded_smooth_stone_slab"
 	]
 }

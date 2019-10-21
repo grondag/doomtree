@@ -1,0 +1,6 @@
+{
+    "parent": "block/template_trapdoor_open",
+    "textures": {
+        "texture": "doomtree:block/warded_iron_trapdoor"
+    }
+}

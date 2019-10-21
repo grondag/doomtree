@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "doomtree:block/warded_smooth_stone_slab" },
+        "type=top": { "model": "doomtree:block/warded_smooth_stone_slab_top" },
+        "type=double": { "model": "doomtree:block/warded_smooth_stone_slab_double" }
+    }
+}

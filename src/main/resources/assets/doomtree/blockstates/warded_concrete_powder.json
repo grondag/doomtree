@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "": [
+            { "model": "doomtree:block/warded_concrete_powder" },
+            { "model": "doomtree:block/warded_concrete_powder", "y": 90 },
+            { "model": "doomtree:block/warded_concrete_powder", "y": 180 },
+            { "model": "doomtree:block/warded_concrete_powder", "y": 270 }
+        ]
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "doomtree:warded_wood_log",
+    "doomtree:warded_wood_wood",
+    "doomtree:stripped_warded_wood_log",
+    "doomtree:stripped_warded_wood_wood"
+  ]
+}

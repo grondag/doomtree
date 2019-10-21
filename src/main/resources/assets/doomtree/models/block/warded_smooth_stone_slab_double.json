@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "doomtree:block/warded_smooth_stone",
+        "side": "doomtree:block/warded_smooth_stone_slab_side"
+    }
+}

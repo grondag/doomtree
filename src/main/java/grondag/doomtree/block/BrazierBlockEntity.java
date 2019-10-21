@@ -1,5 +1,7 @@
 package grondag.doomtree.block;
 
+import java.util.Random;
+
 import grondag.doomtree.registry.DoomBlocks;
 import net.minecraft.block.entity.BlockEntityType;
 
@@ -14,7 +16,7 @@ public class BrazierBlockEntity extends AlchemicalBlockEntity {
 	}
 
 	@Override
-	protected void doActiveParticles() {
+	protected void doActiveParticles(Random rand) {
 		// TODO Auto-generated method stub
 		
 	}

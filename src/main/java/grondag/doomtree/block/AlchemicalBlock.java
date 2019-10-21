@@ -58,6 +58,8 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 	
 	abstract int fuelValue(Item item);
 	
+	abstract void doCraftingParicles(World world, BlockPos pos);
+	
 	@Override
 	public boolean activate(BlockState blockState, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		final ItemStack stack = player.getStackInHand(hand);
@@ -89,6 +91,8 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 						if (!player.abilities.creativeMode) {
 							stack.decrement(consumed);
 						}
+						
+						doCraftingParicles(world, pos);
 
 						myBe.setState(Mode.ACTIVE, currentUnits + consumed * fuelValue);
 						world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -121,6 +125,8 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 					} else if (!player.inventory.insertStack(result)) {
 						player.dropItem(result, false);
 					}
+					
+					doCraftingParicles(world, pos);
 
 					if (newUnits == 0) {
 						world.setBlockState(pos, blockState.with(LIT, false), 3);

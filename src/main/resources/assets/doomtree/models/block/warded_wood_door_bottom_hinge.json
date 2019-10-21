@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom_rh",
+    "textures": {
+        "bottom": "doomtree:block/warded_wood_door_bottom",
+        "top": "doomtree:block/warded_wood_door_top"
+    }
+}

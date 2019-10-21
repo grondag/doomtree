@@ -1,0 +1,6 @@
+{
+    "parent": "block/template_wall_post",
+    "textures": {
+        "wall": "doomtree:block/warded_stone_bricks"
+    }
+}

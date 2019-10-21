@@ -1,0 +1,8 @@
+{
+    "parent": "block/inner_stairs",
+    "textures": {
+        "bottom": "doomtree:block/warded_stone",
+        "top": "doomtree:block/warded_stone",
+        "side": "doomtree:block/warded_stone"
+    }
+}

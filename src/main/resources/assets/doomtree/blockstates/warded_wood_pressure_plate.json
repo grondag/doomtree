@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "powered=false": { "model": "doomtree:block/warded_wood_pressure_plate" },
+        "powered=true": { "model": "doomtree:block/warded_wood_pressure_plate_down" }
+    }
+}

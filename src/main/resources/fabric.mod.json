@@ -29,6 +29,12 @@
 			"grondag.doomtree.DoomTreeClient"
 		]
 	},
+	"mixins": [
+	  {
+	  	  "config": "doomtree.common.json",
+	      "environment": "*"
+	  }
+    ],
 	"depends": {
 		"fabricloader": ">=0.4.0",
 		"fabric": "*"

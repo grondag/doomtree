@@ -1,0 +1,6 @@
+{
+    "parent": "block/button",
+    "textures": {
+        "texture": "doomtree:block/warded_wood_planks"
+    }
+}

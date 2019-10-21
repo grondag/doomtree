@@ -1,0 +1,7 @@
+{
+    "parent": "doomtree:block/template_glass_pane_post",
+    "textures": {
+        "edge": "doomtree:block/warded_glass_pane_top",
+        "pane": "doomtree:block/warded_glass"
+    }
+}

@@ -3,6 +3,7 @@ package grondag.doomtree.block;
 import static grondag.doomtree.block.AlchemicalBlockEntity.UNITS_PER_BUCKET;
 import static grondag.doomtree.block.AlchemicalBlockEntity.UNITS_PER_INGOT;
 
+import grondag.doomtree.packet.DoomPacket;
 import grondag.doomtree.registry.DoomItems;
 import grondag.doomtree.registry.DoomRecipes;
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 
 public class BasinBlock extends AlchemicalBlock {
 	public static final VoxelShape RAY_TRACE_SHAPE = createCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
@@ -44,5 +46,10 @@ public class BasinBlock extends AlchemicalBlock {
 	int fuelValue(Item item) {
 		return item == DoomItems.WARDING_ESSENCE_ITEM ? UNITS_PER_INGOT
 				: item == DoomItems.WARDING_ESSENCE_BLOCK_ITEM ? UNITS_PER_BUCKET : 0;
+	}
+
+	@Override
+	void doCraftingParicles(World world, BlockPos pos) {
+		DoomPacket.basinCraft(world, pos);
 	}
 }

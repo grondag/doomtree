@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y": { "model": "doomtree:block/warded_wood_wood" },
+        "axis=z": { "model": "doomtree:block/warded_wood_wood", "x": 90 },
+        "axis=x": { "model": "doomtree:block/warded_wood_wood", "x": 90, "y": 90 }
+    }
+}

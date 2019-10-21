@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "hanging=true": { "model": "doomtree:block/warded_hanging_lantern"},
+        "hanging=false": { "model": "doomtree:block/warded_lantern"}
+  }
+}

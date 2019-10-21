@@ -1,0 +1,6 @@
+{
+    "parent": "block/wall_inventory",
+    "textures": {
+        "wall": "doomtree:block/warded_stone_bricks"
+    }
+}

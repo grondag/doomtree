@@ -13,8 +13,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ShovelItem;
+import net.minecraft.item.SignItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.WallStandingBlockItem;
 import net.minecraft.sound.SoundEvents;
 
 public enum DoomItems {
@@ -53,7 +55,6 @@ public enum DoomItems {
 	public static final Item WARDED_IRON_PICKAXE = REG.item("warded_iron_pickaxe", new PickaxeItem(WARDED_IRON_TOOL_MATERIAL, 1, -2.8F, REG.itemSettings()){});
 	public static final Item WARDED_IRON_AXE = REG.item("warded_iron_axe", new AxeItem(WARDED_IRON_TOOL_MATERIAL, 6.0F, -3.1F, REG.itemSettings()){});
 	public static final Item WARDED_IRON_SWORD = REG.item("warded_iron_sword", new SwordItem(WARDED_IRON_TOOL_MATERIAL, 3, -2.4F, REG.itemSettings()){});
-
 	
 	public static final ToolMaterial ENCRUSTED_TOOL_MATERIAL = SimpleToolMaterial.of(3, 1800, 8.8F, 3.3F, 11, WARDED_DIAMOND);
 	public static final Item ENCRUSTED_HOE = REG.item("encrusted_hoe", new HoeItem(ENCRUSTED_TOOL_MATERIAL, 0.0F, REG.itemSettings()){});
@@ -61,4 +62,7 @@ public enum DoomItems {
 	public static final Item ENCRUSTED_PICKAXE = REG.item("encrusted_pickaxe", new PickaxeItem(ENCRUSTED_TOOL_MATERIAL, 1, -2.8F, REG.itemSettings()){});
 	public static final Item ENCRUSTED_AXE = REG.item("encrusted_axe", new AxeItem(ENCRUSTED_TOOL_MATERIAL, 5.0F, -3.0F, REG.itemSettings()){});
 	public static final Item ENCRUSTED_SWORD = REG.item("encrusted_sword", new SwordItem(ENCRUSTED_TOOL_MATERIAL, 3, -2.4F, REG.itemSettings()){});
+	
+	public static final Item WARDED_TORCH = REG.item("warded_torch", new WallStandingBlockItem(DoomBlocks.WARDED_TORCH, DoomBlocks.WARDED_WALL_TORCH, REG.itemSettings()));
+	public static final Item WARDED_WOOD_SIGN = REG.item("warded_wood_sign", new SignItem(REG.itemSettings().maxCount(16), DoomBlocks.WARDED_WOOD_SIGN, DoomBlocks.WARDED_WOOD_WALL_SIGN));
 }

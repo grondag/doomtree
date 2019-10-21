@@ -28,6 +28,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.ExtendedBlockView;
 
+// TODO: uses meshes for static portions of models
+
 public abstract class AlchemicalModel extends SimpleModel {
 	protected static final float PX1 = 1f / 16f;
 	protected static final float PX2 = 2f / 16f;

@@ -12,7 +12,8 @@ import net.minecraft.world.World;
 
 public enum DoomPacket {
 	MIASMA,
-	XP_DRAIN;
+	XP_DRAIN,
+	BASIN_CRAFT;
 	
 	private PacketByteBuf newBuffer() {
 		final PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
@@ -31,6 +32,12 @@ public enum DoomPacket {
 		  buf.writeDouble(x);
 		  buf.writeDouble(y);
 		  buf.writeDouble(z);
+		  buf.writeBlockPos(pos);
+		  sendAround(world, pos, buf);
+	}
+	
+	public static void basinCraft(World world, BlockPos pos) {
+		  final PacketByteBuf buf = BASIN_CRAFT.newBuffer();
 		  buf.writeBlockPos(pos);
 		  sendAround(world, pos, buf);
 	}

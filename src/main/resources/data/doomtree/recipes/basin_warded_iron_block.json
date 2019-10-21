@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin",
+  "ingredient": {
+    "item": "minecraft:iron_block"
+  },
+  "result": "doomtree:warded_iron_block",
+  "cost": 864000
+}

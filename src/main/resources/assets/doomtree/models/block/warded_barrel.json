@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "top": "doomtree:block/warded_barrel_top",
+        "side": "doomtree:block/warded_barrel_side",
+        "bottom": "doomtree:block/warded_barrel_bottom"
+    }
+}

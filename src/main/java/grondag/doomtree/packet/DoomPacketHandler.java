@@ -3,6 +3,7 @@ package grondag.doomtree.packet;
 import java.util.Random;
 
 import grondag.doomtree.block.BasinBlockEntity;
+import grondag.doomtree.particle.WardingParticle;
 import grondag.doomtree.registry.DoomParticles;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.fabricmc.api.EnvType;
@@ -16,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 public class DoomPacketHandler {
 	public static void accept(PacketContext context, PacketByteBuf buffer) {
 		DoomPacket packet = buffer.readEnumConstant(DoomPacket.class);
-		
+
 		switch (packet) {
 		case MIASMA:
 			miasma(context, buffer);
@@ -24,9 +25,12 @@ public class DoomPacketHandler {
 		case XP_DRAIN:
 			xpDrain(context, buffer);
 			break;
+		case BASIN_CRAFT:
+			basinCraft(context, buffer);
+			break;
 		default:
 			break;
-		
+
 		}
 	}
 
@@ -38,7 +42,7 @@ public class DoomPacketHandler {
 			context.getPlayer().world.addParticle(ParticleTypes.SMOKE, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 		}
 	}
-	
+
 	private static void xpDrain(PacketContext context, PacketByteBuf buffer) {
 		final double px = buffer.readDouble();
 		final double py = buffer.readDouble() + 1;
@@ -56,5 +60,11 @@ public class DoomPacketHandler {
 			final double dz = (pos.getZ() + 0.5 - z) * 0.03 * v;
 			context.getPlayer().world.addParticle(DoomParticles.BASIN_WAKING, x, y, z, dx, dy, dz);
 		}
+	}
+
+	private static void basinCraft(PacketContext context, PacketByteBuf buffer) {
+		final BlockPos pos = buffer.readBlockPos();
+		final Random rand = ThreadLocalRandom.current();
+		WardingParticle.spawn(context.getPlayer().world, pos, rand, 16 + rand.nextInt(8), 10);
 	}
 }

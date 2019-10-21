@@ -100,16 +100,17 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 		}
 
 		if (world.isClient) {
+			final Random rand = ThreadLocalRandom.current();
 			switch (mode) {
 			case ACTIVE:
-				doIdleParticles();
-				doActiveParticles();
+				doIdleParticles(rand);
+				doActiveParticles(rand);
 				break;
 			case IDLE:
-				doIdleParticles();
+				doIdleParticles(rand);
 				break;
 			case WAKING:
-				doWakingParticles();
+				doWakingParticles(rand);
 				break;
 			default:
 				break;
@@ -158,8 +159,7 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 		}
 	}
 
-	private void doWakingParticles() {
-		final Random rand = ThreadLocalRandom.current();
+	private void doWakingParticles(Random rand) {
 		final double x = pos.getX();
 		final double y = pos.getY();
 		final double z = pos.getZ();
@@ -188,10 +188,9 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 		}
 	}
 
-	protected abstract void doActiveParticles();
+	protected abstract void doActiveParticles(Random rand);
 
-	private void doIdleParticles() {
-		final Random rand = ThreadLocalRandom.current();
+	private void doIdleParticles(Random rand) {
 		if (rand.nextInt(8) == 0) {
 			final double y = pos.getY() + 0.15f + rand.nextFloat() * 0.8f;
 			final double x, z;
