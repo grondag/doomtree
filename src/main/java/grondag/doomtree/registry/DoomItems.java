@@ -2,6 +2,7 @@ package grondag.doomtree.registry;
 
 import static grondag.doomtree.DoomTree.REG;
 
+import grondag.fermion.block.sign.OpenSignItem;
 import grondag.fermion.registrar.SimpleArmorMaterial;
 import grondag.fermion.registrar.SimpleToolMaterial;
 import net.minecraft.entity.EquipmentSlot;
@@ -13,7 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.ShovelItem;
-import net.minecraft.item.SignItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.WallStandingBlockItem;
@@ -64,5 +64,5 @@ public enum DoomItems {
 	public static final Item ENCRUSTED_SWORD = REG.item("encrusted_sword", new SwordItem(ENCRUSTED_TOOL_MATERIAL, 3, -2.4F, REG.itemSettings()){});
 	
 	public static final Item WARDED_TORCH = REG.item("warded_torch", new WallStandingBlockItem(DoomBlocks.WARDED_TORCH, DoomBlocks.WARDED_WALL_TORCH, REG.itemSettings()));
-	public static final Item WARDED_WOOD_SIGN = REG.item("warded_wood_sign", new SignItem(REG.itemSettings().maxCount(16), DoomBlocks.WARDED_WOOD_SIGN, DoomBlocks.WARDED_WOOD_WALL_SIGN));
+	public static final Item WARDED_WOOD_SIGN = REG.item("warded_wood_sign", new OpenSignItem(REG.itemSettings().maxCount(16), DoomBlocks.WARDED_WOOD_SIGN, DoomBlocks.WARDED_WOOD_WALL_SIGN));
 }

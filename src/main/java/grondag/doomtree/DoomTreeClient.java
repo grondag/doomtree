@@ -14,12 +14,16 @@ import grondag.doomtree.particle.WardedFlameParticle;
 import grondag.doomtree.particle.WardingParticle.WardingFactory;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomParticles;
+import grondag.fermion.block.sign.OpenSignBlockEntity;
+import grondag.fermion.block.sign.OpenSignRenderer;
 import grondag.fermion.client.ClientRegistrar;
 import grondag.fermion.client.models.SimpleUnbakedModel;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.render.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.minecraft.client.render.entity.model.SignBlockEntityModel;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 
 public class DoomTreeClient implements ClientModInitializer {
@@ -64,9 +68,11 @@ public class DoomTreeClient implements ClientModInitializer {
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_WAKING, WakingFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_ACTIVE, WardingFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.WARDED_FLAME, WardedFlameParticle.Factory::new);
-		
+
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.PARTICLE_ATLAS_TEX).register((atlasTexture, registry) -> {
 			registry.register(REGISTRAR.id("warded_flame"));
 		});
+
+		BlockEntityRendererRegistry.INSTANCE.register(OpenSignBlockEntity.class, new OpenSignRenderer(REGISTRAR.id("textures/entity/warded_sign.png"), new SignBlockEntityModel()));
 	}
 }
