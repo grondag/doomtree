@@ -20,6 +20,7 @@ import grondag.doomtree.block.InertAlchemicalBlock;
 import grondag.doomtree.block.MiasmaBlock;
 import grondag.doomtree.block.WardedBarrelBlock;
 import grondag.doomtree.block.WardedBarrelBlockEntity;
+import grondag.doomtree.block.WardedWoodSignBlockEntity;
 import grondag.doomtree.ichor.IchorBlock;
 import grondag.doomtree.treeheart.DoomHeartBlockEntity;
 import grondag.fermion.block.sign.OpenSignBlock;
@@ -214,14 +215,7 @@ public enum DoomBlocks {
 	public static Block WARDED_WOOD_STAIRS = REG.block("warded_wood_stairs", new StairsBlock(WARDED_WOOD_PLANKS.getDefaultState(), FabricBlockSettings.copy(WARDED_WOOD_PLANKS).build()) {});
 	public static Block WARDED_WOOD_TRAPDOOR = REG.block("warded_wood_trapdoor", new TrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});
 	
-	public static Block WARDED_WOOD_SIGN = REG.blockNoItem("warded_wood_sign", new OpenSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build(), DoomBlocks::signBeSupplier));
-	public static Block WARDED_WOOD_WALL_SIGN = REG.blockNoItem("warded_wood_wall_sign", new OpenWallSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).dropsLike(WARDED_WOOD_SIGN).build(), DoomBlocks::signBeSupplier));
-	public static final BlockEntityType<OpenSignBlockEntity> WARDED_SIGN_BLOCK_ENTITY = REG.blockEntityType("warded_sign", DoomBlocks::signBeSupplier, WARDED_WOOD_SIGN, WARDED_WOOD_WALL_SIGN);
-
-	static OpenSignBlockEntity signBeSupplier() {
-		final OpenSignBlockEntity result = new OpenSignBlockEntity(WARDED_SIGN_BLOCK_ENTITY);
-		result.setLit(true);
-		result.setTextColor(DyeColor.WHITE);
-		return result;
-	}
+	public static Block WARDED_WOOD_SIGN = REG.blockNoItem("warded_wood_sign", new OpenSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build(),  WardedWoodSignBlockEntity::new));
+	public static Block WARDED_WOOD_WALL_SIGN = REG.blockNoItem("warded_wood_wall_sign", new OpenWallSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).dropsLike(WARDED_WOOD_SIGN).build(),  WardedWoodSignBlockEntity::new));
+	public static final BlockEntityType<OpenSignBlockEntity> WARDED_WOOD_SIGN_BLOCK_ENTITY = REG.blockEntityType("warded_wood_sign", WardedWoodSignBlockEntity::new, WARDED_WOOD_SIGN, WARDED_WOOD_WALL_SIGN);
 }

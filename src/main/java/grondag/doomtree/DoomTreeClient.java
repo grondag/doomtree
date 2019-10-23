@@ -1,5 +1,6 @@
 package grondag.doomtree;
 
+import grondag.doomtree.block.WardedWoodSignBlockEntity;
 import grondag.doomtree.model.BasinModel;
 import grondag.doomtree.model.BrazierModel;
 import grondag.doomtree.model.ChannelModel;
@@ -14,7 +15,6 @@ import grondag.doomtree.particle.WardedFlameParticle;
 import grondag.doomtree.particle.WardingParticle.WardingFactory;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomParticles;
-import grondag.fermion.block.sign.OpenSignBlockEntity;
 import grondag.fermion.block.sign.OpenSignRenderer;
 import grondag.fermion.client.ClientRegistrar;
 import grondag.fermion.client.models.SimpleUnbakedModel;
@@ -73,6 +73,6 @@ public class DoomTreeClient implements ClientModInitializer {
 			registry.register(REGISTRAR.id("warded_flame"));
 		});
 
-		BlockEntityRendererRegistry.INSTANCE.register(OpenSignBlockEntity.class, new OpenSignRenderer(REGISTRAR.id("textures/entity/warded_sign.png"), new SignBlockEntityModel()));
+		BlockEntityRendererRegistry.INSTANCE.register(WardedWoodSignBlockEntity.class, new OpenSignRenderer(REGISTRAR.id("textures/entity/warded_wood_sign.png"), new SignBlockEntityModel()));
 	}
 }
