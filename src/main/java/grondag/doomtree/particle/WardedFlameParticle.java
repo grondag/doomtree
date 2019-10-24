@@ -80,10 +80,10 @@ public class WardedFlameParticle extends SpriteBillboardParticle {
 	}
 
 	@Environment(EnvType.CLIENT)
-	public static class Factory implements ParticleFactory<DefaultParticleType> {
+	public static class WardedFlameParticleFactory implements ParticleFactory<DefaultParticleType> {
 		private final FabricSpriteProvider sprites;
 
-		public Factory(FabricSpriteProvider sprites) {
+		public WardedFlameParticleFactory(FabricSpriteProvider sprites) {
 			this.sprites = sprites;
 		}
 

@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 
 public class BrazierBlock extends AlchemicalBlock {
 
@@ -44,11 +43,5 @@ public class BrazierBlock extends AlchemicalBlock {
 	@Override
 	int fuelValue(Item item) {
 		return item == DoomItems.DOOM_FRAGMENT_ITEM || item == DoomItems.DOOM_LEAF_ITEM ? UNITS_PER_FRAGMENT : 0;
-	}
-
-	@Override
-	void doCraftingParicles(World world, BlockPos pos) {
-		// TODO Auto-generated method stub
-		
 	}
 }

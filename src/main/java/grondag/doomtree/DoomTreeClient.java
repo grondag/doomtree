@@ -7,13 +7,14 @@ import grondag.doomtree.model.ChannelModel;
 import grondag.doomtree.model.HeartModel;
 import grondag.doomtree.model.LogModel;
 import grondag.doomtree.model.TerminalModel;
-import grondag.doomtree.packet.BasinCraftS2C;
+import grondag.doomtree.packet.AlchemyCraftS2C;
 import grondag.doomtree.packet.MiasmaS2C;
 import grondag.doomtree.packet.XpDrainS2C;
-import grondag.doomtree.particle.IdleParticle.IdleFactory;
-import grondag.doomtree.particle.WakingParticle.WakingFactory;
+import grondag.doomtree.particle.IdleParticle.IdleParticleFactory;
+import grondag.doomtree.particle.WakingParticle.WakingParticleFactory;
 import grondag.doomtree.particle.WardedFlameParticle;
-import grondag.doomtree.particle.WardingParticle.WardingFactory;
+import grondag.doomtree.particle.BasinParticle.BasinParticleFactory;
+import grondag.doomtree.particle.BrazierParticle.BrazierParticleFactory;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomParticles;
 import grondag.fermion.block.sign.OpenSignRenderer;
@@ -61,16 +62,17 @@ public class DoomTreeClient implements ClientModInitializer {
 		REGISTRAR.simpleRandomModel("doomed_residue_block", "block/doomed_residue_block");
 		REGISTRAR.simpleRandomModel("warding_essence_block", "block/warding_essence_block");
 
-		ClientSidePacketRegistry.INSTANCE.register(BasinCraftS2C.IDENTIFIER, BasinCraftS2C::handle);
-		ClientSidePacketRegistry.INSTANCE.register(MiasmaS2C.IDENTIFIER, BasinCraftS2C::handle);
-		ClientSidePacketRegistry.INSTANCE.register(XpDrainS2C.IDENTIFIER, BasinCraftS2C::handle);
+		ClientSidePacketRegistry.INSTANCE.register(AlchemyCraftS2C.IDENTIFIER, AlchemyCraftS2C::handle);
+		ClientSidePacketRegistry.INSTANCE.register(MiasmaS2C.IDENTIFIER, MiasmaS2C::handle);
+		ClientSidePacketRegistry.INSTANCE.register(XpDrainS2C.IDENTIFIER, XpDrainS2C::handle);
 		
 		REGISTRAR.fluidRenderHandler(DoomFluids.ICHOR, DoomFluids.ICHOR_COLOR, "block/water_still", "block/water_flowing");
 
-		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_IDLE, IdleFactory::new);
-		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_WAKING, WakingFactory::new);
-		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_ACTIVE, WardingFactory::new);
-		ParticleFactoryRegistry.getInstance().register(DoomParticles.WARDED_FLAME, WardedFlameParticle.Factory::new);
+		ParticleFactoryRegistry.getInstance().register(DoomParticles.ALCHEMY_IDLE, IdleParticleFactory::new);
+		ParticleFactoryRegistry.getInstance().register(DoomParticles.ALCHEMY_WAKING, WakingParticleFactory::new);
+		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_ACTIVE, BasinParticleFactory::new);
+		ParticleFactoryRegistry.getInstance().register(DoomParticles.BRAZIER_ACTIVE, BrazierParticleFactory::new);
+		ParticleFactoryRegistry.getInstance().register(DoomParticles.WARDED_FLAME, WardedFlameParticle.WardedFlameParticleFactory::new);
 
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.PARTICLE_ATLAS_TEX).register((atlasTexture, registry) -> {
 			registry.register(REGISTRAR.id("warded_flame"));

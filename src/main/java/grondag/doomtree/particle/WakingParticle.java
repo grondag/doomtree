@@ -40,10 +40,10 @@ public class WakingParticle extends AlchemyParticle {
 		}
 	}
 
-	public static class WakingFactory implements ParticleFactory<DefaultParticleType> {
+	public static class WakingParticleFactory implements ParticleFactory<DefaultParticleType> {
 		private final FabricSpriteProvider sprites;
 
-		public WakingFactory(FabricSpriteProvider sprites) {
+		public WakingParticleFactory(FabricSpriteProvider sprites) {
 			this.sprites = sprites;
 		}
 

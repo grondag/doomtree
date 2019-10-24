@@ -97,7 +97,7 @@ public enum DoomBlocks {
 
 	public static AlchemicalBlock BRAZIER_BLOCK = REG.block("alchemical_brazier", new BrazierBlock(FabricBlockSettings.of(Material.METAL).breakByHand(true).strength(0.5F, 0.5F).build()));
 	public static Block INERT_BRAZIER_BLOCK = REG.block("inert_alchemical_brazier", new InertAlchemicalBlock(BRAZIER_BLOCK));
-	public static final BlockEntityType<BrazierBlockEntity> BRAZIER_BLOCK_ENTITY = REG.blockEntityType("alchemical_brazier", BrazierBlockEntity::new, BASIN_BLOCK);
+	public static final BlockEntityType<BrazierBlockEntity> BRAZIER_BLOCK_ENTITY = REG.blockEntityType("alchemical_brazier", BrazierBlockEntity::new, BRAZIER_BLOCK);
 
 
 	static FabricBlockSettings logSettings() {

@@ -29,10 +29,10 @@ public class IdleParticle extends AlchemyParticle {
 		}
 	}
 
-	public static class IdleFactory implements ParticleFactory<DefaultParticleType> {
+	public static class IdleParticleFactory implements ParticleFactory<DefaultParticleType> {
 		private final FabricSpriteProvider sprites;
 
-		public IdleFactory(FabricSpriteProvider sprites) {
+		public IdleParticleFactory(FabricSpriteProvider sprites) {
 			this.sprites = sprites;
 		}
 

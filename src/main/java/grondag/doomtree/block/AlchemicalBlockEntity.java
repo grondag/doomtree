@@ -2,6 +2,7 @@ package grondag.doomtree.block;
 
 import java.util.Random;
 
+import grondag.doomtree.packet.AlchemyCraftS2C;
 import grondag.doomtree.packet.XpDrainS2C;
 import grondag.doomtree.registry.DoomParticles;
 import grondag.fermion.client.RenderRefreshProxy;
@@ -14,6 +15,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
@@ -45,8 +47,11 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 
 	protected int units = 0;
 	
-	public AlchemicalBlockEntity(BlockEntityType<?> blockEntityType) {
+	protected final ParticleEffect particle;
+	
+	public AlchemicalBlockEntity(BlockEntityType<?> blockEntityType, ParticleEffect particle) {
 		super(blockEntityType);
+		this.particle = particle;
 	}
 	
 	public Mode mode() {
@@ -150,6 +155,8 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 
 				if(this.units == 0) {
 					setState(Mode.IDLE, 0);
+					sendCraftingParticles();
+					
 				} else {
 					this.markDirty();
 					this.sync();
@@ -188,29 +195,49 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 		}
 	}
 
-	protected abstract void doActiveParticles(Random rand);
-
-	private void doIdleParticles(Random rand) {
+	protected void doActiveParticles(Random rand) {
 		if (rand.nextInt(8) == 0) {
-			final double y = pos.getY() + 0.15f + rand.nextFloat() * 0.8f;
-			final double x, z;
-
-			if (rand.nextBoolean()) {
-				x = pos.getX() + (rand.nextBoolean() ? -0.05 : 1.05);
-				z = pos.getZ() + rand.nextFloat();
-			} else {
-				x = pos.getX() + rand.nextFloat();
-				z = pos.getZ() + (rand.nextBoolean() ? -0.05 : 1.05);
-
-			}
-
-			world.addParticle(DoomParticles.BASIN_IDLE, x, y, z, 0, 0, 0);
-			//			
-			//			world.addParticle(DoomParticles.BASIN_IDLE, x, y, z, 
-			//					(rand.nextFloat() - 0.5f) * 0.2f, 
-			//					rand.nextFloat() * 0.05f + 0.1f, 
-			//					(rand.nextFloat() - 0.5f) * 0.2f);
+			spawnActiveParticles(rand, 1, 1);
 		}
+	}
+
+	public void spawnActiveParticles(Random rand, int howMany, double speedFactor) {
+		final double px = pos.getX() + 0.5;
+		final double py = pos.getY() + 1;
+		final double pz = pos.getZ() + 0.5;
+		
+		for (int i = 0; i < howMany; i++) {
+			final double dx = rand.nextGaussian() * 0.2;
+			final double dy = Math.abs(rand.nextGaussian()) * 0.2;
+			final double dz = rand.nextGaussian() * 0.2;
+			final double v = 0.01 + rand.nextDouble() * 0.02 * speedFactor;
+			world.addParticle(particle, px + dx, py + dy, pz + dz, dx * v, dy * v, dz * v);
+		}
+	}
+	
+	public void sendCraftingParticles() {
+		AlchemyCraftS2C.send(world, pos);
+	}
+	
+	protected void doIdleParticles(Random rand) {
+		if (rand.nextInt(8) == 0) {
+			spawnIdleParticle(rand);
+		}
+	}
+	
+	public void spawnIdleParticle(Random rand) {
+		final double y = pos.getY() + 0.15f + rand.nextFloat() * 0.8f;
+		final double x, z;
+
+		if (rand.nextBoolean()) {
+			x = pos.getX() + (rand.nextBoolean() ? -0.05 : 1.05);
+			z = pos.getZ() + rand.nextFloat();
+		} else {
+			x = pos.getX() + rand.nextFloat();
+			z = pos.getZ() + (rand.nextBoolean() ? -0.05 : 1.05);
+		}
+
+		world.addParticle(DoomParticles.ALCHEMY_IDLE, x, y, z, 0, 0, 0);
 	}
 
 	protected CompoundTag writeTag(CompoundTag tag) {
