@@ -2,7 +2,7 @@ package grondag.doomtree.block;
 
 import java.util.Random;
 
-import grondag.doomtree.packet.DoomPacket;
+import grondag.doomtree.packet.XpDrainS2C;
 import grondag.doomtree.registry.DoomParticles;
 import grondag.fermion.client.RenderRefreshProxy;
 import grondag.fermion.varia.XpHelper;
@@ -145,7 +145,7 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 					XpHelper.changeXpNoScore(player, -XP_COST);
 				}
 
-				DoomPacket.xpDrain(world, player.x, player.y, player.z, pos);
+				XpDrainS2C.send(world, player.x, player.y, player.z, pos);
 				this.units -= UNITS_PER_LEVEL;
 
 				if(this.units == 0) {

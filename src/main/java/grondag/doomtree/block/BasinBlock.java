@@ -3,7 +3,7 @@ package grondag.doomtree.block;
 import static grondag.doomtree.block.AlchemicalBlockEntity.UNITS_PER_BUCKET;
 import static grondag.doomtree.block.AlchemicalBlockEntity.UNITS_PER_INGOT;
 
-import grondag.doomtree.packet.DoomPacket;
+import grondag.doomtree.packet.BasinCraftS2C;
 import grondag.doomtree.registry.DoomItems;
 import grondag.doomtree.registry.DoomRecipes;
 import net.minecraft.block.Block;
@@ -50,6 +50,6 @@ public class BasinBlock extends AlchemicalBlock {
 
 	@Override
 	void doCraftingParicles(World world, BlockPos pos) {
-		DoomPacket.basinCraft(world, pos);
+		BasinCraftS2C.send(world, pos);
 	}
 }

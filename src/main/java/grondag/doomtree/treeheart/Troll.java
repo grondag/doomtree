@@ -1,6 +1,6 @@
 package grondag.doomtree.treeheart;
 
-import grondag.doomtree.packet.DoomPacket;
+import grondag.doomtree.packet.MiasmaS2C;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomTags;
@@ -168,7 +168,7 @@ class Troll extends IntHeapPriorityQueue {
 	static void placeMiasma(BlockPos pos, World world) {
 		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
-		DoomPacket.misama(world, pos);
+		MiasmaS2C.send(world, pos);
 	}
 
 	int[] toIntArray() {

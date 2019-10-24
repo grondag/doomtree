@@ -7,8 +7,9 @@ import grondag.doomtree.model.ChannelModel;
 import grondag.doomtree.model.HeartModel;
 import grondag.doomtree.model.LogModel;
 import grondag.doomtree.model.TerminalModel;
-import grondag.doomtree.packet.DoomPacket;
-import grondag.doomtree.packet.DoomPacketHandler;
+import grondag.doomtree.packet.BasinCraftS2C;
+import grondag.doomtree.packet.MiasmaS2C;
+import grondag.doomtree.packet.XpDrainS2C;
 import grondag.doomtree.particle.IdleParticle.IdleFactory;
 import grondag.doomtree.particle.WakingParticle.WakingFactory;
 import grondag.doomtree.particle.WardedFlameParticle;
@@ -60,8 +61,10 @@ public class DoomTreeClient implements ClientModInitializer {
 		REGISTRAR.simpleRandomModel("doomed_residue_block", "block/doomed_residue_block");
 		REGISTRAR.simpleRandomModel("warding_essence_block", "block/warding_essence_block");
 
-		ClientSidePacketRegistry.INSTANCE.register(DoomPacket.IDENTIFIER, DoomPacketHandler::accept);
-
+		ClientSidePacketRegistry.INSTANCE.register(BasinCraftS2C.IDENTIFIER, BasinCraftS2C::handle);
+		ClientSidePacketRegistry.INSTANCE.register(MiasmaS2C.IDENTIFIER, BasinCraftS2C::handle);
+		ClientSidePacketRegistry.INSTANCE.register(XpDrainS2C.IDENTIFIER, BasinCraftS2C::handle);
+		
 		REGISTRAR.fluidRenderHandler(DoomFluids.ICHOR, DoomFluids.ICHOR_COLOR, "block/water_still", "block/water_flowing");
 
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_IDLE, IdleFactory::new);
