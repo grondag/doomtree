@@ -3,8 +3,8 @@ package grondag.doomtree.block;
 import static grondag.doomtree.block.AlchemicalBlockEntity.MAX_UNITS;
 
 import grondag.doomtree.block.AlchemicalBlockEntity.Mode;
-import grondag.doomtree.recipe.AlchemicalRecipe;
 import grondag.doomtree.registry.DoomRecipes;
+import grondag.fermion.recipe.AbstractSimpleRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -27,9 +27,9 @@ import net.minecraft.world.World;
 public abstract class AlchemicalBlock extends BlockWithEntity {
 	public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
 	
-	protected final RecipeType<AlchemicalRecipe> recipeType;
+	protected final RecipeType<AbstractSimpleRecipe> recipeType;
 	
-	protected AlchemicalBlock(Settings settings, RecipeType<AlchemicalRecipe> recipeType) {
+	protected AlchemicalBlock(Settings settings, RecipeType<AbstractSimpleRecipe> recipeType) {
 		super(settings);
 		this.recipeType = recipeType;
 	}
@@ -58,18 +58,19 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 	
 	abstract int fuelValue(Item item);
 	
+	
 	@Override
 	public boolean activate(BlockState blockState, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		final ItemStack stack = player.getStackInHand(hand);
 
 		if (stack.isEmpty()) {
-			return true;
+			return false;
 		};
 
 		final BlockEntity be = world.getBlockEntity(pos);
 
 		if (be == null || !(be instanceof AlchemicalBlockEntity)) {
-			return true;
+			return false;
 		}
 
 		final AlchemicalBlockEntity myBe = (AlchemicalBlockEntity) be;
@@ -84,20 +85,18 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 			if (limit > 0 && fuelValue <= limit && (mode == Mode.IDLE || mode == Mode.ACTIVE)) {
 				final int consumed = Math.min(limit / fuelValue, 1);
 
-				if (consumed > 0) {
-					if (!world.isClient) {
-						if (!player.abilities.creativeMode) {
-							stack.decrement(consumed);
-						}
-						
-						myBe.sendCraftingParticles();
+				if (consumed > 0  && !world.isClient) {
+					if (!player.abilities.creativeMode) {
+						stack.decrement(consumed);
+					}
+					
+					myBe.sendCraftingParticles();
 
-						myBe.setState(Mode.ACTIVE, currentUnits + consumed * fuelValue);
-						world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					myBe.setState(Mode.ACTIVE, currentUnits + consumed * fuelValue);
+					world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
-						if (mode != Mode.ACTIVE) {
-							world.setBlockState(pos, blockState.with(LIT, true), 3);
-						}
+					if (mode != Mode.ACTIVE) {
+						world.setBlockState(pos, blockState.with(LIT, true), 3);
 					}
 				}
 			}
@@ -105,7 +104,7 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 		}
 
 		if (mode == Mode.ACTIVE) {
-			final AlchemicalRecipe recipe = DoomRecipes.HELPER.get(recipeType, stack);
+			final AbstractSimpleRecipe recipe = DoomRecipes.HELPER.get(recipeType, stack);
 
 			if (recipe != null) {
 				final int newUnits = currentUnits - recipe.cost;

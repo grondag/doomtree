@@ -40,6 +40,9 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 	public static final int UNITS_PER_BOTTLE = UNITS_PER_BUCKET / 3;
 	public static final int UNITS_PER_FRAGMENT = UNITS_PER_BUCKET / 4;
 
+	public static final int COOKTIME_TICKS_PER_INGOT = 1600;
+	public static final int UNITS_PER_COOKTIME = UNITS_PER_INGOT / COOKTIME_TICKS_PER_INGOT;
+	
 	protected static final String TAG_MODE = "mode";
 	protected static final String TAG_UNITS = "units";
 

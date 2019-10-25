@@ -21,7 +21,8 @@ public class BasinModel extends AlchemicalModel {
 			"block/basin_inlay_b",
 			"block/inert_basin_inlay_a",
 			"block/inert_basin_inlay_b",
-			"block/basin_side");
+			"block/basin_side",
+			"block/basin_rim");
 
 	protected static final int BASE = 0;
 	protected static final int FEET = 1;
@@ -31,6 +32,7 @@ public class BasinModel extends AlchemicalModel {
 	protected static final int INERT_A = 5;
 	protected static final int INERT_B = 6;
 	protected static final int SIDE = 7;
+	protected static final int RIM = 8;
 
 	public static final int ACTIVE_COLOR = 0xFF80B0FF;
 
@@ -107,7 +109,7 @@ public class BasinModel extends AlchemicalModel {
 		qe.material(matCutout)
 		.square(Direction.UP, 0, 0, 1, 1, 0)
 		.spriteColor(0, -1, -1, -1, -1)
-		.spriteBake(0, sprites[BASE], MutableQuadView.BAKE_LOCK_UV);
+		.spriteBake(0, sprites[RIM], MutableQuadView.BAKE_LOCK_UV);
 		qe.emit();
 
 		for (Direction face : SIDES) {
@@ -144,13 +146,13 @@ public class BasinModel extends AlchemicalModel {
 		qe.material(matCutout)
 		.square(Direction.UP, 0, 0, 1, 1, PX12)
 		.spriteColor(0, -1, -1, -1, -1)
-		.spriteBake(0, sprites[BASE], MutableQuadView.BAKE_LOCK_UV);
+		.spriteBake(0, sprites[RIM], MutableQuadView.BAKE_LOCK_UV);
 		qe.emit();
 
 		qe.material(matCutout)
 		.square(Direction.DOWN, 0, 0, 1, 1, PX13)
 		.spriteColor(0, -1, -1, -1, -1)
-		.spriteBake(0, sprites[BASE], MutableQuadView.BAKE_LOCK_UV);
+		.spriteBake(0, sprites[RIM], MutableQuadView.BAKE_LOCK_UV);
 		qe.emit();
 	}
 

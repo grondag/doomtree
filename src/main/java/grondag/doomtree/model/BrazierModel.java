@@ -17,14 +17,16 @@ public class BrazierModel extends AlchemicalModel {
 			"block/brazier_frame",
 			"block/brazier_inlay",
 			"block/brazier_side",
-			"block/basin_burning_top");
+			"block/basin_burning_top",
+			"block/brazier_rim");
 
 	protected static final int BASE = 0;
 	protected static final int FRAME = 1;
 	protected static final int INLAY = 2;
 	protected static final int SIDE = 3;
 	protected static final int BURNING = 4;
-
+	protected static final int RIM = 5;
+	
 	public static final int ACTIVE_COLOR = 0xFFFF4040;
 
 	protected BrazierModel(Sprite sprite, Function<Identifier, Sprite> spriteMap, boolean isFrame) {
@@ -98,7 +100,7 @@ public class BrazierModel extends AlchemicalModel {
 		qe.material(matCutout)
 		.square(Direction.UP, 0, 0, 1, 1, 0)
 		.spriteColor(0, -1, -1, -1, -1)
-		.spriteBake(0, sprites[BASE], MutableQuadView.BAKE_LOCK_UV);
+		.spriteBake(0, sprites[RIM], MutableQuadView.BAKE_LOCK_UV);
 		qe.emit();
 
 		final int sideSprite = this.isFrame ? FRAME : SIDE;
