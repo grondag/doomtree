@@ -27,7 +27,10 @@
 		],
 		"client": [
 			"grondag.doomtree.DoomTreeClient"
-		]
+		],
+	    "rei_plugins_v0": [
+	      "grondag.doomtree.compat.rei.DoomtreeReiPlugin"
+	    ]
 	},
 	"mixins": [
 	  {

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    " #",
+    " #"
+  ],
+  "key": {
+    "#": {
+      "item": "doomtree:warded_stick"
+    },
+    "X": {
+      "item": "doomtree:warded_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "doomtree:warded_iron_hoe"
+  }
+}

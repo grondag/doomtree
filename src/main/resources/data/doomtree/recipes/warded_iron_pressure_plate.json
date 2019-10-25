@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "doomtree:warded_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "doomtree:warded_iron_pressure_plate"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin",
+  "ingredient": {
+    "tag": "minecraft:logs"
+  },
+  "result": "doomtree:warded_wood_log",
+  "cost": 96000
+}

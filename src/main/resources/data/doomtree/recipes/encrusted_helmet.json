@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XAX"
+  ],
+  "key": {
+    "X": {
+      "item": "doomtree:warded_diamond"
+    },
+    "A": {
+      "item": "doomtree:warded_iron_helmet"
+    }
+  },
+  "result": {
+    "item": "doomtree:encrusted_helmet"
+  }
+}

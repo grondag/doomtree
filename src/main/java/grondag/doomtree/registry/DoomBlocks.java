@@ -45,7 +45,6 @@ import net.minecraft.block.LogBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.MaterialColor;
 import net.minecraft.block.PaneBlock;
-import net.minecraft.block.PillarBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
@@ -201,9 +200,9 @@ public enum DoomBlocks {
 	public static Block WARDED_STONE_BRICK_WALL = REG.block("warded_stone_brick_wall", new WallBlock(FabricBlockSettings.copy(WARDED_STONE_BRICKS).build()));
 
 	public static Block WARDED_WOOD_LOG = REG.block("warded_wood_log", new LogBlock(MaterialColor.WOOD, FabricBlockSettings.of(Material.WOOD, MaterialColor.CLAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-	public static Block WARDED_WOOD_WOOD = REG.block("warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-	public static Block WARDED_STRIPPED_LOG = REG.block("stripped_warded_wood_log", new LogBlock(MaterialColor.WOOD, FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-	public static Block WARDED_STRIPPED_WOOD = REG.block("stripped_warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+//	public static Block WARDED_WOOD_WOOD = REG.block("warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+//	public static Block WARDED_STRIPPED_LOG = REG.block("stripped_warded_wood_log", new LogBlock(MaterialColor.WOOD, FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+//	public static Block WARDED_STRIPPED_WOOD = REG.block("stripped_warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
 
 	public static Block WARDED_WOOD_PLANKS = REG.block("warded_wood_planks", new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).build()));
 	public static Block WARDED_WOOD_BUTTON = REG.block("warded_wood_button", new WoodButtonBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});

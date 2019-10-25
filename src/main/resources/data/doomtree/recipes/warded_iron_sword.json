@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "X",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "doomtree:warded_stick"
+    },
+    "X": {
+      "item": "doomtree:warded_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "doomtree:warded_iron_sword"
+  }
+}

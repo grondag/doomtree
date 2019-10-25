@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin",
+  "ingredient": {
+    "item": "doomtree:warded_concrete_powder"
+  },
+  "result": "doomtree:warded_concrete",
+  "cost": 19200
+}

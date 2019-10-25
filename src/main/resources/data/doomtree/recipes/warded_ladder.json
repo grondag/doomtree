@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "###",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "doomtree:warded_stick"
+    }
+  },
+  "result": {
+    "item": "doomtree:warded_ladder",
+    "count": 3
+  }
+}

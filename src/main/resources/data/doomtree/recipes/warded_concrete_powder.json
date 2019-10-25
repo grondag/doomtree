@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SBS",
+    "BWB",
+    "GBG"
+  ],
+  "key": {
+    "B": {
+      "item": "doomtree:warded_iron_bars"
+    },
+    "W": {
+      "item": "doomtree:warding_essence"
+    },
+    "S": {
+      "item": "minecraft:sand"
+    },
+    "G": {
+      "item": "minecraft:gravel"
+    }
+  },
+  "result": {
+    "item": "doomtree:warded_concrete_powder"
+  }
+}

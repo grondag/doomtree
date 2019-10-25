@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "doomtree:warded_iron_hoe"
+  	},
+  	{
+      "item": "doomtree:warded_diamond"
+  	},
+  	{
+      "item": "doomtree:warded_diamond"
+  	},
+  	  	{
+      "item": "doomtree:warded_diamond"
+  	}
+  ],
+  "result": {
+    "item": "doomtree:encrusted_hoe"
+  }
+}

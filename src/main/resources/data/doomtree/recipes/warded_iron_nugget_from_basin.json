@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin",
+  "ingredient": {
+    "item": "minecraft:iron_nugget"
+  },
+  "result": "doomtree:warded_iron_nugget",
+  "cost": 10666
+}

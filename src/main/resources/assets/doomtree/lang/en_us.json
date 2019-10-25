@@ -1,4 +1,7 @@
 {
+	"category.doomtree.brazier_smelting": "Alchemical Brazier",
+	"category.doomtree.brazier": "Alchemical Brazier",
+	"category.doomtree.basin": "Alchemical Basin",
 	"item.doomtree.doomed_residue": "Doomed Residue",
 	"item.doomtree.ichor_bucket": "Ichor Bucket",
 	"item.doomtree.warding_essence": "Warding Essence",

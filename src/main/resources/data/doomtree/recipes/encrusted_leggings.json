@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XAX",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "doomtree:warded_diamond"
+    },
+    "A": {
+      "item": "doomtree:warded_iron_leggings"
+    }
+  },
+  "result": {
+    "item": "doomtree:encrusted_leggings"
+  }
+}

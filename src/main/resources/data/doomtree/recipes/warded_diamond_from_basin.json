@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin",
+  "ingredient": {
+    "item": "minecraft:diamond"
+  },
+  "result": "doomtree:warded_diamond",
+  "cost": 19200
+}

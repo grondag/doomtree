@@ -1,7 +1,0 @@
-{
-    "parent": "block/cube_column",
-    "textures": {
-        "end": "doomtree:block/warded_wood_log",
-        "side": "doomtree:block/warded_wood_log"
-    }
-}
