@@ -21,7 +21,7 @@ import net.minecraft.resource.ResourceType;
 public class DoomTree implements ModInitializer {
 	public static final String MOD_ID = "doomtree";
 	public static final Logger LOGGER = LogManager.getLogger("The Doom Tree");
-	public static final Registrar REG = new Registrar(MOD_ID, "doom_log_p");
+	public static final Registrar REG = new Registrar(MOD_ID, "doom_sapling");
 	
 	@Override
 	public void onInitialize() {
