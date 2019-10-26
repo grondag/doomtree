@@ -1,17 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bark",
   "pattern": [
     "##",
     "##"
   ],
   "key": {
     "#": {
-      "item": "minecraft:oak_log"
+      "item": "doomtree:warded_stone"
     }
   },
   "result": {
-    "item": "minecraft:oak_wood",
-    "count": 3
+    "item": "doomtree:warded_stone_bricks",
+    "count": 4
   }
 }

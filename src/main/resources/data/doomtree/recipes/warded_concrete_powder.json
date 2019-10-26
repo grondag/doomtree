@@ -20,6 +20,7 @@
     }
   },
   "result": {
-    "item": "doomtree:warded_concrete_powder"
+    "item": "doomtree:warded_concrete_powder",
+    "count": 4
   }
 }

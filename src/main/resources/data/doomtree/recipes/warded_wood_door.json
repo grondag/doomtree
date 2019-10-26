@@ -1,15 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "wooden_pressure_plate",
   "pattern": [
+    "##",
+    "##",
     "##"
   ],
   "key": {
     "#": {
-      "item": "minecraft:oak_planks"
+      "item": "doomtree:warded_wood_planks"
     }
   },
   "result": {
-    "item": "minecraft:oak_pressure_plate"
+    "item": "doomtree:warded_wood_door",
+    "count": 3
   }
 }

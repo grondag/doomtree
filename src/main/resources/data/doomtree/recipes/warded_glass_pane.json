@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "wooden_trapdoor",
+  "group": "warded_glass_pane",
   "pattern": [
     "###",
     "###"
   ],
   "key": {
     "#": {
-      "item": "minecraft:oak_planks"
+      "item": "doomtree:warded_glass"
     }
   },
   "result": {
-    "item": "minecraft:oak_trapdoor",
-    "count": 2
+    "item": "doomtree:warded_glass_pane",
+    "count": 16
   }
 }

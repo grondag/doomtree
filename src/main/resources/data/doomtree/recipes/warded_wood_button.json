@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "doomtree:warded_wood_planks"
+    }
+  ],
+  "result": {
+    "item": "doomtree:warded_wood_button"
+  }
+}

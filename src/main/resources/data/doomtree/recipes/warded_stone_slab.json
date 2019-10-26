@@ -1,16 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "###",
     "###"
   ],
   "key": {
     "#": {
-      "item": "minecraft:stone_bricks"
+      "item": "doomtree:warded_stone"
     }
   },
   "result": {
-    "item": "minecraft:stone_brick_wall",
+    "item": "doomtree:warded_stone_slab",
     "count": 6
   }
 }

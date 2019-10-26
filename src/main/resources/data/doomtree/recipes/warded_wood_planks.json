@@ -1,13 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "planks",
   "ingredients": [
     {
-      "tag": "minecraft:oak_logs"
+      "item": "doomtree:warded_wood_log"
     }
   ],
   "result": {
-    "item": "minecraft:oak_planks",
+    "item": "doomtree:warded_wood_planks",
     "count": 4
   }
 }

@@ -43,6 +43,8 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 	public static final int COOKTIME_TICKS_PER_INGOT = 1600;
 	public static final int UNITS_PER_COOKTIME = UNITS_PER_INGOT / COOKTIME_TICKS_PER_INGOT;
 	
+	public static final int XP_COST = 8;
+	
 	protected static final String TAG_MODE = "mode";
 	protected static final String TAG_UNITS = "units";
 
@@ -125,14 +127,12 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 
 			}
 		} else {
-			if (mode == Mode.WAKING && tickCounter++ >= 20) {
+			if (mode == Mode.WAKING && tickCounter++ >= 10) {
 				doWaking();
 				tickCounter = 0;
 			}
 		}
 	}
-
-	public static final int XP_COST = 16;
 
 	protected static final TargetPredicate HAS_XP = new TargetPredicate().includeTeammates().setBaseMaxDistance(3).setPredicate(p -> {
 		if (!(p instanceof PlayerEntity)) return false;

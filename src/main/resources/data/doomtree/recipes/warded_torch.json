@@ -8,17 +8,12 @@
     "#": {
       "item": "doomtree:warded_stick"
     },
-    "X": [
-      {
-        "item": "minecraft:coal"
-      },
-      {
-        "item": "minecraft:charcoal"
-      }
-    ]
+    "X": {
+      "item": "doomtree:doom_fragment"
+    }
   },
   "result": {
-    "item": "minecraft:torch",
-    "count": 4
+    "item": "doomtree:warded_torch",
+    "count": 1
   }
 }

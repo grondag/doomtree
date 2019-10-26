@@ -1,16 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "##",
     "##"
   ],
   "key": {
     "#": {
-      "item": "minecraft:stone"
+      "item": "doomtree:warded_stone"
     }
   },
   "result": {
-    "item": "minecraft:stone_bricks",
-    "count": 4
+    "item": "doomtree:warded_stone_pressure_plate"
   }
 }

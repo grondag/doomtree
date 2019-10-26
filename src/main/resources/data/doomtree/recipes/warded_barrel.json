@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "ISI",
+    "NNN"
+  ],
+  "key": {
+    "S": {
+      "item": "doomtree:warded_barrel_shell"
+    },
+    "I": {
+      "item": "doomtree:warded_iron_ingot"
+    },
+    "N": {
+      "item": "doomtree:warded_iron_nugget"
+    }
+  },
+  "result": {
+    "item": "doomtree:warded_barrel"
+  }
+}

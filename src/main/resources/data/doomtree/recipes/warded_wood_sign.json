@@ -1,18 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X",
-    "#"
+    "###",
+    "###",
+    " X "
   ],
   "key": {
     "#": {
-      "item": "minecraft:cobblestone"
+      "item": "doomtree:warded_wood_planks"
     },
     "X": {
       "item": "doomtree:warded_stick"
     }
   },
   "result": {
-    "item": "minecraft:lever"
+    "item": "doomtree:warded_wood_sign",
+    "count": 3
   }
 }

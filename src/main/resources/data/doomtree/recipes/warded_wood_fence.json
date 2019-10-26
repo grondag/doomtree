@@ -1,20 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "###",
-    "###",
-    " X "
+    "W#W",
+    "W#W"
   ],
   "key": {
     "#": {
-      "item": "minecraft:oak_planks"
-    },
-    "X": {
       "item": "doomtree:warded_stick"
+    },
+    "W": {
+      "item": "doomtree:warded_wood_planks"
     }
   },
   "result": {
-    "item": "minecraft:oak_sign",
+    "item": "doomtree:warded_wood_fence",
     "count": 3
   }
 }

@@ -5,11 +5,11 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:stone_bricks"
+      "item": "doomtree:warded_wood_planks"
     }
   },
   "result": {
-    "item": "minecraft:stone_brick_slab",
+    "item": "doomtree:warded_wood_slab",
     "count": 6
   }
 }

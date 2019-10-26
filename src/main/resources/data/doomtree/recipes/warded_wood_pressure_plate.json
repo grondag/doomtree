@@ -5,10 +5,10 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:stone"
+      "item": "doomtree:warded_wood_planks"
     }
   },
   "result": {
-    "item": "minecraft:stone_pressure_plate"
+    "item": "doomtree:warded_wood_pressure_plate"
   }
 }

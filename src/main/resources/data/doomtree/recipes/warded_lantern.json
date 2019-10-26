@@ -7,13 +7,13 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:torch"
+      "item": "doomtree:warded_torch"
     },
     "X": {
-      "item": "minecraft:iron_nugget"
+      "item": "doomtree:warded_iron_nugget"
     }
   },
   "result": {
-    "item": "minecraft:lantern"
+    "item": "doomtree:warded_lantern"
   }
 }

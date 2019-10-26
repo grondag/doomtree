@@ -1,15 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
+    "###",
+    "# #",
     "###"
   ],
   "key": {
     "#": {
-      "item": "minecraft:stone"
+      "item": "doomtree:warded_wood_planks"
     }
   },
   "result": {
-    "item": "minecraft:stone_slab",
-    "count": 6
+    "item": "doomtree:warded_barrel_shell"
   }
 }

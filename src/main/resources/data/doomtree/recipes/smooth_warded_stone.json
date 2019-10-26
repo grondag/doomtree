@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_brazier",
+  "ingredient": {
+    "item": "doomtree:warded_stone"
+  },
+  "result": "doomtree:warded_smooth_stone",
+  "cost": 12000
+}

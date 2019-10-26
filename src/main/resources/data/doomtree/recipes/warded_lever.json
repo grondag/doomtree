@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "doomtree:warded_stone"
+    },
+    "X": {
+      "item": "doomtree:warded_stick"
+    }
+  },
+  "result": {
+    "item": "doomtree:warded_lever"
+  }
+}
