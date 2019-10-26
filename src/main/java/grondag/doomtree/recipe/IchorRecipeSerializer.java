@@ -114,7 +114,7 @@ public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
 			if(itemPrimitive.isString()) {
 				Identifier itemIdentifier = new Identifier(itemPrimitive.getAsString());
 
-				if(Registry.ITEM.containsId(itemIdentifier)) {
+				if(Registry.ITEM.getIds().contains(itemIdentifier)) {
 					result = Registry.ITEM.get(itemIdentifier);
 				} else {
 					throw new IllegalArgumentException("Item registry does not contain " + itemIdentifier.toString() + "!" + "\n" + prettyPrintJson(itemJson));

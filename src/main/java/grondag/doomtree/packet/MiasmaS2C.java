@@ -3,13 +3,11 @@ package grondag.doomtree.packet;
 import java.util.Random;
 
 import grondag.doomtree.DoomTree;
-import grondag.doomtree.block.AlchemicalBlockEntity;
 import io.netty.buffer.Unpooled;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.fabricmc.fabric.api.server.PlayerStream;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
@@ -41,15 +39,11 @@ public enum MiasmaS2C {
 	
 	private static void handleInner(World world, BlockPos pos) {
 		if (world != null) {
-			final BlockEntity be = world.getBlockEntity(pos);
+			final Random rand = ThreadLocalRandom.current();
+			final int count = 4 + rand.nextInt(3);
 			
-			if (be instanceof AlchemicalBlockEntity) {
-				final Random rand = ThreadLocalRandom.current();
-				final int count = 4 + rand.nextInt(3);
-				
-				for (int i = 0; i < count; i++) {
-					world.addParticle(ParticleTypes.SMOKE, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
-				}
+			for (int i = 0; i < count; i++) {
+				world.addParticle(ParticleTypes.SMOKE, pos.getX() + rand.nextFloat(), pos.getY() + rand.nextFloat(), pos.getZ() + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}
