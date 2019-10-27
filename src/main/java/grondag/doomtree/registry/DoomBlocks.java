@@ -21,9 +21,18 @@ import grondag.doomtree.block.InertAlchemicalBlock;
 import grondag.doomtree.block.MiasmaBlock;
 import grondag.doomtree.block.WardedBarrelBlock;
 import grondag.doomtree.block.WardedBarrelBlockEntity;
+import grondag.doomtree.block.WardedBlock;
+import grondag.doomtree.block.WardedDoorBlock;
+import grondag.doomtree.block.WardedLadderBlock;
+import grondag.doomtree.block.WardedPaneBlock;
+import grondag.doomtree.block.WardedPressurePlateBlock;
+import grondag.doomtree.block.WardedSlabBlock;
+import grondag.doomtree.block.WardedStairsBlock;
+import grondag.doomtree.block.WardedTrapdoorBlock;
 import grondag.doomtree.block.WardedWoodSignBlockEntity;
 import grondag.doomtree.ichor.IchorBlock;
 import grondag.doomtree.treeheart.DoomHeartBlockEntity;
+import grondag.doomtree.treeheart.DoomTreeTracker;
 import grondag.fermion.block.sign.OpenSignBlock;
 import grondag.fermion.block.sign.OpenSignBlockEntity;
 import grondag.fermion.block.sign.OpenWallSignBlock;
@@ -36,10 +45,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.LadderBlock;
 import net.minecraft.block.LanternBlock;
 import net.minecraft.block.LeverBlock;
 import net.minecraft.block.LogBlock;
@@ -47,11 +54,8 @@ import net.minecraft.block.Material;
 import net.minecraft.block.MaterialColor;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.block.PressurePlateBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
 import net.minecraft.block.StoneButtonBlock;
 import net.minecraft.block.TorchBlock;
-import net.minecraft.block.TrapdoorBlock;
 import net.minecraft.block.WallBlock;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.block.WeightedPressurePlateBlock;
@@ -100,30 +104,179 @@ public enum DoomBlocks {
 	public static Block INERT_BRAZIER_BLOCK = REG.block("inert_alchemical_brazier", new InertAlchemicalBlock(BRAZIER_BLOCK));
 	public static final BlockEntityType<BrazierBlockEntity> BRAZIER_BLOCK_ENTITY = REG.blockEntityType("alchemical_brazier", BrazierBlockEntity::new, BRAZIER_BLOCK);
 
+	public static Block WARDED_IRON_BLOCK = REG.block("warded_iron_block", new WardedBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.IRON).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()));
+	public static Block WARDED_DIAMOND_BLOCK = REG.block("warded_diamond_block", new WardedBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.DIAMOND).strength(5.0F, 10.0F).sounds(BlockSoundGroup.METAL).build()));
+	public static Block WARDED_LADDER = REG.block("warded_ladder", new WardedLadderBlock(FabricBlockSettings.of(Material.PART, MaterialColor.CLAY).strength(1F, 3F).sounds(BlockSoundGroup.LADDER).build()));
+	public static Block WARDED_IRON_BARS = REG.block("warded_iron_bars", new WardedPaneBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.AIR).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()));
+	public static Block WARDED_IRON_DOOR = REG.block("warded_iron_door", new WardedDoorBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.IRON).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()) {});
 
-	static FabricBlockSettings logSettings() {
-		return FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 2).strength(3.0F, 20.0F);
-	}
+	public static Block WARDED_IRON_PRESSURE_PLATE = REG.block("warded_iron_pressure_plate", new WeightedPressurePlateBlock(150, FabricBlockSettings.of(Material.METAL).noCollision().strength(1F, 8.0F).sounds(BlockSoundGroup.METAL).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
 
-	static Block.Settings doomedSettings() {
-		return FabricBlockSettings.of(Material.EARTH).breakByHand(true).breakInstantly().sounds(BlockSoundGroup.SAND).build();
-	}
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
 
-	public static Block WARDED_IRON_BLOCK = REG.block("warded_iron_block", new Block(FabricBlockSettings.of(Material.METAL, MaterialColor.IRON).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()));
-	public static Block WARDED_DIAMOND_BLOCK = REG.block("warded_diamond_block", new Block(FabricBlockSettings.of(Material.METAL, MaterialColor.DIAMOND).strength(5.0F, 10.0F).sounds(BlockSoundGroup.METAL).build()));
+	public static Block WARDED_IRON_TRAPDOOR = REG.block("warded_iron_trapdoor", new WardedTrapdoorBlock(FabricBlockSettings.of(Material.METAL).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()) {});
+	public static Block WARDED_CONCRETE_POWDER = REG.block("warded_concrete_powder", new WardedBlock(FabricBlockSettings.of(Material.SAND, MaterialColor.CLAY).strength(0.5F, 0.5F).sounds(BlockSoundGroup.SAND).build()));
+	public static Block WARDED_CONCRETE = REG.block("warded_concrete", new WardedBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.CLAY).strength(8.0F, 1200).build()));
 
-	public static Block WARDED_LADDER = REG.block("warded_ladder", new LadderBlock(FabricBlockSettings.of(Material.PART, MaterialColor.CLAY).strength(1F, 3F).sounds(BlockSoundGroup.LADDER).build()) {});
-	public static Block WARDED_IRON_BARS = REG.block("warded_iron_bars", new PaneBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.AIR).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()) {});
+	public static final Block WARDED_BARREL = REG.block("warded_barrel", new WardedBarrelBlock(FabricBlockSettings.of(Material.WOOD).strength(3F, 10F).sounds(BlockSoundGroup.WOOD).build()));
+	public static final BlockEntityType<WardedBarrelBlockEntity> WARDED_BARREL_BLOCK_ENTITY = REG.blockEntityType("warded_barrel", WardedBarrelBlockEntity::new, WARDED_BARREL);
 
-	public static Block WARDED_IRON_DOOR = REG.block("warded_iron_door", new DoorBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.IRON).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()) {});
+	public static Block WARDED_STONE = REG.block("warded_stone", new WardedBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(1.5F, 6.0F).build()));
+	public static Block WARDED_STONE_PRESSURE_PLATE = REG.block("warded_stone_pressure_plate", new WardedPressurePlateBlock(PressurePlateBlock.ActivationRule.MOBS, FabricBlockSettings.of(Material.STONE).noCollision().strength(1, 8).build()) {});
+	public static Block WARDED_STONE_SLAB = REG.block("warded_stone_slab", new WardedSlabBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
+	public static Block WARDED_STONE_STAIRS = REG.block("warded_stone_stairs", new WardedStairsBlock(WARDED_STONE.getDefaultState(), FabricBlockSettings.copy(WARDED_STONE).build()) {});
+	public static Block WARDED_SMOOTH_STONE = REG.block("warded_smooth_stone", new WardedBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
+	public static Block WARDED_SMOOTH_STONE_SLAB = REG.block("warded_smooth_stone_slab", new WardedSlabBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
+	public static Block WARDED_STONE_BRICKS = REG.block("warded_stone_bricks", new WardedBlock(FabricBlockSettings.of(Material.STONE).strength(1.5F, 6.0F).build()));
+	public static Block WARDED_STONE_BRICK_SLAB = REG.block("warded_stone_brick_slab", new WardedSlabBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
+	public static Block WARDED_STONE_BRICK_STAIRS = REG.block("warded_stone_brick_stairs", new WardedStairsBlock(WARDED_STONE_BRICKS.getDefaultState(), FabricBlockSettings.copy(WARDED_STONE_BRICKS).build()) {});
+	
+	public static Block WARDED_STONE_BUTTON = REG.block("warded_stone_button", new StoneButtonBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1, 8).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
 
-	public static Block WARDED_IRON_PRESSURE_PLATE = REG.block("warded_iron_pressure_plate", new WeightedPressurePlateBlock(150, FabricBlockSettings.of(Material.METAL).noCollision().strength(1F, 8.0F).sounds(BlockSoundGroup.METAL).build()) {});
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
 
-	public static Block WARDED_IRON_TRAPDOOR = REG.block("warded_iron_trapdoor", new TrapdoorBlock(FabricBlockSettings.of(Material.METAL).strength(5.0F, 8.0F).sounds(BlockSoundGroup.METAL).build()) {});
+	public static Block WARDED_STONE_BRICK_WALL = REG.block("warded_stone_brick_wall", new WallBlock(FabricBlockSettings.copy(WARDED_STONE_BRICKS).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
 
-	public static Block WARDED_CONCRETE_POWDER = REG.block("warded_concrete_powder", new Block(FabricBlockSettings.of(Material.SAND, MaterialColor.CLAY).strength(0.5F, 0.5F).sounds(BlockSoundGroup.SAND).build()));
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
 
-	public static Block WARDED_CONCRETE = REG.block("warded_concrete", new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.CLAY).strength(8.0F, 1200).build()));
+	public static Block WARDED_WOOD_LOG = REG.block("warded_wood_log", new LogBlock(MaterialColor.WOOD, FabricBlockSettings.of(Material.WOOD, MaterialColor.CLAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+	//	public static Block WARDED_WOOD_WOOD = REG.block("warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+	//	public static Block WARDED_STRIPPED_LOG = REG.block("stripped_warded_wood_log", new LogBlock(MaterialColor.WOOD, FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+	//	public static Block WARDED_STRIPPED_WOOD = REG.block("stripped_warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+
+	public static Block WARDED_WOOD_PLANKS = REG.block("warded_wood_planks", new WardedBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).build()));
+	public static Block WARDED_WOOD_DOOR = REG.block("warded_wood_door", new WardedDoorBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(3.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});
+	public static Block WARDED_WOOD_SLAB = REG.block("warded_wood_slab", new WardedSlabBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+	public static Block WARDED_WOOD_STAIRS = REG.block("warded_wood_stairs", new WardedStairsBlock(WARDED_WOOD_PLANKS.getDefaultState(), FabricBlockSettings.copy(WARDED_WOOD_PLANKS).build()) {});
+	public static Block WARDED_WOOD_TRAPDOOR = REG.block("warded_wood_trapdoor", new WardedTrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});
+	public static Block WARDED_WOOD_PRESSURE_PLATE = REG.block("warded_wood_pressure_plate", new WardedPressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, FabricBlockSettings.copy(WARDED_WOOD_PLANKS).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
+
+	public static Block WARDED_WOOD_BUTTON = REG.block("warded_wood_button", new WoodButtonBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+	
+	public static Block WARDED_WOOD_FENCE_GATE = REG.block("warded_wood_fence_gate", new FenceGateBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+	
+	public static Block WARDED_WOOD_FENCE = REG.block("warded_wood_fence", new FenceBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+	
+	public static Block WARDED_WOOD_SIGN = REG.blockNoItem("warded_wood_sign", new OpenSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build(),  WardedWoodSignBlockEntity::new) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+
+	public static Block WARDED_WOOD_WALL_SIGN = REG.blockNoItem("warded_wood_wall_sign", new OpenWallSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).dropsLike(WARDED_WOOD_SIGN).build(),  WardedWoodSignBlockEntity::new) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+
+	public static final BlockEntityType<OpenSignBlockEntity> WARDED_WOOD_SIGN_BLOCK_ENTITY = REG.blockEntityType("warded_wood_sign", WardedWoodSignBlockEntity::new, WARDED_WOOD_SIGN, WARDED_WOOD_WALL_SIGN);
+
+	public static Block WARDED_LANTERN = REG.block("warded_lantern", new LanternBlock(FabricBlockSettings.of(Material.METAL).strength(3.5F, 10F).sounds(BlockSoundGroup.LANTERN).lightLevel(15).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+
+	public static Block WARDED_TORCH = REG.blockNoItem("warded_torch", new TorchBlock(FabricBlockSettings.of(Material.PART).noCollision().breakInstantly().lightLevel(14).sounds(BlockSoundGroup.WOOD).build()) {
+		@Override
+		@Environment(EnvType.CLIENT)
+		public void randomDisplayTick(BlockState blockState, World world, BlockPos pos, Random rand) {
+			final double x = pos.getX() + 0.5D;
+			final double y = pos.getY() + 0.7D;
+			final double z = pos.getZ() + 0.5D;
+			world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
+			world.addParticle(DoomParticles.WARDED_FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+		}
+
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+
+	public static Block WARDED_WALL_TORCH = REG.blockNoItem("warded_wall_torch", new WallTorchBlock(FabricBlockSettings.of(Material.PART).noCollision().breakInstantly().lightLevel(14).sounds(BlockSoundGroup.WOOD).dropsLike(WARDED_TORCH).build()) {
+		@Override
+		@Environment(EnvType.CLIENT)
+		public void randomDisplayTick(BlockState blockState, World world, BlockPos pos, Random rand) {
+			Direction face = blockState.get(FACING);
+			final double x = pos.getX() + 0.5D;
+			final double y = pos.getY() + 0.7D;
+			final double z = pos.getZ() + 0.5D;
+			Direction opposite = face.getOpposite();
+			world.addParticle(ParticleTypes.SMOKE, x + 0.27D * opposite.getOffsetX(), y + 0.22D, z + 0.27D * opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
+			world.addParticle(DoomParticles.WARDED_FLAME, x + 0.27D * opposite.getOffsetX(), y + 0.22D, z + 0.27D * opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
+		}
+
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
+
+	public static Block WARDED_LEVER = REG.block("warded_lever", new LeverBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1, 8).sounds(BlockSoundGroup.WOOD).build()) {
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
+	});
 
 	public static Block WARDED_GLASS_PANE = REG.block("warded_glass_pane", new PaneBlock(FabricBlockSettings.of(Material.GLASS).strength(1F, 8.0F).sounds(BlockSoundGroup.GLASS).build()) {
 		@Override
@@ -146,6 +299,13 @@ public enum DoomBlocks {
 
 			return super.isSideInvisible(myState, otherState, face);
 		}
+
+		@Override
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
 	});
 
 	public static Block WARDED_GLASS = REG.block("warded_glass", new AbstractGlassBlock(FabricBlockSettings.of(Material.GLASS, DyeColor.WHITE).strength(1F, 8F).sounds(BlockSoundGroup.GLASS).build()) {
@@ -153,70 +313,20 @@ public enum DoomBlocks {
 		public BlockRenderLayer getRenderLayer() {
 			return BlockRenderLayer.TRANSLUCENT;
 		}
-	});
 
-	public static final Block WARDED_BARREL = REG.block("warded_barrel", new WardedBarrelBlock(FabricBlockSettings.of(Material.WOOD).strength(3F, 10F).sounds(BlockSoundGroup.WOOD).build()));
-
-	public static final BlockEntityType<WardedBarrelBlockEntity> WARDED_BARREL_BLOCK_ENTITY = REG.blockEntityType("warded_barrel", WardedBarrelBlockEntity::new, WARDED_BARREL);
-
-	public static Block WARDED_LANTERN = REG.block("warded_lantern", new LanternBlock(FabricBlockSettings.of(Material.METAL).strength(3.5F, 10F).sounds(BlockSoundGroup.LANTERN).lightLevel(15).build()));
-
-	public static Block WARDED_TORCH = REG.blockNoItem("warded_torch", new TorchBlock(FabricBlockSettings.of(Material.PART).noCollision().breakInstantly().lightLevel(14).sounds(BlockSoundGroup.WOOD).build()) {
 		@Override
-		@Environment(EnvType.CLIENT)
-		public void randomDisplayTick(BlockState blockState, World world, BlockPos pos, Random rand) {
-			final double x = pos.getX() + 0.5D;
-			final double y = pos.getY() + 0.7D;
-			final double z = pos.getZ() + 0.5D;
-			world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
-			world.addParticle(DoomParticles.WARDED_FLAME, x, y, z, 0.0D, 0.0D, 0.0D);
+		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+			super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+			DoomTreeTracker.reportBreak(world, blockPos, false);
 		}
 	});
 
-	public static Block WARDED_WALL_TORCH = REG.blockNoItem("warded_wall_torch", new WallTorchBlock(FabricBlockSettings.of(Material.PART).noCollision().breakInstantly().lightLevel(14).sounds(BlockSoundGroup.WOOD).dropsLike(WARDED_TORCH).build()) {
-		@Override
-		@Environment(EnvType.CLIENT)
-		public void randomDisplayTick(BlockState blockState, World world, BlockPos pos, Random rand) {
-			Direction face = blockState.get(FACING);
-			final double x = pos.getX() + 0.5D;
-			final double y = pos.getY() + 0.7D;
-			final double z = pos.getZ() + 0.5D;
-			Direction opposite = face.getOpposite();
-			world.addParticle(ParticleTypes.SMOKE, x + 0.27D * opposite.getOffsetX(), y + 0.22D, z + 0.27D * opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
-			world.addParticle(DoomParticles.WARDED_FLAME, x + 0.27D * opposite.getOffsetX(), y + 0.22D, z + 0.27D * opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
-		}
-	});
+	static FabricBlockSettings logSettings() {
+		return FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 2).strength(3.0F, 20.0F);
+	}
 
-	public static Block WARDED_LEVER = REG.block("warded_lever", new LeverBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1, 8).sounds(BlockSoundGroup.WOOD).build()) {});
-
-	public static Block WARDED_STONE = REG.block("warded_stone", new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(1.5F, 6.0F).build()));
-	public static Block WARDED_STONE_BUTTON = REG.block("warded_stone_button", new StoneButtonBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1, 8).build()) {});
-	public static Block WARDED_STONE_PRESSURE_PLATE = REG.block("warded_stone_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.MOBS, FabricBlockSettings.of(Material.STONE).noCollision().strength(1, 8).build()) {});
-	public static Block WARDED_STONE_SLAB = REG.block("warded_stone_slab", new SlabBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
-	public static Block WARDED_STONE_STAIRS = REG.block("warded_stone_stairs", new StairsBlock(WARDED_STONE.getDefaultState(), FabricBlockSettings.copy(WARDED_STONE).build()) {});
-	public static Block WARDED_SMOOTH_STONE = REG.block("warded_smooth_stone", new Block(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
-	public static Block WARDED_SMOOTH_STONE_SLAB = REG.block("warded_smooth_stone_slab", new SlabBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
-	public static Block WARDED_STONE_BRICKS = REG.block("warded_stone_bricks", new Block(FabricBlockSettings.of(Material.STONE).strength(1.5F, 6.0F).build()));
-	public static Block WARDED_STONE_BRICK_SLAB = REG.block("warded_stone_brick_slab", new SlabBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
-	public static Block WARDED_STONE_BRICK_STAIRS = REG.block("warded_stone_brick_stairs", new StairsBlock(WARDED_STONE_BRICKS.getDefaultState(), FabricBlockSettings.copy(WARDED_STONE_BRICKS).build()) {});
-	public static Block WARDED_STONE_BRICK_WALL = REG.block("warded_stone_brick_wall", new WallBlock(FabricBlockSettings.copy(WARDED_STONE_BRICKS).build()));
-
-	public static Block WARDED_WOOD_LOG = REG.block("warded_wood_log", new LogBlock(MaterialColor.WOOD, FabricBlockSettings.of(Material.WOOD, MaterialColor.CLAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-//	public static Block WARDED_WOOD_WOOD = REG.block("warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-//	public static Block WARDED_STRIPPED_LOG = REG.block("stripped_warded_wood_log", new LogBlock(MaterialColor.WOOD, FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-//	public static Block WARDED_STRIPPED_WOOD = REG.block("stripped_warded_wood_wood", new PillarBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-
-	public static Block WARDED_WOOD_PLANKS = REG.block("warded_wood_planks", new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD).build()));
-	public static Block WARDED_WOOD_BUTTON = REG.block("warded_wood_button", new WoodButtonBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});
-	public static Block WARDED_WOOD_DOOR = REG.block("warded_wood_door", new DoorBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(3.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});
-	public static Block WARDED_WOOD_FENCE_GATE = REG.block("warded_wood_fence_gate", new FenceGateBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-	public static Block WARDED_WOOD_FENCE = REG.block("warded_wood_fence", new FenceBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-	public static Block WARDED_WOOD_PRESSURE_PLATE = REG.block("warded_wood_pressure_plate", new PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, FabricBlockSettings.copy(WARDED_WOOD_PLANKS).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});
-	public static Block WARDED_WOOD_SLAB = REG.block("warded_wood_slab", new SlabBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()));
-	public static Block WARDED_WOOD_STAIRS = REG.block("warded_wood_stairs", new StairsBlock(WARDED_WOOD_PLANKS.getDefaultState(), FabricBlockSettings.copy(WARDED_WOOD_PLANKS).build()) {});
-	public static Block WARDED_WOOD_TRAPDOOR = REG.block("warded_wood_trapdoor", new TrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {});
-	
-	public static Block WARDED_WOOD_SIGN = REG.blockNoItem("warded_wood_sign", new OpenSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build(),  WardedWoodSignBlockEntity::new));
-	public static Block WARDED_WOOD_WALL_SIGN = REG.blockNoItem("warded_wood_wall_sign", new OpenWallSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).dropsLike(WARDED_WOOD_SIGN).build(),  WardedWoodSignBlockEntity::new));
-	public static final BlockEntityType<OpenSignBlockEntity> WARDED_WOOD_SIGN_BLOCK_ENTITY = REG.blockEntityType("warded_wood_sign", WardedWoodSignBlockEntity::new, WARDED_WOOD_SIGN, WARDED_WOOD_WALL_SIGN);
+	static Block.Settings doomedSettings() {
+		return FabricBlockSettings.of(Material.EARTH).breakByHand(true).breakInstantly().sounds(BlockSoundGroup.SAND).build();
+	}
 }

@@ -89,6 +89,10 @@ public final class DoomTreeTracker {
 
 		return null;
 	}
+	
+	public static boolean isNear(World world, BlockPos pos) {
+		return getNear(world, pos) != null;
+	}
 
 	public static void reportBreak(World world, BlockPos pos, boolean isLog) {
 		if (world.isClient) return;

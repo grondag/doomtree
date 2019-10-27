@@ -21,9 +21,7 @@ public class DoomedBlock extends Block {
 	public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
 		super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
 
-		if (!world.isClient) {
-			DoomTreeTracker.reportBreak(world, blockPos, false);
-		}
+		DoomTreeTracker.reportBreak(world, blockPos, false);
 	}
 
 	@Override

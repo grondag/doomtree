@@ -66,7 +66,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		ClientSidePacketRegistry.INSTANCE.register(MiasmaS2C.IDENTIFIER, MiasmaS2C::handle);
 		ClientSidePacketRegistry.INSTANCE.register(XpDrainS2C.IDENTIFIER, XpDrainS2C::handle);
 		
-		REGISTRAR.fluidRenderHandler(DoomFluids.ICHOR, DoomFluids.ICHOR_COLOR, "block/water_still", "block/water_flowing");
+		REGISTRAR.fluidRenderHandler(DoomFluids.ICHOR, DoomFluids.ICHOR_COLOR, "block/water_still", "block/water_flow");
 
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.ALCHEMY_IDLE, IdleParticleFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.ALCHEMY_WAKING, WakingParticleFactory::new);

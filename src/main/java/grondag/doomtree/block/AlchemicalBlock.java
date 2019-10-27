@@ -4,8 +4,8 @@ import static grondag.doomtree.block.AlchemicalBlockEntity.MAX_UNITS;
 
 import grondag.doomtree.block.AlchemicalBlockEntity.Mode;
 import grondag.doomtree.registry.DoomRecipes;
+import grondag.doomtree.treeheart.DoomTreeTracker;
 import grondag.fermion.recipe.AbstractSimpleRecipe;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -136,5 +136,12 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 		}
 
 		return false;
+	}
+	
+	@Override
+	public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+		super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+		DoomTreeTracker.reportBreak(world, blockPos, false);
 	}
 }

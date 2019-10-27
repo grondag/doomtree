@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import grondag.doomtree.treeheart.DoomTreeTracker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -67,6 +68,8 @@ public class WardedBarrelBlock extends BlockWithEntity {
 
 			super.onBlockRemoved(blockState, world, pos, otherState, flag);
 		}
+
+		DoomTreeTracker.reportBreak(world, pos, false);
 	}
 
 	@Override

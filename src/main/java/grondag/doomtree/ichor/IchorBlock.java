@@ -1,29 +1,30 @@
 package grondag.doomtree.ichor;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.CaveSpiderEntity;
-import net.minecraft.entity.mob.WitchEntity;
-import net.minecraft.entity.mob.WitherSkeletonEntity;
-import net.minecraft.fluid.BaseFluid;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.inventory.BasicInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
-
 import java.util.List;
 import java.util.Optional;
 
 import grondag.doomtree.recipe.IchorRecipe;
+import grondag.doomtree.registry.DoomBlockStates;
+import grondag.doomtree.treeheart.DoomTreeTracker;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FluidBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.fluid.BaseFluid;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.inventory.BasicInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 
 public class IchorBlock extends FluidBlock {
 	public IchorBlock(BaseFluid fluid, Settings settings) {
@@ -35,10 +36,9 @@ public class IchorBlock extends FluidBlock {
 		if(!world.isClient) {
 			if (entity instanceof LivingEntity) {
 				LivingEntity livingEntity = (LivingEntity) entity;
+
 				if (!livingEntity.isUndead()) {
 					livingEntity.addPotionEffect(new StatusEffectInstance(StatusEffects.POISON, 20));
-					livingEntity.addPotionEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 20));
-					livingEntity.addPotionEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20));
 				}
 			}
 
@@ -52,7 +52,7 @@ public class IchorBlock extends FluidBlock {
 				});
 
 				Optional<IchorRecipe> match = world.getRecipeManager()
-					.getFirstMatch(IchorRecipe.Type.INSTANCE, inventory, world);
+						.getFirstMatch(IchorRecipe.Type.INSTANCE, inventory, world);
 
 				if (match.isPresent()) {
 					spawnCraftingResult(world, pos, match.get().getOutput());
@@ -66,28 +66,6 @@ public class IchorBlock extends FluidBlock {
 						}
 					}
 				}
-			} else {
-				if (pos.equals(entity.getBlockPos())) {
-					if (entity.getType() == EntityType.SKELETON) {
-						WitherSkeletonEntity witherSkeletonEntity = new WitherSkeletonEntity(EntityType.WITHER_SKELETON, world);
-						witherSkeletonEntity.copyPositionAndRotation(entity);
-						entity.remove();
-
-						world.spawnEntity(witherSkeletonEntity);
-					} else if (entity.getType() == EntityType.SPIDER) {
-						CaveSpiderEntity caveSpiderEntity = new CaveSpiderEntity(EntityType.CAVE_SPIDER, world);
-						caveSpiderEntity.copyPositionAndRotation(entity);
-						entity.remove();
-
-						world.spawnEntity(caveSpiderEntity);
-					} else if (entity.getType() == EntityType.VILLAGER && world.getDifficulty() != Difficulty.PEACEFUL) {
-						WitchEntity witchEntity = new WitchEntity(EntityType.WITCH, world);
-						witchEntity.copyPositionAndRotation(entity);
-						entity.remove();
-
-						world.spawnEntity(witchEntity);
-					}
-				}
 			}
 		}
 
@@ -97,5 +75,30 @@ public class IchorBlock extends FluidBlock {
 	private void spawnCraftingResult(World world, BlockPos pos, ItemStack result) {
 		ItemEntity itemEntity = new ItemEntity(world, pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5, result);
 		world.spawnEntity(itemEntity);
+	}
+
+	@Override
+	public Fluid tryDrainFluid(IWorld world, BlockPos pos, BlockState blockState) {
+		if (blockState.get(LEVEL) == 0) {
+			world.setBlockState(pos, DoomTreeTracker.isNear(world.getWorld(), pos) ? DoomBlockStates.MIASMA_STATE : Blocks.AIR.getDefaultState(), 11);
+			return this.fluid;
+		} else {
+			return Fluids.EMPTY;
+		}
+	}
+
+	@Override
+	public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+		super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
+
+		if (!world.isClient) {
+			final FluidState fluidState = newState.getFluidState();
+			
+			if(fluidState != null && !fluidState.isEmpty() && fluidState.isStill() && newState.getBlock() instanceof FluidBlock) {
+				return;
+			} 
+			
+			DoomTreeTracker.reportBreak(world, blockPos, false);
+		}
 	}
 }
