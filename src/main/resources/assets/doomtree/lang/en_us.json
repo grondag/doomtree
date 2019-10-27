@@ -65,6 +65,8 @@
 	"item.doomtree.alchemical_basin_frame.info": "Alchemical Basin Frame",
 	"item.doomtree.alchemical_brazier_frame": "Alchemical Brazier Frame",
 	"item.doomtree.alchemical_brazier_frame.info": "Alchemical Brazier Frame",
+	"item.doomtree.alchemical_engine": "Alchemical Engine",
+	"item.doomtree.alchemical_engine.info": "Found rarely in remote chests or for sale by wandering traders",
 	
 	"item.doomtree.warded_torch": "Warded Torch",
 	"item.doomtree.warded_torch.info": "Warded Torch",
@@ -84,6 +86,8 @@
 	"block.doomtree.miasma_block.info": "Miasma Block",
 	"block.doomtree.doom_gleam_block": "Doom Gleam Block",
 	"block.doomtree.doom_gleam_block.info": "Doom Gleam Block",
+	"block.doomtree.generative_matrix": "Generative Matrix",
+	"block.doomtree.generative_matrix.info": "Needed to spawn The Doom Tree. Place in a 3x3 area.",
 	
 	"block.doomtree.doom_log": "Doom Log",
 	"block.doomtree.doom_log.info": "Doom Log",

@@ -94,7 +94,8 @@ public enum DoomBlocks {
 	public static Block DOOMED_STONE = REG.block("doomed_stone", new DoomedBlock(doomedSettings()));
 	public static Block DOOMED_DUST = REG.block("doomed_dust", new DoomedBlock(doomedSettings()));
 	public static Block DOOMED_RESIDUE_BLOCK = REG.block("doomed_residue_block", new Block(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.SAND).build()));
-	public static Block WARDING_ESSENCE_BLOCK = REG.block("warding_essence_block", new Block(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.SAND).build()));
+	public static Block WARDING_ESSENCE_BLOCK = REG.block("warding_essence_block", new WardedBlock(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.SAND).build()));
+	public static Block GENERATIVE_MATRIX = REG.block("generative_matrix", new Block(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.GRAVEL).build()));
 
 	public static AlchemicalBlock BASIN_BLOCK = REG.block("alchemical_basin", new BasinBlock(FabricBlockSettings.of(Material.METAL).breakByHand(true).strength(0.5F, 0.5F).build()));
 	public static Block INERT_BASIN_BLOCK = REG.block("inert_alchemical_basin", new InertAlchemicalBlock(BASIN_BLOCK));

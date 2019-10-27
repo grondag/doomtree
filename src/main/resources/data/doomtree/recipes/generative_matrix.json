@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"bib",
+		"gcg",
+		"bib"
+	],
+	"key": {
+		"c": {
+			"item": "minecraft:clay"
+		},
+		"i": {
+			"item": "minecraft:iron_ore"
+		},
+		"g": {
+			"item": "minecraft:gold_ore"
+		},
+		"b": {
+			"item": "minecraft:coal_block"
+		}
+	},
+	"result": {
+		"item": "doomtree:generative_matrix",
+		"count": 9
+	}
+}

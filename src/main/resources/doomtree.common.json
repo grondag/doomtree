@@ -3,7 +3,8 @@
   "package": "grondag.doomtree.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinLivingEntity"
+    "MixinLivingEntity",
+    "MixinWanderingTraderEntity"
       ],
   "injectors": {
     "defaultRequire": 1

@@ -7,6 +7,7 @@ import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomFeatures;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomItems;
+import grondag.doomtree.registry.DoomLoot;
 import grondag.doomtree.registry.DoomParticles;
 import grondag.doomtree.registry.DoomRecipes;
 import grondag.doomtree.registry.DoomSounds;
@@ -16,6 +17,7 @@ import grondag.fermion.registrar.Registrar;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.server.ServerStartCallback;
 import net.fabricmc.fabric.api.event.server.ServerStopCallback;
+import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 
@@ -39,5 +41,6 @@ public class DoomTree implements ModInitializer {
 		ServerStartCallback.EVENT.register(DoomRecipes.HELPER::init);
 		ServerStopCallback.EVENT.register(DoomRecipes.HELPER::stop);
 		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(DoomRecipes.HELPER);
+		LootTableLoadingCallback.EVENT.register(DoomLoot::init);
 	}
 }
