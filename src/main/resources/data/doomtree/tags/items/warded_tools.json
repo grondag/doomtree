@@ -1,0 +1,15 @@
+{
+	"replace": false,
+	"values": [
+		"doomtree:warded_iron_shovel",
+		"doomtree:warded_iron_hoe",
+		"doomtree:warded_iron_pickaxe",
+		"doomtree:warded_iron_axe",
+		"doomtree:warded_iron_sword",
+		"doomtree:encrusted_shovel",
+		"doomtree:encrusted_hoe",
+		"doomtree:encrusted_pickaxe",
+		"doomtree:encrusted_axe",
+		"doomtree:encrusted_sword"
+	]
+}

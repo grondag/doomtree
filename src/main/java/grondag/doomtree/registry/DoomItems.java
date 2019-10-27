@@ -37,6 +37,7 @@ public enum DoomItems {
 	public static Item WARDED_DIAMOND = REG.item("warded_diamond");
 	public static Item WARDED_STICK = REG.item("warded_stick");
 	public static Item WARDED_BARREL_SHELL = REG.item("warded_barrel_shell");
+	public static Item HEART_OF_DOOM = REG.item("heart_of_doom");
 
 	public static final ArmorMaterial WARDED_IRON_ARMOR_MATERIAL = SimpleArmorMaterial.of("warded_iron", 17, new int[]{2, 5, 6, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.5F, WARDED_IRON_INGOT);
 	public static final Item WARDED_IRON_HELMET =  REG.armorItem("warded_iron_helmet", WARDED_IRON_ARMOR_MATERIAL, EquipmentSlot.HEAD);

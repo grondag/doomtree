@@ -1,6 +1,8 @@
 {
 	"replace": false,
 	"values": [
+		"#doomtree:warded_blocks",
+		"#doomtree:protected_blocks",
 		"doomtree:miasma",
 		"doomtree:doom_gleam",
 		"doomtree:doom_tree_heart",

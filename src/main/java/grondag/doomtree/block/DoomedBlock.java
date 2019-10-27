@@ -30,7 +30,7 @@ public class DoomedBlock extends Block {
 	public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState blockState, BlockEntity blockEntity, ItemStack toolStack) {
 		super.afterBreak(world, player, pos, blockState, blockEntity, toolStack);
 
-		if (!world.isClient && !toolStack.getItem().isIn(DoomTags.WARDED_ITEM_TAG)) {
+		if (!world.isClient && !toolStack.getItem().isIn(DoomTags.WARDED_ITEMS)) {
 			float extraExhaustion = 0.01F;
 			// if using a tool, take extra durability.  If not, then extra doom exposure for player
 			if (toolStack.getItem().isDamageable()) {
@@ -44,6 +44,4 @@ public class DoomedBlock extends Block {
 			player.addExhaustion(extraExhaustion);
 		}
 	}
-
-
 }

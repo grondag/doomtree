@@ -1,5 +1,6 @@
 package grondag.doomtree.block;
 
+import grondag.doomtree.registry.DoomTags;
 import grondag.doomtree.treeheart.DoomTreeTracker;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
@@ -37,7 +38,7 @@ public class DoomLogBlock extends Block {
 
 		final ItemStack stack = player.inventory.getInvStack(player.inventory.selectedSlot);
 
-		if (stack.isEmpty() || !FabricToolTags.AXES.contains(stack.getItem()) || !stack.hasEnchantments()) {
+		if (stack.isEmpty() || !FabricToolTags.AXES.contains(stack.getItem()) || !DoomTags.isWardedOrEnchanted(stack)) {
 			return 0;
 		}
 

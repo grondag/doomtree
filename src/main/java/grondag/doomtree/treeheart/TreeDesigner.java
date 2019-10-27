@@ -27,7 +27,7 @@ public class TreeDesigner {
 				|| blockState == DoomBlockStates.MIASMA_STATE 
 				|| blockState == DoomBlockStates.LEAF_STATE 
 				|| blockState == DoomBlockStates.GLEAM_STATE 
-				|| !blockState.getBlock().matches(DoomTags.DOOM_TREE_PROTECTED);
+				|| !blockState.getBlock().matches(DoomTags.PROTECTED_BLOCKS);
 	}
 
 	static int DISTANCES[] = new int[64];

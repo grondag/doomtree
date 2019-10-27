@@ -73,8 +73,13 @@
 	"item.doomtree.warded_barrel_shell": "Warded Barrel Shell",
 	"item.doomtree.warded_barrel_shell.info": "Warded Barrel Shell",
 	
+	"item.doomtree.heart_of_doom": "Heart of Doom",
+	"item.doomtree.heart_of_doom.info": "WIP",
+	
 	"block.doomtree.doom_sapling": "Doom Sapling",
 	"block.doomtree.doom_sapling.info": "Doom Sapling",
+	"block.doomtree.foreboding_shrub": "Foreboding Shrub",
+	"block.doomtree.foreboding_shrub.info": "This bizarre growth is used in the ritual that spawns The Doom Tree. Found rarely in badlands and savanna.",
 	"block.doomtree.miasma_block": "Miasma Block",
 	"block.doomtree.miasma_block.info": "Miasma Block",
 	"block.doomtree.doom_gleam_block": "Doom Gleam Block",

@@ -6,6 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.Material;
+import net.minecraft.block.MaterialColor;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.EntityContext;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
@@ -16,8 +19,19 @@ import net.minecraft.world.World;
 
 public class MiasmaBlock extends Block {
 
+	public static Material MIASMA = new Material(
+			MaterialColor.AIR,
+			false, // liquid
+			false, // solid
+			false, // blocksMovement
+			false, // blocksLight
+			false, // breakByHand
+			false, // burnable
+			true,  // replaceable
+			PistonBehavior.IGNORE);
+	
 	public MiasmaBlock() {
-		super(FabricBlockSettings.copy(Blocks.AIR).build());
+		super(FabricBlockSettings.of(MIASMA).build());
 	}
 
 	@Override
@@ -36,9 +50,8 @@ public class MiasmaBlock extends Block {
 
 		if (!world.isClient) {
 			final FluidState fluidState = newState.getFluidState();
-			if(fluidState != null && !fluidState.isStill()) {
+			if(fluidState != null && !fluidState.isEmpty()) {
 				//TODO: handle flowing fluids as separate queue
-
 			} else {
 				DoomTreeTracker.reportBreak(world, blockPos, false);
 			}
@@ -47,6 +60,6 @@ public class MiasmaBlock extends Block {
 
 	@Override
 	public boolean isAir(BlockState blockState) {
-		return true;
+		return false;
 	}
 }

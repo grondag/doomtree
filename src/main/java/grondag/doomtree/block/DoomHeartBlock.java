@@ -1,5 +1,6 @@
 package grondag.doomtree.block;
 
+import grondag.doomtree.registry.DoomTags;
 import grondag.doomtree.treeheart.DoomHeartBlockEntity;
 import net.fabricmc.fabric.api.tools.FabricToolTags;
 import net.minecraft.block.Block;
@@ -33,7 +34,7 @@ public class DoomHeartBlock extends BlockWithEntity {
 			return 0;
 		}
 
-		if (EnchantmentHelper.getLevel(Enchantments.SHARPNESS, stack) < 3) {
+		if (EnchantmentHelper.getLevel(Enchantments.SHARPNESS, stack) < 3 && !DoomTags.WARDED_TOOLS.contains(stack.getItem())) {
 			return 0;
 		}
 

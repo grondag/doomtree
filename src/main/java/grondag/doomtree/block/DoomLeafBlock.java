@@ -1,5 +1,6 @@
 package grondag.doomtree.block;
 
+import grondag.doomtree.registry.DoomTags;
 import grondag.doomtree.treeheart.DoomTreeTracker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -36,7 +37,7 @@ public class DoomLeafBlock extends Block {
 
 		final ItemStack stack = player.inventory.getInvStack(player.inventory.selectedSlot);
 
-		if (stack.isEmpty() || !stack.hasEnchantments()) {
+		if (stack.isEmpty() || !DoomTags.isWardedOrEnchanted(stack)) {
 			return 0;
 		}
 

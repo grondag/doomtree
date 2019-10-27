@@ -16,6 +16,7 @@ import grondag.doomtree.block.DoomLogBlock;
 import grondag.doomtree.block.DoomSaplingBlock;
 import grondag.doomtree.block.DoomedBlock;
 import grondag.doomtree.block.DoomedLogBlock;
+import grondag.doomtree.block.ForebodingShrubBlock;
 import grondag.doomtree.block.InertAlchemicalBlock;
 import grondag.doomtree.block.MiasmaBlock;
 import grondag.doomtree.block.WardedBarrelBlock;
@@ -68,7 +69,8 @@ public enum DoomBlocks {
 
 	public static final Block ICHOR_BLOCK = REG.blockNoItem("ichor", new IchorBlock(DoomFluids.ICHOR, FabricBlockSettings.copy(Blocks.WATER).build()));
 
-	public static Block DOOM_SAPLING = REG.block("doom_sapling", new DoomSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).build()));
+	public static Block FOREBODING_SHRUB = REG.block("foreboding_shrub", new ForebodingShrubBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).build()));
+	public static Block DOOM_SAPLING = REG.block("doom_sapling", new DoomSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).dropsLike(FOREBODING_SHRUB).build()));
 	public static Block MIASMA_BLOCK = REG.blockNoItem("miasma", new MiasmaBlock());
 	public static Block DOOM_GLEAM_BLOCK =  REG.blockNoItem("doom_gleam", new DoomGleamBlock());
 

@@ -199,7 +199,7 @@ class Troll extends IntHeapPriorityQueue {
 	static BlockState trollState(World world, BlockState fromState, BlockPos pos) {
 		final Block block = fromState.getBlock();
 	
-		if (block == Blocks.BEDROCK || block.matches(DoomTags.DOOM_TREE_IGNORED)) {
+		if (block == Blocks.BEDROCK || block.matches(DoomTags.IGNORED_BLOCKS)) {
 			return fromState;
 		}
 	
