@@ -8,6 +8,7 @@ import io.netty.util.internal.ThreadLocalRandom;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.fabricmc.fabric.api.server.PlayerStream;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
@@ -31,14 +32,15 @@ public enum MiasmaS2C {
 		final BlockPos pos = buffer.readBlockPos();
 
 		if (context.getTaskQueue().isOnThread()) {
-			handleInner(context.getPlayer().world, pos);
+			handleInner(context.getPlayer(), pos);
 		} else {
-			context.getTaskQueue().execute(() -> handleInner(context.getPlayer().world, pos));
+			context.getTaskQueue().execute(() -> handleInner(context.getPlayer(), pos));
 		}
 	}
 	
-	private static void handleInner(World world, BlockPos pos) {
-		if (world != null) {
+	private static void handleInner(PlayerEntity player, BlockPos pos) {
+		if (player != null && player.world != null) {
+			final World world = player.world;
 			final Random rand = ThreadLocalRandom.current();
 			final int count = 4 + rand.nextInt(3);
 			

@@ -1,7 +1,24 @@
 {
-	"doomtree.boil": {
+	"boil": {
 		"category": "neutral",
 		"sounds": ["doomtree:boil"],
 		"subtitle": "subtitle.doomtree.boil"
+	},
+	"miasma": {
+		"category": "neutral",
+		"sounds": ["doomtree:miasma_1", "doomtree:miasma_2"],
+		"subtitle": "subtitle.doomtree.miasma"
+	},
+	"doom_start": {
+		"category": "neutral",
+		"sounds": ["doomtree:doom_start"],
+		"subtitle": "subtitle.doomtree.doom_start",
+		"stream": true
+	},
+	"doom_summon": {
+		"category": "neutral",
+		"sounds": ["doomtree:doom_summon"],
+		"subtitle": "subtitle.doomtree.doom_summon",
+		"stream": true
 	}
 }

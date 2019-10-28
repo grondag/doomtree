@@ -3,7 +3,9 @@ package grondag.doomtree.treeheart;
 import grondag.doomtree.packet.MiasmaS2C;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
+import grondag.doomtree.registry.DoomSounds;
 import grondag.doomtree.registry.DoomTags;
+import io.netty.util.internal.ThreadLocalRandom;
 import it.unimi.dsi.fastutil.HashCommon;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntHeapPriorityQueue;
@@ -15,6 +17,7 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,7 +34,10 @@ class Troll extends IntHeapPriorityQueue {
 
 	int y;
 	int index;
-
+	
+	private static int lastMiasmaX = 0;
+	private static int lastMiasmaZ = 0;
+	
 	private static final int MAX_INDEX;
 	private static final int[] OFFSETS;
 
@@ -111,7 +117,7 @@ class Troll extends IntHeapPriorityQueue {
 		
 		final BlockPos.Mutable mPos = heart.mPos;
 		final World world = heart.getWorld();
-
+		
 		for (int i = 0; i < 16; i++) {
 			trollBlock(world, mPos, heart, RelativePos.relativePos(x, -originY + y + i, z));
 		}
@@ -147,6 +153,12 @@ class Troll extends IntHeapPriorityQueue {
 		}
 
 		final BlockState currentState = world.getBlockState(mPos);
+		
+		final FluidState fluidState = currentState.getFluidState();
+		if (!(fluidState.isEmpty() || fluidState.isStill())) {
+			return false;
+		}
+		
 		final BlockState trollState = Troll.trollState(world, currentState, mPos);
 
 		if (trollState == null || trollState == currentState) return false;
@@ -169,6 +181,12 @@ class Troll extends IntHeapPriorityQueue {
 		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
 		MiasmaS2C.send(world, pos);
+		
+		if (lastMiasmaX != pos.getX() || lastMiasmaZ != pos.getZ()) {
+			world.playSound(null, pos, DoomSounds.MIASMA, SoundCategory.AMBIENT, 0.2F, (float) (1.6 + ThreadLocalRandom.current().nextDouble() * 0.2));
+			lastMiasmaX = pos.getX();
+			lastMiasmaZ = pos.getZ();
+		}
 	}
 
 	int[] toIntArray() {

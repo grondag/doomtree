@@ -5,6 +5,7 @@ import java.util.Random;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomParticles;
+import grondag.doomtree.registry.DoomSounds;
 import grondag.doomtree.treeheart.DoomHeartBlockEntity;
 import grondag.doomtree.treeheart.DoomTreeTracker;
 import grondag.doomtree.treeheart.TreeDesigner;
@@ -18,6 +19,7 @@ import net.minecraft.entity.LightningEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -84,6 +86,19 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 		case NEW:
 		case CHECKING:
 		case STARTING:
+			if (workIndex++ == 0) {
+				final double x0 = pos.getX() - 1.5;
+				final double y = pos.getY() + 0.5;
+				final double z0 = pos.getZ() - 1.5;
+
+				for (int x = 0; x < 5; x++) {
+					for (int z = 0; z < 5; z++) {
+						if(x == 2 && z == 2) continue;
+
+						world.addParticle(ParticleTypes.SMOKE, x + x0, y, z + z0, 0.0D, 0.0D, 0.0D);
+					}
+				}
+			}
 
 			if (rand.nextInt(4) == 0) {
 				final double x = pos.getX() + rand.nextDouble();
@@ -178,6 +193,7 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 	protected Mode doChecking() {
 		// TODO: make incremental
 		logs = TreeDesigner.designTrunk(world, pos, ThreadLocalRandom.current());
+
 		if (logs == null || logs.isEmpty()){
 			return Mode.STALLED;
 		} else {
@@ -192,6 +208,8 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 		}
 
 		consumeBlocks();
+		world.playSound(null, pos, DoomSounds.DOOM_START, SoundCategory.HOSTILE, 1, 1.2f);
+
 		workIndex = 0;
 		return Mode.GLOOMING;
 	}
@@ -248,6 +266,7 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 	}
 
 	protected Mode doDone() {
+		world.playSound(null, pos, DoomSounds.DOOM_SUMMON, SoundCategory.HOSTILE, 1, 2);
 
 		world.setBlockState(pos, Blocks.AIR.getDefaultState(), 4);
 		world.setBlockState(pos, DoomBlocks.DOOM_HEART_BLOCK.getDefaultState(), 3);
