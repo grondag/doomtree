@@ -1,5 +1,10 @@
 {
     "variants": {
-        "": { "model": "doomtree:block/generative_matrix" }
+        "": [
+            { "model": "doomtree:block/generative_matrix" },
+            { "model": "doomtree:block/generative_matrix", "y": 90 },
+            { "model": "doomtree:block/generative_matrix", "y": 180 },
+            { "model": "doomtree:block/generative_matrix", "y": 270 }
+        ]
     }
 }

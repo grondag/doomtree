@@ -14,6 +14,7 @@ import grondag.doomtree.block.DoomHeartBlock;
 import grondag.doomtree.block.DoomLeafBlock;
 import grondag.doomtree.block.DoomLogBlock;
 import grondag.doomtree.block.DoomSaplingBlock;
+import grondag.doomtree.block.DoomSaplingBlockEntity;
 import grondag.doomtree.block.DoomedBlock;
 import grondag.doomtree.block.DoomedLogBlock;
 import grondag.doomtree.block.ForebodingShrubBlock;
@@ -74,11 +75,13 @@ public enum DoomBlocks {
 	public static final Block ICHOR_BLOCK = REG.blockNoItem("ichor", new IchorBlock(DoomFluids.ICHOR, FabricBlockSettings.copy(Blocks.WATER).build()));
 
 	public static Block FOREBODING_SHRUB = REG.block("foreboding_shrub", new ForebodingShrubBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).build()));
-	public static Block DOOM_SAPLING = REG.block("doom_sapling", new DoomSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS).dropsLike(FOREBODING_SHRUB).build()));
 	public static Block MIASMA_BLOCK = REG.blockNoItem("miasma", new MiasmaBlock());
 	public static Block DOOM_GLEAM_BLOCK =  REG.blockNoItem("doom_gleam", new DoomGleamBlock());
 
-	public static Block DOOM_HEART_BLOCK = REG.blockNoItem("doom_tree_heart", new DoomHeartBlock(FabricBlockSettings.of(Material.WOOD).dropsLike(DOOM_SAPLING).breakByTool(FabricToolTags.AXES, 3).strength(200.0F, 1200.0F).build()));
+	public static Block DOOM_SAPLING_BLOCK = REG.block("doom_sapling", new DoomSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).lightLevel(5).build()));
+	public static final BlockEntityType<DoomSaplingBlockEntity> DOOM_SAPLING = REG.blockEntityType("doom_sapling", DoomSaplingBlockEntity::new, DOOM_SAPLING_BLOCK);
+
+	public static Block DOOM_HEART_BLOCK = REG.blockNoItem("doom_heart", new DoomHeartBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 3).strength(200.0F, 1200.0F).build()));
 	public static final BlockEntityType<DoomHeartBlockEntity> DOOM_HEART = REG.blockEntityType("doom_tree", DoomHeartBlockEntity::new, DOOM_HEART_BLOCK);
 
 	public static Block PLACED_DOOM_LOG = REG.block("doom_log_p", new DoomLogBlock(logSettings().build(), true, 1));
@@ -95,7 +98,7 @@ public enum DoomBlocks {
 	public static Block DOOMED_DUST = REG.block("doomed_dust", new DoomedBlock(doomedSettings()));
 	public static Block DOOMED_RESIDUE_BLOCK = REG.block("doomed_residue_block", new Block(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.SAND).build()));
 	public static Block WARDING_ESSENCE_BLOCK = REG.block("warding_essence_block", new WardedBlock(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.SAND).build()));
-	public static Block GENERATIVE_MATRIX = REG.block("generative_matrix", new Block(FabricBlockSettings.of(Material.EARTH).breakByHand(true).sounds(BlockSoundGroup.GRAVEL).build()));
+	public static Block GENERATIVE_MATRIX = REG.block("generative_matrix", new Block(FabricBlockSettings.of(Material.EARTH).sounds(BlockSoundGroup.GRAVEL).breakByHand(true).strength(0.5F, 0.5F).build()));
 
 	public static AlchemicalBlock BASIN_BLOCK = REG.block("alchemical_basin", new BasinBlock(FabricBlockSettings.of(Material.METAL).breakByHand(true).strength(0.5F, 0.5F).build()));
 	public static Block INERT_BASIN_BLOCK = REG.block("inert_alchemical_basin", new InertAlchemicalBlock(BASIN_BLOCK));

@@ -50,7 +50,7 @@ public class DoomtreeReiPlugin extends DefaultPlugin {
 		recipeHelper.registerWorkingStations(BRAZIER, new ItemStack(DoomBlocks.BRAZIER_BLOCK));
 		recipeHelper.registerWorkingStations(BRAZIER_SMELTING, new ItemStack(DoomBlocks.BRAZIER_BLOCK));
 		recipeHelper.registerWorkingStations(BASIN, new ItemStack(DoomBlocks.BASIN_BLOCK));
-		recipeHelper.registerWorkingStations(INFO, new ItemStack(DoomBlocks.DOOM_SAPLING));
+		recipeHelper.registerWorkingStations(INFO, new ItemStack(DoomBlocks.DOOM_SAPLING_BLOCK));
 		
 		recipeHelper.removeSpeedCraftButton(INFO);
 	}

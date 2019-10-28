@@ -4,6 +4,12 @@
 	"category.doomtree.basin": "Alchemical Basin",
 	"category.doomtree.info": "Information",
 	
+	"help.doomtree.missing_matrix": "The Foreboding Shrub must be placed in the center of a 3x3 bed of Generative Matrix",
+	"help.doomtree.missing_blocks": "Generative Matrix must be surrounded by 8 Redstone blocks and 8 of either Prismarine or Netherack",
+	"help.doomtree.bad_position": "This location is too high or too close to an existing Doom Tree",
+	"help.doomtree.bad_biome": "The Doom Tree must be summoned in a location that receives rain",
+	"help.doomtree.no_sky": "The Doom Tree must be summoned in a location that can see the sky",
+	
 	"item.doomtree.doomed_residue": "Doomed Residue",
 	"item.doomtree.doomed_residue.info": "Doomed Residue",
 	"item.doomtree.ichor_bucket": "Ichor Bucket",
@@ -101,8 +107,8 @@
 	"block.doomtree.doom_log_terminal.info": "Doom Log Terminal",
 	"block.doomtree.doom_log_terminal_p": "Doom Log Terminal",
 	"block.doomtree.doom_log_terminal_p.info": "Doom Log Terminal",
-	"block.doomtree.doom_tree_heart": "Doom Tree Heart",
-	"block.doomtree.doom_tree_heart.info": "Doom Tree Heart",
+	"block.doomtree.doom_heart": "Doom Tree Heart",
+	"block.doomtree.doom_heart.info": "Doom Tree Heart",
 	"block.doomtree.doom_leaves": "Doom Leaves",
 	"block.doomtree.doom_leaves.info": "Doom Leaves",
 	

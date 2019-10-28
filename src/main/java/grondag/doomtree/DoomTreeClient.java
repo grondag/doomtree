@@ -11,6 +11,7 @@ import grondag.doomtree.packet.AlchemyCraftS2C;
 import grondag.doomtree.packet.MiasmaS2C;
 import grondag.doomtree.packet.XpDrainS2C;
 import grondag.doomtree.particle.IdleParticle.IdleParticleFactory;
+import grondag.doomtree.particle.SummoningParticle.SummoningParticleFactory;
 import grondag.doomtree.particle.WakingParticle.WakingParticleFactory;
 import grondag.doomtree.particle.WardedFlameParticle;
 import grondag.doomtree.particle.BasinParticle.BasinParticleFactory;
@@ -56,7 +57,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		REGISTRAR.modelVariant("alchemical_brazier", model);
 		REGISTRAR.modelVariant("alchemical_brazier_frame", new SimpleUnbakedModel(BrazierModel::createFrame, BrazierModel.TEXTURES));
 
-		REGISTRAR.modelVariant("doom_tree_heart", new SimpleUnbakedModel(HeartModel::create, HeartModel.TERMINAL_TEXTURES));
+		REGISTRAR.modelVariant("doom_heart", new SimpleUnbakedModel(HeartModel::create, HeartModel.TERMINAL_TEXTURES));
 
 		REGISTRAR.simpleRandomModel("doom_leaves", "block/doom_leaves_0_0", "block/doom_leaves_0_1", "block/doom_leaves_0_2", "block/doom_leaves_0_3");
 		REGISTRAR.simpleRandomModel("doomed_residue_block", "block/doomed_residue_block");
@@ -73,7 +74,8 @@ public class DoomTreeClient implements ClientModInitializer {
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.BASIN_ACTIVE, BasinParticleFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.BRAZIER_ACTIVE, BrazierParticleFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.WARDED_FLAME, WardedFlameParticle.WardedFlameParticleFactory::new);
-
+		ParticleFactoryRegistry.getInstance().register(DoomParticles.SUMMONING, SummoningParticleFactory::new);
+		
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.PARTICLE_ATLAS_TEX).register((atlasTexture, registry) -> {
 			registry.register(REGISTRAR.id("warded_flame"));
 		});

@@ -14,14 +14,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 
 public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
-   private static final ChunkTicketType<ChunkPos> DOOM_TREE_TICKET = ChunkTicketType.create("doom_tree", Comparator.comparingLong(ChunkPos::toLong));
+	private static final ChunkTicketType<ChunkPos> DOOM_TREE_TICKET = ChunkTicketType.create("doom_tree", Comparator.comparingLong(ChunkPos::toLong));
 
-	   
 	int tickCounter = 0;
 	long power = 1000;
 	boolean leafTick = false;
 	boolean itMe = false;
-	
+
 	LogTracker logs = null;
 	TrunkBuilder builds = null;
 	BranchBuilder branches = null;
@@ -42,7 +41,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 	@Override
 	public void setPos(BlockPos pos) {
 		super.setPos(pos);
-		
+
 		// NBT deserialization happens before this
 		if (logs == null) logs = new LogTracker(pos);
 		if (builds == null) builds = new TrunkBuilder(pos);
@@ -59,10 +58,10 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 			forceChunks((ServerWorld) world, new ChunkPos(this.pos), true);
 		}
 	}
-	
+
 	static void forceChunks(ServerWorld world, ChunkPos chunkPos, boolean enable) {
 		final ServerChunkManager scm = world.method_14178();
-		
+
 		if (enable) {
 			scm.addTicket(DOOM_TREE_TICKET, chunkPos, 4, chunkPos);
 		} else {
@@ -90,13 +89,13 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		--tickCounter;
 
 		itMe = true;
-		
+
 		if (job == null) {
 			idle();
 		} else {
 			job = job.apply(this);
 		}
-		
+
 		itMe = false;
 	}
 
@@ -117,7 +116,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 				return;
 			}
 		}
-		
+
 		troll.troll(this);
 	}
 
@@ -166,7 +165,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		if (tag.containsKey(BRANCH_KEY)) {
 			branches.fromArray(tag.getIntArray(BRANCH_KEY));
 		}
-		
+
 		if (troll == null) {
 			troll = new Troll(this.getPos());
 		}
@@ -186,7 +185,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		if (logs != null) {
 			tag.putIntArray(LOG_KEY, logs.toIntArray());
 		}
-		
+
 		if (branches != null) {
 			tag.putIntArray(BRANCH_KEY, branches.toIntArray());
 		}
@@ -194,13 +193,13 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		if (troll != null) {
 			tag.putIntArray(TROLL_KEY, troll.toIntArray());
 		}
-		
+
 		return tag;
 	}
 
 	public void reportBreak(BlockPos pos, boolean isLog) {
 		if (itMe) return;
-		
+
 		if (isLog && logs.contains(pos)) {
 			builds.enqueue(pos.asLong());
 		} else {

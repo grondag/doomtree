@@ -43,7 +43,7 @@ public class InfoCategory implements RecipeCategory<InfoDisplay> {
 
 	@Override
 	public Renderer getIcon() {
-		return Renderer.fromItemStack(new ItemStack(DoomBlocks.DOOM_SAPLING));
+		return Renderer.fromItemStack(new ItemStack(DoomBlocks.DOOM_SAPLING_BLOCK));
 	}
 
 	@Override
