@@ -3,9 +3,9 @@ package grondag.doomtree.treeheart;
 import grondag.doomtree.packet.MiasmaS2C;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
-import grondag.doomtree.registry.DoomSounds;
 import grondag.doomtree.registry.DoomTags;
-import io.netty.util.internal.ThreadLocalRandom;
+import grondag.fermion.position.PackedBlockPos;
+import grondag.fermion.position.PackedBlockPosList;
 import it.unimi.dsi.fastutil.HashCommon;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntHeapPriorityQueue;
@@ -17,7 +17,6 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -34,20 +33,19 @@ class Troll extends IntHeapPriorityQueue {
 
 	int y;
 	int index;
-	
-	private static int lastMiasmaX = 0;
-	private static int lastMiasmaZ = 0;
-	
+
+	private static final PackedBlockPosList REPORTS  = new PackedBlockPosList();
+
 	private static final int MAX_INDEX;
 	private static final int[] OFFSETS;
 
 	static {
 		final IntArrayList offsets = new IntArrayList();
-		
+
 		for (int x = -TreeDesigner.RADIUS; x <= TreeDesigner.RADIUS; x++) {
 			for (int z = -TreeDesigner.RADIUS; z <= TreeDesigner.RADIUS; z++) {
 				final int sqd = x * x + z * z;
-				
+
 				if(sqd > 0 && sqd <= TreeDesigner.RADIUS * TreeDesigner.RADIUS) {
 					offsets.add(RelativePos.relativePos(x, 0, z));
 				}
@@ -93,10 +91,16 @@ class Troll extends IntHeapPriorityQueue {
 	}
 
 	void troll(DoomHeartBlockEntity heart) {
+		REPORTS.clear();
+		
 		if (isEmpty()) {
 			trollNext(heart);
 		} else {
 			trollQueue(heart);
+		}
+
+		if (!REPORTS.isEmpty()) {
+			MiasmaS2C.send(heart.getWorld(), REPORTS);
 		}
 	}
 
@@ -110,14 +114,14 @@ class Troll extends IntHeapPriorityQueue {
 		if(index >= MAX_INDEX) {
 			index = 0;
 		}
-		
+
 		final int offset = OFFSETS[index];
 		final int x = RelativePos.rx(offset);
 		final int z = RelativePos.rz(offset);
-		
+
 		final BlockPos.Mutable mPos = heart.mPos;
 		final World world = heart.getWorld();
-		
+
 		for (int i = 0; i < 16; i++) {
 			trollBlock(world, mPos, heart, RelativePos.relativePos(x, -originY + y + i, z));
 		}
@@ -144,7 +148,7 @@ class Troll extends IntHeapPriorityQueue {
 		}
 		heart.markDirty();
 	}
-	
+
 	private boolean trollBlock(World world, BlockPos.Mutable mPos, DoomHeartBlockEntity heart, int pos) {
 		RelativePos.set(mPos, originX, originY, originZ, pos);
 
@@ -153,17 +157,18 @@ class Troll extends IntHeapPriorityQueue {
 		}
 
 		final BlockState currentState = world.getBlockState(mPos);
-		
+
 		final FluidState fluidState = currentState.getFluidState();
 		if (!(fluidState.isEmpty() || fluidState.isStill())) {
 			return false;
 		}
-		
+
 		final BlockState trollState = Troll.trollState(world, currentState, mPos);
 
 		if (trollState == null || trollState == currentState) return false;
-		
+
 		final Block newBlock = trollState.getBlock();
+
 		if (!currentState.isAir() && newBlock != DoomBlocks.ICHOR_BLOCK) {
 			heart.power += 2;
 		}
@@ -172,21 +177,17 @@ class Troll extends IntHeapPriorityQueue {
 			placeMiasma(mPos, world);
 		} else {
 			world.setBlockState(mPos, trollState, 19);
+			REPORTS.add(PackedBlockPos.pack(mPos, newBlock == DoomBlocks.ICHOR_BLOCK ? MiasmaS2C.ICHOR : MiasmaS2C.DOOM));
 		}
-		
+
 		return true;
 	}
 
 	static void placeMiasma(BlockPos pos, World world) {
 		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
-		MiasmaS2C.send(world, pos);
 		
-		if (lastMiasmaX != pos.getX() || lastMiasmaZ != pos.getZ()) {
-			world.playSound(null, pos, DoomSounds.MIASMA, SoundCategory.AMBIENT, 0.2F, (float) (1.6 + ThreadLocalRandom.current().nextDouble() * 0.2));
-			lastMiasmaX = pos.getX();
-			lastMiasmaZ = pos.getZ();
-		}
+		REPORTS.add(PackedBlockPos.pack(pos, MiasmaS2C.MIASMA));
 	}
 
 	int[] toIntArray() {
@@ -216,11 +217,11 @@ class Troll extends IntHeapPriorityQueue {
 	 */
 	static BlockState trollState(World world, BlockState fromState, BlockPos pos) {
 		final Block block = fromState.getBlock();
-	
+
 		if (block == Blocks.BEDROCK || block.matches(DoomTags.IGNORED_BLOCKS)) {
 			return fromState;
 		}
-	
+
 		final Material material = fromState.getMaterial();
 
 		if (material.isLiquid() && block instanceof FluidBlock) {
@@ -237,14 +238,14 @@ class Troll extends IntHeapPriorityQueue {
 				return fromState;
 			}
 		}
-	
+
 		if (TreeDesigner.canReplace(fromState)) {
 			if (block.matches(BlockTags.LOGS) && fromState.contains(PillarBlock.AXIS)) {
 				return DoomBlockStates.DOOMED_LOG_STATE.with(PillarBlock.AXIS, fromState.get(PillarBlock.AXIS));
 			} else if (block.matches(BlockTags.DIRT_LIKE)) {
 				return DoomBlockStates.DOOMED_EARTH_STATE;
 			} else if (block.isFullOpaque(fromState, world, pos)) {
-				 if (material == Material.STONE) {
+				if (material == Material.STONE) {
 					return DoomBlockStates.DOOMED_STONE_STATE;
 				} else {
 					return DoomBlockStates.DOOMED_DUST_STATE;
@@ -252,7 +253,7 @@ class Troll extends IntHeapPriorityQueue {
 			}
 			return DoomBlockStates.MIASMA_STATE;
 		}
-	
+
 		return fromState;
 	}
 }
