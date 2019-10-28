@@ -8,6 +8,7 @@ import static grondag.fermion.position.PackedBlockPos.getZ;
 import java.util.Random;
 
 import grondag.doomtree.DoomTree;
+import grondag.doomtree.registry.DoomSounds;
 import grondag.fermion.position.PackedBlockPos;
 import grondag.fermion.position.PackedBlockPosList;
 import io.netty.buffer.Unpooled;
@@ -18,6 +19,7 @@ import net.fabricmc.fabric.api.server.PlayerStream;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.world.World;
@@ -72,12 +74,25 @@ public enum MiasmaS2C {
             final World world = player.world;
             final Random rand = ThreadLocalRandom.current();
             final int limit = REPORTS.size();
-            
+
             for (int i = 0; i < limit; i++) {
                 long p = REPORTS.get(i);
-                
+                final int x = getX(p);
+                final int y = getY(p);
+                final int z = getZ(p);
+
                 if (getExtra(p) == MIASMA) {
-                    world.addParticle(ParticleTypes.SMOKE, getX(p) + rand.nextFloat(), getY(p) + rand.nextFloat(), getZ(p) + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
+                    world.addParticle(ParticleTypes.SMOKE, x + rand.nextFloat(), y + rand.nextFloat(), z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
+
+                    final int dx = (int) player.x - x;
+                    final int dy = (int) player.y - y;
+                    final int dz = (int) player.z - z;
+                    final float v = 0.8f / (dx * dx + dy * dy + dz * dz);
+
+                    if (v > 0.01) {
+                        System.out.println(v);
+                        world.playSound(getX(p), getY(p), getZ(p), DoomSounds.MIASMA, SoundCategory.HOSTILE, v, 1.0f + rand.nextFloat() * 0.2f, false);
+                    }
                 }
             }
         }
