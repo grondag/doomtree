@@ -1,6 +1,6 @@
 package grondag.doomtree.treeheart;
 
-import grondag.doomtree.packet.MiasmaS2C;
+import grondag.doomtree.packet.DoomS2C;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomTags;
@@ -100,7 +100,7 @@ class Troll extends IntHeapPriorityQueue {
 		}
 
 		if (!REPORTS.isEmpty()) {
-			MiasmaS2C.send(heart.getWorld(), REPORTS);
+			DoomS2C.send(heart.getWorld(), REPORTS);
 		}
 	}
 
@@ -177,7 +177,7 @@ class Troll extends IntHeapPriorityQueue {
 			placeMiasma(mPos, world);
 		} else {
 			world.setBlockState(mPos, trollState, 19);
-			REPORTS.add(PackedBlockPos.pack(mPos, newBlock == DoomBlocks.ICHOR_BLOCK ? MiasmaS2C.ICHOR : MiasmaS2C.DOOM));
+			REPORTS.add(PackedBlockPos.pack(mPos, newBlock == DoomBlocks.ICHOR_BLOCK ? DoomS2C.ICHOR : DoomS2C.DOOM));
 		}
 
 		return true;
@@ -187,7 +187,7 @@ class Troll extends IntHeapPriorityQueue {
 		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
 		
-		REPORTS.add(PackedBlockPos.pack(pos, MiasmaS2C.MIASMA));
+		REPORTS.add(PackedBlockPos.pack(pos, DoomS2C.MIASMA));
 	}
 
 	int[] toIntArray() {

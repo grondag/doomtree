@@ -8,7 +8,7 @@ import grondag.doomtree.model.HeartModel;
 import grondag.doomtree.model.LogModel;
 import grondag.doomtree.model.TerminalModel;
 import grondag.doomtree.packet.AlchemyCraftS2C;
-import grondag.doomtree.packet.MiasmaS2C;
+import grondag.doomtree.packet.DoomS2C;
 import grondag.doomtree.packet.XpDrainS2C;
 import grondag.doomtree.particle.IdleParticle.IdleParticleFactory;
 import grondag.doomtree.particle.SummoningParticle.SummoningParticleFactory;
@@ -64,7 +64,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		REGISTRAR.simpleRandomModel("warding_essence_block", "block/warding_essence_block");
 
 		ClientSidePacketRegistry.INSTANCE.register(AlchemyCraftS2C.IDENTIFIER, AlchemyCraftS2C::handle);
-		ClientSidePacketRegistry.INSTANCE.register(MiasmaS2C.IDENTIFIER, MiasmaS2C::handle);
+		ClientSidePacketRegistry.INSTANCE.register(DoomS2C.IDENTIFIER, DoomS2C::handle);
 		ClientSidePacketRegistry.INSTANCE.register(XpDrainS2C.IDENTIFIER, XpDrainS2C::handle);
 		
 		REGISTRAR.fluidRenderHandler(DoomFluids.ICHOR, DoomFluids.ICHOR_COLOR, "block/water_still", "block/water_flow");

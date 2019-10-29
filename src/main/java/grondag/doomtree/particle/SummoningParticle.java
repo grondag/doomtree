@@ -35,14 +35,14 @@ public class SummoningParticle extends AlchemyParticle {
 			prevPosX = x;
 			prevPosY = y;
 			prevPosZ = z;
-			
+
 			setPos(x + velocityX, y + velocityY, z + velocityZ);
-			
-			velocityX *= 1.05;
-			velocityY *= 1.05;
-			velocityZ *= 1.05;
-			
-			scale *= 1.05;
+
+			velocityX *= 1.04;
+			velocityY *= 1.04;
+			velocityZ *= 1.04;
+
+			scale *= 1.04;
 		}
 	}
 
@@ -50,7 +50,7 @@ public class SummoningParticle extends AlchemyParticle {
 	public ParticleTextureSheet getType() {
 		return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
 	}
-	
+
 	public static class SummoningParticleFactory implements ParticleFactory<DefaultParticleType> {
 		private final FabricSpriteProvider sprites;
 

@@ -125,20 +125,22 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 	}
 
 	private void doLightShow(Random rand) {
-		final double x = pos.getX() + randomHorizontal(rand);
-		final double y = pos.getY() + rand.nextDouble() * 7;
-		final double z = pos.getZ() + randomHorizontal(rand);
-		final double v = 1.0 + rand.nextGaussian() * 0.2;
-		final double dx = (pos.getX() + 0.5 - x) * 0.03 * v;
-		final double dy = (pos.getY() + 0.5 - y) * 0.03 * v;
-		final double dz = (pos.getZ() + 0.5 - z) * 0.03 * v;
+		final float factor = 1f + (float) workIndex / TOTAL_TICKS;
+		final double azimuth = Math.PI * 2 * rand.nextDouble();
+		final double altitude = Math.PI * 0.5 * rand.nextDouble();
+		
+		final double dx = Math.cos(azimuth);
+		final double dy = Math.sin(altitude);
+		final double dz = Math.sin(azimuth);
+		
+		final double len = 4 + rand.nextDouble() * 2;//  + (rand.nextDouble() + 1) * factor;
+		final double x = pos.getX() + 0.5 + dx * len;
+		final double y = pos.getY() + 0.5 + dy * len;
+		final double z = pos.getZ() + 0.5 + dz * len;
+		
+		final double v = -0.05; //0.05 - rand.nextDouble() * 0.05 * factor;
 
-		world.addParticle(DoomParticles.SUMMONING, x, y, z, dx, dy, dz);
-	}
-
-	private static double randomHorizontal(Random rand) {
-		final double v = rand.nextDouble() - 0.5;
-		return v * 5 + Math.signum(v) * 2;
+		world.addParticle(DoomParticles.SUMMONING, x, y, z, dx * v, dy * v, dz * v);
 	}
 
 	protected void tickServer() {
@@ -248,7 +250,7 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 
 		if (w >= TOTAL_TICKS) {
 			workIndex = 0;
-			return Mode.LIGHTNING;
+			//return Mode.LIGHTNING;
 		}
 
 		return Mode.GLOOMING;
