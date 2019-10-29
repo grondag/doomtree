@@ -257,7 +257,7 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 
 		if (w >= TOTAL_TICKS) {
 			workIndex = 0;
-			//return Mode.LIGHTNING;
+			return Mode.LIGHTNING;
 		}
 
 		return Mode.GLOOMING;
