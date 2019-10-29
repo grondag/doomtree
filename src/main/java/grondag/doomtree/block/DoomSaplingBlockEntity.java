@@ -59,7 +59,10 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 	protected Mode mode = Mode.NEW;
 	protected int workIndex = 0;
 	protected LongArrayList logs = null;
-
+	
+	public final Random renderRand = new Random();
+	public long renderSeed = renderRand.nextLong();
+	
 	public DoomSaplingBlockEntity(BlockEntityType<?> entityType) {
 		super(entityType);
 	}
@@ -100,6 +103,7 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 				}
 			}
 
+			
 			if (rand.nextInt(4) == 0) {
 				final double x = pos.getX() + rand.nextDouble();
 				final double y = pos.getY() + rand.nextDouble();
@@ -112,6 +116,10 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 		case LIGHTNING:
 			doLightShow(rand);
 
+			if (rand.nextInt(10) == 0) {
+				this.renderSeed = rand.nextLong();
+			}
+			
 			if (rand.nextInt(TOTAL_TICKS) < workIndex++) {
 				doLightShow(rand);
 			}
@@ -125,7 +133,6 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 	}
 
 	private void doLightShow(Random rand) {
-		final float factor = 1f + (float) workIndex / TOTAL_TICKS;
 		final double azimuth = Math.PI * 2 * rand.nextDouble();
 		final double altitude = Math.PI * 0.5 * rand.nextDouble();
 		
@@ -319,4 +326,6 @@ public class DoomSaplingBlockEntity extends BlockEntity implements Tickable, Blo
 		}
 		return writeTag(tag);
 	}
+	
+	
 }

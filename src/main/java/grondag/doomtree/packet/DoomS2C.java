@@ -100,7 +100,7 @@ public enum DoomS2C {
 			}
 
 			if (vMax > 0.01) {
-				world.playSound(getX(pMax), getY(pMax), getZ(pMax), DoomSounds.MIASMA, SoundCategory.HOSTILE, vMax, 1.0f + rand.nextFloat() * 0.2f, false);
+				world.playSound(getX(pMax), getY(pMax), getZ(pMax), DoomSounds.MIASMA, SoundCategory.HOSTILE, vMax, 1.0f, false);
 			}
 		}
 	}

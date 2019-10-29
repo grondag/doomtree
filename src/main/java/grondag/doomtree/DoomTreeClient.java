@@ -10,12 +10,12 @@ import grondag.doomtree.model.TerminalModel;
 import grondag.doomtree.packet.AlchemyCraftS2C;
 import grondag.doomtree.packet.DoomS2C;
 import grondag.doomtree.packet.XpDrainS2C;
+import grondag.doomtree.particle.BasinParticle.BasinParticleFactory;
+import grondag.doomtree.particle.BrazierParticle.BrazierParticleFactory;
 import grondag.doomtree.particle.IdleParticle.IdleParticleFactory;
 import grondag.doomtree.particle.SummoningParticle.SummoningParticleFactory;
 import grondag.doomtree.particle.WakingParticle.WakingParticleFactory;
 import grondag.doomtree.particle.WardedFlameParticle;
-import grondag.doomtree.particle.BasinParticle.BasinParticleFactory;
-import grondag.doomtree.particle.BrazierParticle.BrazierParticleFactory;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomParticles;
 import grondag.fermion.block.sign.OpenSignRenderer;
@@ -81,5 +81,6 @@ public class DoomTreeClient implements ClientModInitializer {
 		});
 
 		BlockEntityRendererRegistry.INSTANCE.register(WardedWoodSignBlockEntity.class, new OpenSignRenderer(REGISTRAR.id("textures/entity/warded_wood_sign.png"), new SignBlockEntityModel()));
+		//BlockEntityRendererRegistry.INSTANCE.register(DoomSaplingBlockEntity.class, new DoomSaplingBlockEntityRenderer());
 	}
 }

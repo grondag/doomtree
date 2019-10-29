@@ -71,7 +71,7 @@ class BranchBuilder extends IntHeapPriorityQueue {
 			heart.power -= placeCount * 20;
 		}
 	}
-	
+
 	private final static BlockState LOG_STATE = DoomBlockStates.LOG_STATE.with(DoomLogBlock.HEIGHT, DoomLogBlock.MAX_HEIGHT);
 
 	private void placeBranch(World world, BlockPos.Mutable mPos, LogTracker logs, Random rand, int startPos, int allowance) {
@@ -86,7 +86,7 @@ class BranchBuilder extends IntHeapPriorityQueue {
 		addCandidate(world, mPos, logs, startPos, rx, ry, rz + 1, candidates);
 		addCandidate(world, mPos, logs, startPos, rx - 1, ry, rz, candidates);
 		addCandidate(world, mPos, logs, startPos, rx + 1, ry, rz, candidates);
-		
+
 		if (candidates.isEmpty()) return;
 
 		final int first = candidates.removeInt(rand.nextInt(candidates.size()));
@@ -118,14 +118,15 @@ class BranchBuilder extends IntHeapPriorityQueue {
 	private void setLog(World world, BlockPos.Mutable mPos, LogTracker logs, int relPos) {
 		logs.add(relPos);
 		world.setBlockState(RelativePos.set(mPos, originX, originY, originZ, relPos), LOG_STATE);
-		
 		BlockState underState = world.getBlockState(mPos.setOffset(Direction.DOWN));
+
 		if(underState != DoomBlockStates.MIASMA_STATE && underState != DoomBlockStates.GLEAM_STATE 
-				&& (underState == DoomBlockStates.LEAF_STATE || underState.isAir() || TreeDesigner.canReplace(underState))) {
-			Troll.placeMiasma(mPos, world);
+			&& (underState == DoomBlockStates.LEAF_STATE || underState.isAir() || TreeDesigner.canReplace(underState))) {
+
+			world.setBlockState(mPos, DoomBlockStates.MIASMA_STATE);
 		}
 	}
-	
+
 	private void addCandidate(World world, Mutable mPos, LogTracker logs, int startPos, int x, int y, int z, IntArrayList candidates) {
 		final int p = RelativePos.relativePos(x, y, z);
 
@@ -152,7 +153,7 @@ class BranchBuilder extends IntHeapPriorityQueue {
 		final Direction face = BranchStarter.branchFace(y);
 		final int ox = face.getOffsetX();
 		final int oz = face.getOffsetZ();
-		
+
 		if(oz == 0) {
 			final int dx = x - RelativePos.rx(startPos);
 			return dx == 0 || dx == ox;
@@ -161,24 +162,24 @@ class BranchBuilder extends IntHeapPriorityQueue {
 			return dz == 0 || dz == oz;
 		}
 	}
-	
+
 	private static boolean isCrowded(LogTracker logs, int startPos, int x, int y, int z) {
 		if (isCrowding(logs, startPos, x-1, y, z-1)) return true;
 		if (isCrowding(logs, startPos, x-1, y, z)) return true;
 		if (isCrowding(logs, startPos, x-1, y, z+1)) return true;
-		
+
 		if (isCrowding(logs, startPos, x, y, z-1)) return true;
 		if (isCrowding(logs, startPos, x, y, z+1)) return true;
-		
+
 		if (isCrowding(logs, startPos, x+1, y, z-1)) return true;
 		if (isCrowding(logs, startPos, x+1, y, z)) return true;
 		if (isCrowding(logs, startPos, x+1, y, z+1)) return true;
-		
+
 		if (isCrowding(logs, startPos, x-2, y, z)) return true;
 		if (isCrowding(logs, startPos, x+2, y, z)) return true;
 		if (isCrowding(logs, startPos, x, y, z-2)) return true;
 		if (isCrowding(logs, startPos, x, y, z+2)) return true;
-		
+
 		return false;
 	}
 
@@ -203,7 +204,7 @@ class BranchBuilder extends IntHeapPriorityQueue {
 			enqueue(p);
 		}
 	}
-	
+
 	int buildDistanceSquared() {
 		return isEmpty() ? Integer.MAX_VALUE : RelativePos.squaredDistance(firstInt());
 	}

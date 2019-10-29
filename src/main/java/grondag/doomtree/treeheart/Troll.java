@@ -1,8 +1,11 @@
 package grondag.doomtree.treeheart;
 
+import java.util.ArrayList;
+
 import grondag.doomtree.packet.DoomS2C;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
+import grondag.doomtree.registry.DoomEntities;
 import grondag.doomtree.registry.DoomTags;
 import grondag.fermion.position.PackedBlockPos;
 import grondag.fermion.position.PackedBlockPosList;
@@ -16,26 +19,18 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.GameRules.BooleanRule;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.WorldChunk;
 
 @SuppressWarnings("serial")
 class Troll extends IntHeapPriorityQueue {
-	private final int originX;
-	private final int originY;
-	private final int originZ;
-
-	private final int maxY;
-
-	private final IntOpenHashSet set = new IntOpenHashSet();
-
-	int y;
-	int index;
-
-	private static final PackedBlockPosList REPORTS  = new PackedBlockPosList();
-
 	private static final int MAX_INDEX;
 	private static final int[] OFFSETS;
 
@@ -58,6 +53,19 @@ class Troll extends IntHeapPriorityQueue {
 		MAX_INDEX = OFFSETS.length;
 	}
 
+	private final int originX;
+	private final int originY;
+	private final int originZ;
+
+	private final int maxY;
+
+	private final IntOpenHashSet set = new IntOpenHashSet();
+	private final ArrayList<Entity> targets =  new ArrayList<>();
+	private final PackedBlockPosList reports  = new PackedBlockPosList();
+
+	int y;
+	int index;
+	
 	Troll(BlockPos origin) {
 		super((i0, i1) -> Integer.compare(RelativePos.squaredDistance(i0), RelativePos.squaredDistance(i1)));
 
@@ -91,7 +99,8 @@ class Troll extends IntHeapPriorityQueue {
 	}
 
 	void troll(DoomHeartBlockEntity heart) {
-		REPORTS.clear();
+		reports.clear();
+		targets.clear();
 		
 		if (isEmpty()) {
 			trollNext(heart);
@@ -99,8 +108,8 @@ class Troll extends IntHeapPriorityQueue {
 			trollQueue(heart);
 		}
 
-		if (!REPORTS.isEmpty()) {
-			DoomS2C.send(heart.getWorld(), REPORTS);
+		if (!reports.isEmpty()) {
+			DoomS2C.send(heart.getWorld(), reports);
 		}
 	}
 
@@ -126,8 +135,20 @@ class Troll extends IntHeapPriorityQueue {
 			trollBlock(world, mPos, heart, RelativePos.relativePos(x, -originY + y + i, z));
 		}
 
+		final int px = originX + x;
+		final int pz = originZ + z;
+		WorldChunk chunk  = world.getWorldChunk(mPos.set(px, y, pz));
+		
+		if (chunk != null) {
+			chunk.appendEntities((Entity)null, new Box(px, y, pz, px + 1, y + 16, pz + 1), targets, e -> DoomEntities.canDoom(e));
+		}
+		
+		doDamage(world);
+		
 		y += 16;
 	}
+	
+	
 
 	private void trollQueue(DoomHeartBlockEntity heart) {
 		final BlockPos.Mutable mPos = heart.mPos;
@@ -177,17 +198,32 @@ class Troll extends IntHeapPriorityQueue {
 			placeMiasma(mPos, world);
 		} else {
 			world.setBlockState(mPos, trollState, 19);
-			REPORTS.add(PackedBlockPos.pack(mPos, newBlock == DoomBlocks.ICHOR_BLOCK ? DoomS2C.ICHOR : DoomS2C.DOOM));
+			reports.add(PackedBlockPos.pack(mPos, newBlock == DoomBlocks.ICHOR_BLOCK ? DoomS2C.ICHOR : DoomS2C.DOOM));
 		}
 
 		return true;
 	}
 
-	static void placeMiasma(BlockPos pos, World world) {
+	void placeMiasma(BlockPos pos, World world) {
 		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
 		
-		REPORTS.add(PackedBlockPos.pack(pos, DoomS2C.MIASMA));
+		reports.add(PackedBlockPos.pack(pos, DoomS2C.MIASMA));
+	}
+	
+	void doDamage(World world) {
+		if (targets.isEmpty()) return;
+		
+		BooleanRule lootRule = world.getGameRules().get(GameRules.DO_MOB_LOOT);
+		final boolean loot = lootRule.get();
+		
+		if (loot) lootRule.set(false, null);
+		
+		for (Entity e : targets) {
+			e.damage(DoomEntities.DOOM, 20);
+		}
+		
+		if (loot) lootRule.set(true, null);
 	}
 
 	int[] toIntArray() {
