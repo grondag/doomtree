@@ -11,15 +11,19 @@ import net.minecraft.tag.Tag;
 
 public enum DoomTags {
 	;
-	
+
 	public static final Tag<Fluid> ICHOR = REG.fluidTag("ichor");
 	public static Tag<Block> PROTECTED_BLOCKS = REG.blockTag("protected_blocks");
 	public static Tag<Block> IGNORED_BLOCKS = REG.blockTag("ignored_blocks");
 	public static Tag<Block> WARDED_BLOCKS = REG.blockTag("warded_blocks");
+
 	public static Tag<Item> WARDED_ITEMS = REG.itemTag("warded_items");
 	public static Tag<Item> WARDED_TOOLS = REG.itemTag("warded_tools");
+	public static Tag<Item> ENCRUSTED_ITEMS = REG.itemTag("encrusted_items");
+	public static Tag<Item> ENCRUSTED_TOOLS = REG.itemTag("encrusted_tools");
+
 	public static Tag<EntityType<?>> UNDOOMED = REG.entityTag("undoomed");
-	
+
 	public static boolean isWardedOrEnchanted(ItemStack stack) {
 		return stack.hasEnchantments() || WARDED_ITEMS.contains(stack.getItem());
 	}

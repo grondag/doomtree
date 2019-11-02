@@ -1,5 +1,6 @@
 package grondag.doomtree.block;
 
+import grondag.doomtree.entity.DoomEffect;
 import grondag.doomtree.registry.DoomTags;
 import grondag.doomtree.treeheart.DoomTreeTracker;
 import net.minecraft.block.BlockState;
@@ -13,32 +14,37 @@ import net.minecraft.world.World;
 
 public class DoomedLogBlock extends PillarBlock {
 
-	public DoomedLogBlock(Settings settings) {
+	public DoomedLogBlock(final Settings settings) {
 		super(settings);
 	}
 
 	@Override
-	public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
+	public void onBlockRemoved(final BlockState myState, final World world, final BlockPos blockPos, final BlockState newState, final boolean someFlag) {
 		super.onBlockRemoved(myState, world, blockPos, newState, someFlag);
 		DoomTreeTracker.reportBreak(world, blockPos, false);
 	}
 
 	@Override
-	public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState blockState, BlockEntity blockEntity, ItemStack toolStack) {
+	public void afterBreak(final World world, final PlayerEntity player, final BlockPos pos, final BlockState blockState, final BlockEntity blockEntity, final ItemStack toolStack) {
 		super.afterBreak(world, player, pos, blockState, blockEntity, toolStack);
 
-		if (!world.isClient && !toolStack.getItem().isIn(DoomTags.WARDED_ITEMS)) {
-			float extraExhaustion = 0.01F;
-			// if using a tool, take extra durability.  If not, then extra doom exposure for player
-			if (toolStack.getItem().isDamageable()) {
-				player.getMainHandStack().damage(3, player, p -> {
-					p.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND);
-				});
-			} else {
-				extraExhaustion += 0.01F;
-				//TODO: doom for player
+		if (!toolStack.getItem().isIn(DoomTags.WARDED_ITEMS)) {
+			DoomEffect.exposeToDoom(player, 4);
+
+			if (!world.isClient) {
+				float extraExhaustion = 0.01F;
+
+				// if using a tool, take extra durability.  If not, then extra doom exposure for player
+				if (toolStack.getItem().isDamageable()) {
+					player.getMainHandStack().damage(3, player, p -> {
+						p.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND);
+					});
+				} else {
+					extraExhaustion += 0.01F;
+				}
+
+				player.addExhaustion(extraExhaustion);
 			}
-			player.addExhaustion(extraExhaustion);
 		}
 	}
 }

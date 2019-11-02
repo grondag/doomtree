@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"#doomtree:encrusted_tools",
+		"doomtree:encrusted_boots",
+		"doomtree:encrusted_chestplate",
+		"doomtree:encrusted_helmet",
+		"doomtree:encrusted_leggings"
+	]
+}

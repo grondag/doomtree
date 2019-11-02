@@ -2,6 +2,7 @@ package grondag.doomtree.treeheart;
 
 import java.util.ArrayList;
 
+import grondag.doomtree.entity.DoomEffect;
 import grondag.doomtree.packet.DoomS2C;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
@@ -20,6 +21,7 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
@@ -65,7 +67,7 @@ class Troll extends IntHeapPriorityQueue {
 
 	int y;
 	int index;
-	
+
 	Troll(BlockPos origin) {
 		super((i0, i1) -> Integer.compare(RelativePos.squaredDistance(i0), RelativePos.squaredDistance(i1)));
 
@@ -101,7 +103,7 @@ class Troll extends IntHeapPriorityQueue {
 	void troll(DoomHeartBlockEntity heart) {
 		reports.clear();
 		targets.clear();
-		
+
 		if (isEmpty()) {
 			trollNext(heart);
 		} else {
@@ -138,17 +140,17 @@ class Troll extends IntHeapPriorityQueue {
 		final int px = originX + x;
 		final int pz = originZ + z;
 		WorldChunk chunk  = world.getWorldChunk(mPos.set(px, y, pz));
-		
+
 		if (chunk != null) {
-			chunk.appendEntities((Entity)null, new Box(px, y, pz, px + 1, y + 16, pz + 1), targets, e -> DoomEntities.canDoom(e));
+			chunk.appendEntities((Entity)null, new Box(px, y, pz, px + 1, y + 16, pz + 1), targets, e -> DoomEffect.canDoom(e));
 		}
-		
+
 		doDamage(world);
-		
+
 		y += 16;
 	}
-	
-	
+
+
 
 	private void trollQueue(DoomHeartBlockEntity heart) {
 		final BlockPos.Mutable mPos = heart.mPos;
@@ -207,23 +209,39 @@ class Troll extends IntHeapPriorityQueue {
 	void placeMiasma(BlockPos pos, World world) {
 		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
-		
+
 		reports.add(PackedBlockPos.pack(pos, DoomS2C.MIASMA));
 	}
-	
+
 	void doDamage(World world) {
 		if (targets.isEmpty()) return;
-		
+
 		BooleanRule lootRule = world.getGameRules().get(GameRules.DO_MOB_LOOT);
 		final boolean loot = lootRule.get();
-		
+
 		if (loot) lootRule.set(false, null);
-		
+
 		for (Entity e : targets) {
-			e.damage(DoomEntities.DOOM, 20);
+			//TODO: collect energy
+			harvestEntity((LivingEntity) e);
 		}
-		
+
 		if (loot) lootRule.set(true, null);
+	}
+
+	/** 
+	 * Assumes valid entity, takes percentage of health. 
+	 * Does not prevent loot drops.
+	 * Returns hearts harvested. 
+	 */
+	public static float harvestEntity(LivingEntity e) {
+		final float damage = e.getHealthMaximum() * (1 - DoomEffect.doomResistance(e));
+
+		if (damage > 0.1f) {
+			e.damage(DoomEntities.DOOM, damage);
+		}
+
+		return damage;
 	}
 
 	int[] toIntArray() {

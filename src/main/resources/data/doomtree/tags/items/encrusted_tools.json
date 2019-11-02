@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"doomtree:encrusted_shovel",
+		"doomtree:encrusted_hoe",
+		"doomtree:encrusted_pickaxe",
+		"doomtree:encrusted_axe",
+		"doomtree:encrusted_sword"
+	]
+}
