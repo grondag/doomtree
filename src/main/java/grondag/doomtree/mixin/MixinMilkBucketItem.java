@@ -13,6 +13,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MilkBucketItem;
+import net.minecraft.network.MessageType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.World;
 
@@ -36,8 +38,8 @@ public class MixinMilkBucketItem {
 			if (doom != null && !(livingEntity instanceof PlayerEntity && ((PlayerEntity) livingEntity).isCreative())) {
 				livingEntity.addPotionEffect(doom);
 
-				if (livingEntity instanceof PlayerEntity) {
-					livingEntity.sendMessage(new TranslatableText("taunt.doomtree.milk_" + (tauntCounter.getAndIncrement() & 3)));
+				if (livingEntity instanceof ServerPlayerEntity) {
+					((ServerPlayerEntity) livingEntity).sendChatMessage(new TranslatableText("taunt.doomtree.milk_" + (tauntCounter.getAndIncrement() & 3)), MessageType.SYSTEM);
 				}
 			}
 		}

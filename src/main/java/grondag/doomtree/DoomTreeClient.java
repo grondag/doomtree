@@ -18,6 +18,7 @@ import grondag.doomtree.particle.WakingParticle.WakingParticleFactory;
 import grondag.doomtree.particle.WardedFlameParticle;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomParticles;
+import grondag.doomtree.render.DoomEffectRender;
 import grondag.fermion.block.sign.OpenSignRenderer;
 import grondag.fermion.client.ClientRegistrar;
 import grondag.fermion.client.models.SimpleUnbakedModel;
@@ -34,7 +35,6 @@ public class DoomTreeClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-
 		SimpleUnbakedModel model = new SimpleUnbakedModel(LogModel::create, LogModel.TEXTURES);
 		REGISTRAR.modelVariant("doom_log", model);
 		REGISTRAR.modelVariant("doom_log_p", model);
@@ -66,7 +66,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		ClientSidePacketRegistry.INSTANCE.register(AlchemyCraftS2C.IDENTIFIER, AlchemyCraftS2C::handle);
 		ClientSidePacketRegistry.INSTANCE.register(DoomS2C.IDENTIFIER, DoomS2C::handle);
 		ClientSidePacketRegistry.INSTANCE.register(XpDrainS2C.IDENTIFIER, XpDrainS2C::handle);
-		
+
 		REGISTRAR.fluidRenderHandler(DoomFluids.ICHOR, DoomFluids.ICHOR_COLOR, "block/water_still", "block/water_flow");
 
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.ALCHEMY_IDLE, IdleParticleFactory::new);
@@ -75,12 +75,14 @@ public class DoomTreeClient implements ClientModInitializer {
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.BRAZIER_ACTIVE, BrazierParticleFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.WARDED_FLAME, WardedFlameParticle.WardedFlameParticleFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.SUMMONING, SummoningParticleFactory::new);
-		
+
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.PARTICLE_ATLAS_TEX).register((atlasTexture, registry) -> {
 			registry.register(REGISTRAR.id("warded_flame"));
 		});
 
 		BlockEntityRendererRegistry.INSTANCE.register(WardedWoodSignBlockEntity.class, new OpenSignRenderer(REGISTRAR.id("textures/entity/warded_wood_sign.png"), new SignBlockEntityModel()));
 		//BlockEntityRendererRegistry.INSTANCE.register(DoomSaplingBlockEntity.class, new DoomSaplingBlockEntityRenderer());
+
+		DoomEffectRender.init(REGISTRAR);
 	}
 }

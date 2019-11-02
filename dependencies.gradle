@@ -36,5 +36,8 @@ dependencies {
     modImplementation ("grondag:fermion-varia-${project.mc_tag}:${project.fermion_varia_version}.+") { transitive = false }
     include "grondag:fermion-varia-${project.mc_tag}:${project.fermion_varia_version}.+"
 	
+	modImplementation ("com.github.Ladysnake:Satin:${satin_version}") { transitive = false }
+    include "com.github.Ladysnake:Satin:${satin_version}"
+    
 	modImplementation ("me.shedaniel:RoughlyEnoughItems:${project.rei_version}") { exclude(module: "ModMenu") }
 }
