@@ -13,7 +13,10 @@
 	"help.doomtree.bad_position": "This location is too high or too close to an existing Doom Tree",
 	"help.doomtree.bad_biome": "The Doom Tree must be summoned in a location that receives rain",
 	"help.doomtree.no_sky": "The Doom Tree must be summoned in a location that can see the sky",
-	"taunt.doomtree.milk": "You need something stronger than milk.",
+	"taunt.doomtree.milk_0": "You need something stronger than milk.",
+	"taunt.doomtree.milk_1": "That milk was delicious. You're still doomed.",
+	"taunt.doomtree.milk_2": "Sadly, milk does not cure the effects of hyper-dimensional tree monsters.",
+	"taunt.doomtree.milk_3": "The Doom Tree is amused.",
 	
 	"item.doomtree.doomed_residue": "Doomed Residue",
 	"item.doomtree.doomed_residue.info": "Blocks consumed by the Doom Tree crumble into this strange, irritating substance. Perhaps the Alchemical Brazier would do something to it.",
