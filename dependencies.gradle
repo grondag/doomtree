@@ -6,7 +6,10 @@ repositories {
     //maven { url "https://minecraft.curseforge.com/api/maven" }
     maven { url "https://maven.fabricmc.net/" }
     //maven { url "https://maven.jamieswhiteshirt.com/libs-release/"}
-    
+    maven {
+		name = "JitPack"
+		url = "https://jitpack.io"
+	}
  	maven {
     	name = "grondag"
     	url = "https://grondag-repo.appspot.com"
