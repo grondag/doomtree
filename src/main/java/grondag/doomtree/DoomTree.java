@@ -48,13 +48,15 @@ import net.minecraft.resource.ResourceType;
  * FEAT: mobs - mines
  * FEAT: mobs - walkers
  * FEAT: mobs - floaters
- * FEAT: more sounds
+ * FEAT: alchemical mob drops / recipes -> alternate acquisition path for engines
  * FEAT: tree attacks
- * FEAT: damage power balance
- * FEAT: improve light shows
+ * FEAT: damage / power / gear balance
  * FEAT: doom vines (can drop fuel without enchanting)
  * FEAT: achievements
- * FEAT: alchemical mob drops / recipes -> alternate acquisition path for equipment
+ * FEAT: improve tree spawn light show
+ * FEAT: improve tree spawn sounds
+ * FEAT: improve tree harvest light show
+ * FEAT: improve tree harvest sounds
  * FEAT: configs
  * FEAT: doom heart -> fabricator recipe
  * FEAT: fabricator recipes

@@ -25,12 +25,10 @@ import grondag.doomtree.DoomTreeClient;
 import grondag.doomtree.entity.DoomEffect;
 import grondag.doomtree.registry.DoomEffects;
 import grondag.fermion.client.ClientRegistrar;
-import ladysnake.satin.api.event.ResolutionChangeCallback;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.experimental.managed.Uniform2f;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
-import net.fabricmc.fabric.api.client.render.InvalidateRenderStateCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.effect.StatusEffectInstance;
 
@@ -44,17 +42,7 @@ public enum DoomEffectRender {
 
 	private static Uniform2f DOOM_UNIFORM = GREYSCALE_SHADER.findUniform2f("Doom");
 
-	private static int frameCount = 0;
-
 	private static void render (final float tickDelta) {
-
-		// Workaround for Satin #1 - comment out this block to reproduce
-		if (frameCount < 3)  {
-			if (frameCount++ == 2) {
-				ResolutionChangeCallback.EVENT.invoker().onResolutionChanged(MC.window.getFramebufferWidth(), MC.window.getFramebufferHeight());
-			}
-		}
-
 		if (MC.player != null) {
 			final StatusEffectInstance doom = MC.player.getStatusEffect(DoomEffects.DOOM_EFFECT);
 
@@ -69,10 +57,5 @@ public enum DoomEffectRender {
 
 	public static void init(final ClientRegistrar registrar) {
 		ShaderEffectRenderCallback.EVENT.register(DoomEffectRender::render);
-
-		InvalidateRenderStateCallback.EVENT.register(() -> {
-			GREYSCALE_SHADER.release();
-			frameCount = 0;
-		});
 	}
 }
