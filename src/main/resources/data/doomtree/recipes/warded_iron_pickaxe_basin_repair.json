@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin_repair",
+  "ingredient": {
+    "item": "doomtree:warded_iron_pickaxe"
+  },
+  "result": "doomtree:warded_iron_pickaxe",
+  "cost": 288000
+}

@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin_repair",
+  "ingredient": {
+    "item": "doomtree:encrusted_shovel"
+  },
+  "result": "doomtree:encrusted_shovel",
+  "cost": 192000
+}

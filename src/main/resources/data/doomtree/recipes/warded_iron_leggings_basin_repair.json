@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin_repair",
+  "ingredient": {
+    "item": "doomtree:warded_iron_leggings"
+  },
+  "result": "doomtree:warded_iron_leggings",
+  "cost": 672000
+}

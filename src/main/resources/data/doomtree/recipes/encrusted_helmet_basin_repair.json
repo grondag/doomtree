@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin_repair",
+  "ingredient": {
+    "item": "doomtree:encrusted_helmet"
+  },
+  "result": "doomtree:encrusted_helmet",
+  "cost": 960000
+}

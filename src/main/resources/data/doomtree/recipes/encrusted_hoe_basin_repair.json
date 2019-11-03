@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin_repair",
+  "ingredient": {
+    "item": "doomtree:encrusted_hoe"
+  },
+  "result": "doomtree:encrusted_hoe",
+  "cost": 384000
+}

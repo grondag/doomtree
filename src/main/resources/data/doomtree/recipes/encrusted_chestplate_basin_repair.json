@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin_repair",
+  "ingredient": {
+    "item": "doomtree:encrusted_chestplate"
+  },
+  "result": "doomtree:encrusted_chestplate",
+  "cost": 1536000
+}

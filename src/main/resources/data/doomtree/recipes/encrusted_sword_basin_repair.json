@@ -1,0 +1,8 @@
+{
+  "type": "doomtree:alchemical_basin_repair",
+  "ingredient": {
+    "item": "doomtree:encrusted_sword"
+  },
+  "result": "doomtree:encrusted_sword",
+  "cost": 384000
+}

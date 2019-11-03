@@ -153,9 +153,15 @@ public abstract class AlchemicalBlock extends BlockWithEntity {
 				}
 
 				return true;
+			} else {
+				return handleActiveRecipe(blockState, world, pos, myBe, player, hand, stack, currentUnits);
 			}
 		}
 
+		return false;
+	}
+
+	protected boolean handleActiveRecipe(BlockState blockState, World world, BlockPos pos, AlchemicalBlockEntity blockEntity, PlayerEntity player, Hand hand, ItemStack stack, int currentUnits) {
 		return false;
 	}
 

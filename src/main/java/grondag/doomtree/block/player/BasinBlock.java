@@ -24,18 +24,24 @@ package grondag.doomtree.block.player;
 import static grondag.doomtree.block.player.AlchemicalBlockEntity.UNITS_PER_BUCKET;
 import static grondag.doomtree.block.player.AlchemicalBlockEntity.UNITS_PER_INGOT;
 
+import grondag.doomtree.block.player.AlchemicalBlockEntity.Mode;
 import grondag.doomtree.registry.DoomItems;
 import grondag.doomtree.registry.DoomRecipes;
+import grondag.fermion.recipe.AbstractSimpleRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BooleanBiFunction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 
 public class BasinBlock extends AlchemicalBlock {
 	public static final VoxelShape RAY_TRACE_SHAPE = createCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
@@ -65,5 +71,36 @@ public class BasinBlock extends AlchemicalBlock {
 	int fuelValue(Item item) {
 		return item == DoomItems.WARDING_ESSENCE_ITEM ? UNITS_PER_INGOT
 			: item == DoomItems.WARDING_ESSENCE_BLOCK_ITEM ? UNITS_PER_BUCKET : 0;
+	}
+
+	@Override
+	protected boolean handleActiveRecipe(BlockState blockState, World world, BlockPos pos, AlchemicalBlockEntity blockEntity, PlayerEntity player, Hand hand, ItemStack stack, int currentUnits) {
+		if (stack.isEmpty()) return false;
+
+		final AbstractSimpleRecipe recipe = DoomRecipes.HELPER.get(DoomRecipes.BASIN_REPAIR_RECIPE_TYPE, stack);
+
+		if (recipe == null) return false;
+
+		final float basecost = recipe.cost;
+		final int maxCost = Math.round(basecost * stack.getDamage() / stack.getMaxDamage());
+		final int cost = Math.min(currentUnits, maxCost);
+
+		if (cost == 0) return true;
+
+		if (!world.isClient) {
+			final int newUnits = currentUnits - cost;
+
+			final int repair = Math.max(1, stack.getDamage() * cost / maxCost);
+			stack.setDamage(cost == maxCost ? 0 : stack.getDamage() - repair);
+			player.setStackInHand(hand, stack);
+			blockEntity.setState(newUnits == 0 ? Mode.IDLE : Mode.ACTIVE, newUnits);
+			blockEntity.sendCraftingParticles();
+
+			if (newUnits == 0) {
+				world.setBlockState(pos, blockState.with(LIT, false), 3);
+			}
+		}
+
+		return true;
 	}
 }
