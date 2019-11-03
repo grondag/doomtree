@@ -2,7 +2,7 @@ package grondag.doomtree.render;
 
 import grondag.doomtree.DoomTreeClient;
 import grondag.doomtree.entity.DoomEffect;
-import grondag.doomtree.registry.DoomEntities;
+import grondag.doomtree.registry.DoomEffects;
 import grondag.fermion.client.ClientRegistrar;
 import ladysnake.satin.api.event.ResolutionChangeCallback;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
@@ -28,14 +28,14 @@ public enum DoomEffectRender {
 	private static void render (final float tickDelta) {
 
 		// Workaround for Satin #1 - comment out this block to reproduce
-		if (frameCount < 2)  {
-			if (frameCount++ == 1) {
+		if (frameCount < 3)  {
+			if (frameCount++ == 2) {
 				ResolutionChangeCallback.EVENT.invoker().onResolutionChanged(MC.window.getFramebufferWidth(), MC.window.getFramebufferHeight());
 			}
 		}
 
 		if (MC.player != null) {
-			final StatusEffectInstance doom = MC.player.getStatusEffect(DoomEntities.DOOM_EFFECT);
+			final StatusEffectInstance doom = MC.player.getStatusEffect(DoomEffects.DOOM_EFFECT);
 
 			if (doom != null) {
 				final int a = doom.getAmplifier();

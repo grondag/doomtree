@@ -11,7 +11,7 @@ public class WardingEffect extends StatusEffect {
 	public static final int TICKS_PER_LEVEL = 2 * 60 * 20;
 	public static final int MAX_TICKS = TICKS_PER_LEVEL * 10;
 	public static final int MAX_REFILL_TICKS = MAX_TICKS - TICKS_PER_LEVEL;
-	public static final int COLOR = 0x80FFFF;
+	public static final int COLOR = 0xFF80FFFF;
 	public WardingEffect() {
 		super(StatusEffectType.BENEFICIAL, COLOR);
 	}

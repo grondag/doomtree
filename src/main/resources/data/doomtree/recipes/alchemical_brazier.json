@@ -3,14 +3,17 @@
 	"pattern": [
 		"rrr",
 		"rbr",
-		"rrr"
+		"rnr"
 	],
 	"key": {
 		"b": {
-			"item": "doomtree:alchemical_basin_frame"
+			"item": "doomtree:alchemical_brazier_frame"
 		},
 		"r": {
 			"item": "minecraft:redstone"
+		},
+		"n": {
+			"item": "doomtree:alchemical_engine"
 		}
 	},
 	"result": {

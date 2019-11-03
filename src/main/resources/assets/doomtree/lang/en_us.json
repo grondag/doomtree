@@ -26,7 +26,11 @@
 	"item.doomtree.warding_essence": "Warding Essence",
 	"item.doomtree.warding_essence.info": "The purified residue of the Doom Tree's consumption, used in an Alchemical Basin to ward and transform objects.",
 	"item.doomtree.warding_potion": "Potion of Warding",
-	"item.doomtree.warding_potion.info": "Offers some protection againt the Doom Tree's effects. Duration stacks for up to ten potions.",
+	"item.doomtree.warding_potion.info": "Offers some protection against the Doom Tree's effects. Duration stacks for up to ten potions.",
+	"item.doomtree.salvation_potion": "Potion of Salvation",
+	"item.doomtree.salvation_potion.info": "Removes some Doom if you have any. If you don't have doom, removes one harmful effect at random.",
+	"item.doomtree.milk_potion": "Bottle of Milk",
+	"item.doomtree.milk_potion.info": "More convenient than a milk bucket, but only removes one effect at random.",
 	
 	"item.doomtree.warded_iron_ingot": "Warded Iron Ingot",
 	"item.doomtree.warded_iron_ingot.info": "Slightly better than regular iron, and resistant to Doom",

@@ -3,7 +3,7 @@
 	"pattern": [
 		"dgd",
 		"lbl",
-		"ele"
+		"ene"
 	],
 	"key": {
 		"b": {
@@ -20,6 +20,9 @@
 		},
 		"e": {
 			"item": "minecraft:emerald"
+		},
+		"n": {
+			"item": "doomtree:alchemical_engine"
 		}
 	},
 	"result": {

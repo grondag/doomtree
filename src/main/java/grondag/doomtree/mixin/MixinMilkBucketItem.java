@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import grondag.doomtree.registry.DoomEntities;
+import grondag.doomtree.registry.DoomEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,13 +29,13 @@ public class MixinMilkBucketItem {
 		if (!world.isClient) {
 			final ArrayList<StatusEffectInstance> keepers = KEEPERS.get();
 			keepers.clear();
-			final StatusEffectInstance doom = livingEntity.getStatusEffect(DoomEntities.DOOM_EFFECT);
+			final StatusEffectInstance doom = livingEntity.getStatusEffect(DoomEffects.DOOM_EFFECT);
 
 			if (doom != null) {
 				keepers.add(doom);
 			}
 
-			final StatusEffectInstance warding = livingEntity.getStatusEffect(DoomEntities.WARDING_EFFECT);
+			final StatusEffectInstance warding = livingEntity.getStatusEffect(DoomEffects.WARDING_EFFECT);
 
 			if (warding != null) {
 				keepers.add(warding);
@@ -52,7 +52,7 @@ public class MixinMilkBucketItem {
 				boolean taunt = false;
 				for (final StatusEffectInstance pe : keepers) {
 					livingEntity.addPotionEffect(pe);
-					taunt |= pe.getEffectType() == DoomEntities.DOOM_EFFECT;
+					taunt |= pe.getEffectType() == DoomEffects.DOOM_EFFECT;
 				}
 
 				if (taunt && livingEntity instanceof ServerPlayerEntity) {

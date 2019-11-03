@@ -6,7 +6,7 @@ import grondag.doomtree.entity.DoomEffect;
 import grondag.doomtree.packet.DoomS2C;
 import grondag.doomtree.registry.DoomBlockStates;
 import grondag.doomtree.registry.DoomBlocks;
-import grondag.doomtree.registry.DoomEntities;
+import grondag.doomtree.registry.DoomEffects;
 import grondag.doomtree.registry.DoomTags;
 import grondag.fermion.position.PackedBlockPos;
 import grondag.fermion.position.PackedBlockPosList;
@@ -238,7 +238,7 @@ class Troll extends IntHeapPriorityQueue {
 		final float damage = e.getHealthMaximum() * (1 - DoomEffect.doomResistance(e));
 
 		if (damage > 0.1f) {
-			e.damage(DoomEntities.DOOM, damage);
+			e.damage(DoomEffects.DOOM, damage);
 		}
 
 		return damage;

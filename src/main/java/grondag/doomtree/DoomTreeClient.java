@@ -89,5 +89,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		DoomEffectRender.init(REGISTRAR);
 
 		ColorProviderRegistry.ITEM.register((s, i) -> WardingEffect.COLOR, DoomItems.WARDING_POTION);
+		ColorProviderRegistry.ITEM.register((s, i) -> 0xFFFFFFFF, DoomItems.MILK_POTION);
+		ColorProviderRegistry.ITEM.register((s, i) -> 0xFFB6D8FF, DoomItems.SALVATION_POTION);
 	}
 }

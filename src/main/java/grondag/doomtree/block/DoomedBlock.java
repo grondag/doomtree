@@ -28,7 +28,7 @@ public class DoomedBlock extends Block {
 		final ItemStack toolStack = player.getMainHandStack();
 
 		if (!toolStack.getItem().isIn(DoomTags.WARDED_ITEMS)) {
-			DoomEffect.addToDoom(player, 20);
+			DoomEffect.addToDoom(player, 80);
 
 			if (!world.isClient) {
 				float extraExhaustion = 0.01F;

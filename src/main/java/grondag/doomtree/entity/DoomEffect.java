@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
-import grondag.doomtree.registry.DoomEntities;
+import grondag.doomtree.registry.DoomEffects;
 import grondag.doomtree.registry.DoomTags;
 import grondag.fermion.entity.StatusEffectAccess;
 import net.minecraft.entity.Entity;
@@ -50,7 +50,6 @@ public class DoomEffect extends StatusEffect {
 	public void applyInstantEffect(@Nullable final Entity actor, @Nullable final Entity actorOwner, final LivingEntity target, final int duration, final double squaredDist) {
 		// NOOP
 	}
-
 
 	/** result is two ints packed in a long to avoid allocating tuples.  Amplitude is high side */
 	private static long calcDoom(final LivingEntity entity, @Nullable final StatusEffectInstance doom ) {
@@ -133,7 +132,7 @@ public class DoomEffect extends StatusEffect {
 	public static float doomResistance(final LivingEntity e) {
 		final Iterable<ItemStack> armor = e.getArmorItems();
 
-		final float potion = e.hasStatusEffect(DoomEntities.WARDING_EFFECT) ? 0.25f : 0;
+		final float potion = e.hasStatusEffect(DoomEffects.WARDING_EFFECT) ? 0.25f : 0;
 
 		if(armor == null) return potion;
 
@@ -174,7 +173,7 @@ public class DoomEffect extends StatusEffect {
 	}
 
 	public static void beforeSpawnPotionParticles(final LivingEntity me) {
-		StatusEffectInstance doom = me.getStatusEffect(DoomEntities.DOOM_EFFECT);
+		StatusEffectInstance doom = me.getStatusEffect(DoomEffects.DOOM_EFFECT);
 
 		final boolean isClient = me.world == null || me.world.isClient;
 
@@ -187,7 +186,7 @@ public class DoomEffect extends StatusEffect {
 		if (doom == null) {
 			if (isClient) return;
 
-			doom = new StatusEffectInstance(DoomEntities.DOOM_EFFECT, duration, amplifier, false, false, true);
+			doom = new StatusEffectInstance(DoomEffects.DOOM_EFFECT, duration, amplifier, false, false, true);
 			me.addPotionEffect(doom);
 		} else if (duration != doom.getDuration() || amplifier != doom.getAmplifier()) {
 			StatusEffectAccess.access(doom).fermion_set(duration, amplifier);
@@ -200,7 +199,7 @@ public class DoomEffect extends StatusEffect {
 		case 9:
 			// Damage
 			if (!isClient && me.world.getTime() % 20 == 0) {
-				me.damage(DoomEntities.DOOM, 1.0F);
+				me.damage(DoomEffects.DOOM, 1.0F);
 			}
 
 		case 8:
@@ -278,10 +277,10 @@ public class DoomEffect extends StatusEffect {
 		}
 
 		if (frailty >= 0) {
-			final StatusEffectInstance frailtyEffect = me.getStatusEffect(DoomEntities.FRAILTY);
+			final StatusEffectInstance frailtyEffect = me.getStatusEffect(DoomEffects.FRAILTY);
 
 			if (frailtyEffect == null || frailtyEffect.getAmplifier() < frailty) {
-				if (!isClient) me.addPotionEffect(new StatusEffectInstance(DoomEntities.FRAILTY, duration, frailty, false, false, true));
+				if (!isClient) me.addPotionEffect(new StatusEffectInstance(DoomEffects.FRAILTY, duration, frailty, false, false, true));
 			} else if (frailtyEffect.getAmplifier() == frailty && frailtyEffect.getDuration() < duration)
 				StatusEffectAccess.access(frailtyEffect).fermion_set(duration, frailty);
 		}
