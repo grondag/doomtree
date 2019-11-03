@@ -24,28 +24,19 @@ package grondag.doomtree.ichor;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomItems;
-import grondag.doomtree.registry.DoomTags;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.WaterFluid;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateFactory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.ViewableWorld;
 
-public class IchorFluid extends BaseFluid {
+public abstract class IchorFluid extends WaterFluid {
 	@Override
 	public Fluid getFlowing() {
 		return DoomFluids.FLOWING_ICHOR;
@@ -62,11 +53,6 @@ public class IchorFluid extends BaseFluid {
 	}
 
 	@Override
-	protected BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.TRANSLUCENT;
-	}
-
-	@Override
 	public Item getBucketItem() {
 		return DoomItems.ICHOR_BUCKET;
 	}
@@ -78,44 +64,8 @@ public class IchorFluid extends BaseFluid {
 	}
 
 	@Override
-	public boolean method_15777(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
-		return direction == Direction.DOWN && !fluid.matches(DoomTags.ICHOR);
-	}
-
-	@Override
-	public int getTickRate(ViewableWorld viewableWorld) {
-		return 5;
-	}
-
-	@Override
 	public boolean matchesType(Fluid fluid) {
-		return fluid == getStill() || fluid == getFlowing();
-	}
-
-	@Override
-	public void beforeBreakingBlock(IWorld iWorld, BlockPos blockPos, BlockState blockState) {
-		final BlockEntity blockEntity = blockState.getBlock().hasBlockEntity() ? iWorld.getBlockEntity(blockPos) : null;
-		Block.dropStacks(blockState, iWorld.getWorld(), blockPos, blockEntity);
-	}
-
-	@Override
-	public int method_15733(ViewableWorld viewableWorld) {
-		return 4;
-	}
-
-	@Override
-	public int getLevelDecreasePerBlock(ViewableWorld viewableWorld) {
-		return 1;
-	}
-
-	@Override
-	public boolean hasRandomTicks() {
-		return true;
-	}
-
-	@Override
-	public float getBlastResistance() {
-		return 100.f;
+		return fluid == DoomFluids.ICHOR || fluid == DoomFluids.FLOWING_ICHOR;
 	}
 
 	@Override
@@ -123,21 +73,7 @@ public class IchorFluid extends BaseFluid {
 		return DoomBlocks.ICHOR_BLOCK.getDefaultState().with(FluidBlock.LEVEL, method_15741(fluidState));
 	}
 
-	@Override
-	public boolean isStill(FluidState fluidState) {
-		return false;
-	}
-
-	@Override
-	public int getLevel(FluidState fluidState) {
-		return 0;
-	}
-
 	public static class Flowing extends IchorFluid {
-		public Flowing() {
-
-		}
-
 		@Override
 		protected void appendProperties(StateFactory.Builder<Fluid, FluidState> stateBuilder) {
 			super.appendProperties(stateBuilder);
@@ -156,10 +92,6 @@ public class IchorFluid extends BaseFluid {
 	}
 
 	public static class Still extends IchorFluid {
-		public Still() {
-
-		}
-
 		@Override
 		public int getLevel(FluidState fluidState) {
 			return 8;

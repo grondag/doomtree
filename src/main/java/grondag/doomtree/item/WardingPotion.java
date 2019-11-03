@@ -43,7 +43,6 @@ public class WardingPotion extends AbstractPotion {
 				player.addPotionEffect(new StatusEffectInstance(DoomEffects.WARDING_EFFECT, WardingEffect.TICKS_PER_LEVEL, 0, false, false, true));
 			}
 		} else {
-			System.out.println(Math.min(WardingEffect.TICKS_PER_LEVEL, WardingEffect.MAX_TICKS - warding.getDuration()));
 			StatusEffectAccess.access(warding).fermion_addDuration(Math.min(WardingEffect.TICKS_PER_LEVEL, WardingEffect.MAX_TICKS - warding.getDuration()));
 		}
 	}
