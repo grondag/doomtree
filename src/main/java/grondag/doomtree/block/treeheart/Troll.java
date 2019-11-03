@@ -243,7 +243,7 @@ class Troll extends IntHeapPriorityQueue {
 		if (loot) lootRule.set(false, null);
 
 		for (final Entity e : targets) {
-			//TODO: collect energy
+			//FEAT: collect energy
 			harvestEntity((LivingEntity) e);
 		}
 

@@ -60,7 +60,7 @@ public final class DoomTreeTracker {
 
 	static final int GROW_LIMIT = LIMIT * 4;
 
-	// TODO: make configurable
+	// FEAT: make configurable
 	static final int MAX_TREES = 3;
 
 

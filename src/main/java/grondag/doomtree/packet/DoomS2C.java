@@ -55,7 +55,7 @@ public enum DoomS2C {
 
 	private static final PackedBlockPosList REPORTS  = new PackedBlockPosList();
 
-	// TODO: compact with run-length encoding
+	// PERF: compact with run-length encoding
 	public static void send(World world, PackedBlockPosList reports) {
 		final PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 		final int limit = reports.size();
