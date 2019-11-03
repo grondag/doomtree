@@ -2,6 +2,7 @@ package grondag.doomtree.registry;
 
 import static grondag.doomtree.DoomTree.REG;
 
+import grondag.doomtree.item.WardingPotion;
 import grondag.fermion.block.sign.OpenSignItem;
 import grondag.fermion.registrar.SimpleArmorMaterial;
 import grondag.fermion.registrar.SimpleToolMaterial;
@@ -39,6 +40,8 @@ public enum DoomItems {
 	public static Item WARDED_BARREL_SHELL = REG.item("warded_barrel_shell");
 	public static Item HEART_OF_DOOM = REG.item("heart_of_doom", new Item(REG.itemSettings().maxCount(1)));
 	public static Item ALCHEMICAL_ENGINE = REG.item("alchemical_engine", new Item(REG.itemSettings().maxCount(1)));
+
+	public static Item WARDING_POTION = REG.item("warding_potion", new WardingPotion(REG.itemSettings().maxCount(16)));
 
 	public static final ArmorMaterial WARDED_IRON_ARMOR_MATERIAL = SimpleArmorMaterial.of("warded_iron", 17, new int[]{2, 5, 6, 2}, 10, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.5F, WARDED_IRON_INGOT);
 	public static final Item WARDED_IRON_HELMET =  REG.armorItem("warded_iron_helmet", WARDED_IRON_ARMOR_MATERIAL, EquipmentSlot.HEAD);

@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity extends Entity implements DoomEntityAccess {
 	private int doomExposure;
+	private int doomAddition;
 
 	public MixinLivingEntity(final EntityType<?> type, final World world) {
 		super(type, world);
@@ -33,17 +34,22 @@ public abstract class MixinLivingEntity extends Entity implements DoomEntityAcce
 
 	@Override
 	public int getAndClearDoomExposure() {
-		final int result = doomExposure;
+		final int result = doomExposure + doomAddition;
 		doomExposure = 0;
+		doomAddition = 0;
 		return result;
 	}
 
 	@Override
-	public int exposeToDoom(final int doomExposure) {
+	public void exposeToDoom(final int doomExposure) {
 		if (doomExposure > this.doomExposure) {
 			this.doomExposure = doomExposure;
 		}
-		return this.doomExposure;
+	}
+
+	@Override
+	public void addToDoom(final int howMuch) {
+		doomAddition += howMuch;
 	}
 
 	@Inject(method = "spawnPotionParticles", at = @At(value = "HEAD"))

@@ -1,6 +1,7 @@
 package grondag.doomtree;
 
 import grondag.doomtree.block.WardedWoodSignBlockEntity;
+import grondag.doomtree.entity.WardingEffect;
 import grondag.doomtree.model.BasinModel;
 import grondag.doomtree.model.BrazierModel;
 import grondag.doomtree.model.ChannelModel;
@@ -17,6 +18,7 @@ import grondag.doomtree.particle.SummoningParticle.SummoningParticleFactory;
 import grondag.doomtree.particle.WakingParticle.WakingParticleFactory;
 import grondag.doomtree.particle.WardedFlameParticle;
 import grondag.doomtree.registry.DoomFluids;
+import grondag.doomtree.registry.DoomItems;
 import grondag.doomtree.registry.DoomParticles;
 import grondag.doomtree.render.DoomEffectRender;
 import grondag.fermion.block.sign.OpenSignRenderer;
@@ -25,6 +27,7 @@ import grondag.fermion.client.models.SimpleUnbakedModel;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.render.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.render.entity.model.SignBlockEntityModel;
@@ -84,5 +87,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		//BlockEntityRendererRegistry.INSTANCE.register(DoomSaplingBlockEntity.class, new DoomSaplingBlockEntityRenderer());
 
 		DoomEffectRender.init(REGISTRAR);
+
+		ColorProviderRegistry.ITEM.register((s, i) -> WardingEffect.COLOR, DoomItems.WARDING_POTION);
 	}
 }

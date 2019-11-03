@@ -63,11 +63,14 @@ public class DoomEffect extends StatusEffect {
 		final int currentAmplifier = doom == null ? 0 : doom.getAmplifier();
 		final int currentDuration = doom == null ? 0 : doom.getDuration();
 
-		exposure -= MathHelper.ceil(doomResistance(entity) * exposure);
+		final int resistance = Math.round(doomResistance(entity) * 8);
+
+		if (resistance > 0) {
+			exposure -= Math.min(resistance, exposure);
+		}
 
 		int newDuration = currentDuration + exposure;
 		int newAmplifier = currentAmplifier;
-
 
 		int maxDuration = durationTicks(newAmplifier);
 
@@ -113,6 +116,13 @@ public class DoomEffect extends StatusEffect {
 		}
 	}
 
+	public static void addToDoom(final Entity e, final int exposure) {
+		// TODO: not only players?
+		if (canDoom(e) && e instanceof PlayerEntity) {
+			((DoomEntityAccess) e).addToDoom(exposure);
+		}
+	}
+
 	/**
 	 * Does not check {@link canDoom}.
 	 * Do that first.
@@ -120,10 +130,12 @@ public class DoomEffect extends StatusEffect {
 	 * @return 0 =  fully susceptible, >= 1 fully immune, with values in
 	 * between  based on gear and potion effects.
 	 */
-	public static float doomResistance(final Entity e) {
+	public static float doomResistance(final LivingEntity e) {
 		final Iterable<ItemStack> armor = e.getArmorItems();
 
-		if(armor == null) return 0;
+		final float potion = e.hasStatusEffect(DoomEntities.WARDING_EFFECT) ? 0.25f : 0;
+
+		if(armor == null) return potion;
 
 		final Iterator<ItemStack> it = armor.iterator();
 
@@ -146,9 +158,9 @@ public class DoomEffect extends StatusEffect {
 		}
 
 		if (wardCount ==  4) {
-			return 0.4f +  0.05f * encrustedCount;
+			return potion + 0.25f + 0.125f * encrustedCount;
 		} else {
-			return enchantCount == 4 ? 0.25f : 0;
+			return potion + (enchantCount == 4 ? 0.125f : 0);
 		}
 	}
 

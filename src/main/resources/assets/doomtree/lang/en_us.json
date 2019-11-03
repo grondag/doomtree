@@ -7,6 +7,7 @@
 	
 	"effect.doomtree.doom": "Doom",
 	"effect.doomtree.frailty": "Frailty",
+	"effect.doomtree.warding": "Warding",
 	
 	"help.doomtree.missing_matrix": "The Foreboding Shrub must be placed on the center of a 3x3 bed of Generative Matrix",
 	"help.doomtree.missing_blocks": "Generative Matrix must be surrounded by 8 Redstone blocks and 8 blocks of Prismarine or Netherack",
@@ -24,6 +25,8 @@
 	"item.doomtree.ichor_bucket.info": "This toxic fluid should be avoided but has one practical use: activating alchemical devices.",
 	"item.doomtree.warding_essence": "Warding Essence",
 	"item.doomtree.warding_essence.info": "The purified residue of the Doom Tree's consumption, used in an Alchemical Basin to ward and transform objects.",
+	"item.doomtree.warding_potion": "Potion of Warding",
+	"item.doomtree.warding_potion.info": "Offers some protection againt the Doom Tree's effects. Duration stacks for up to ten potions.",
 	
 	"item.doomtree.warded_iron_ingot": "Warded Iron Ingot",
 	"item.doomtree.warded_iron_ingot.info": "Slightly better than regular iron, and resistant to Doom",

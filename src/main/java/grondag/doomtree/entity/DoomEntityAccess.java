@@ -5,5 +5,7 @@ public interface DoomEntityAccess {
 	int getAndClearDoomExposure();
 
 	/** Sets exposure to max of input and existing value */
-	int exposeToDoom(int doomExposure);
+	void exposeToDoom(int doomExposure);
+
+	void addToDoom(int howMuch);
 }
