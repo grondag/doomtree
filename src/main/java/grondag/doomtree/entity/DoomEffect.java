@@ -213,7 +213,7 @@ public class DoomEffect extends StatusEffect {
 		}
 
 		if (!(me instanceof PlayerEntity)) {
-			if (!isClient && (me.world.getTime() & 15) == 0) {
+			if (!isClient && ((me.world.getTime() + me.hashCode()) & 15) == 0) {
 				if (ThreadLocalRandom.current().nextInt(MAX_AMPLIFIER) <= amplifier) {
 					me.damage(DoomEffects.DOOM, 1.0F);
 				}
