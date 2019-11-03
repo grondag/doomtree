@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 import grondag.doomtree.registry.DoomEffects;
 import grondag.doomtree.registry.DoomTags;
 import grondag.fermion.entity.StatusEffectAccess;
+import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.LivingEntity;
@@ -130,15 +131,13 @@ public class DoomEffect extends StatusEffect {
 	}
 
 	public static void exposeToDoom(final Entity e, final int exposure) {
-		// TODO: not only players?
-		if (canDoom(e) && e instanceof PlayerEntity) {
+		if (canDoom(e)) {
 			((DoomEntityAccess) e).exposeToDoom(exposure);
 		}
 	}
 
 	public static void addToDoom(final Entity e, final int exposure) {
-		// TODO: not only players?
-		if (canDoom(e) && e instanceof PlayerEntity) {
+		if (canDoom(e)) {
 			((DoomEntityAccess) e).addToDoom(exposure);
 		}
 	}
@@ -211,6 +210,15 @@ public class DoomEffect extends StatusEffect {
 			me.addPotionEffect(doom);
 		} else if (duration != doom.getDuration() || amplifier != doom.getAmplifier()) {
 			StatusEffectAccess.access(doom).fermion_set(duration, amplifier);
+		}
+
+		if (!(me instanceof PlayerEntity)) {
+			if (!isClient && (me.world.getTime() & 15) == 0) {
+				if (ThreadLocalRandom.current().nextInt(MAX_AMPLIFIER) <= amplifier) {
+					me.damage(DoomEffects.DOOM, 1.0F);
+				}
+			}
+			return;
 		}
 
 		int hunger = -1;
