@@ -3,6 +3,7 @@ package grondag.doomtree;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import grondag.doomtree.block.treeheart.DoomTreeTracker;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomEffects;
 import grondag.doomtree.registry.DoomFeatures;
@@ -13,7 +14,6 @@ import grondag.doomtree.registry.DoomParticles;
 import grondag.doomtree.registry.DoomRecipes;
 import grondag.doomtree.registry.DoomSounds;
 import grondag.doomtree.registry.DoomTags;
-import grondag.doomtree.treeheart.DoomTreeTracker;
 import grondag.fermion.registrar.Registrar;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.server.ServerStartCallback;

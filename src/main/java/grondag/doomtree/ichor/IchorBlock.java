@@ -3,10 +3,10 @@ package grondag.doomtree.ichor;
 import java.util.List;
 import java.util.Optional;
 
+import grondag.doomtree.block.treeheart.DoomTreeTracker;
 import grondag.doomtree.entity.DoomEffect;
 import grondag.doomtree.recipe.IchorRecipe;
 import grondag.doomtree.registry.DoomBlockStates;
-import grondag.doomtree.treeheart.DoomTreeTracker;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;

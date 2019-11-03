@@ -1,6 +1,6 @@
 package grondag.doomtree;
 
-import grondag.doomtree.block.WardedWoodSignBlockEntity;
+import grondag.doomtree.block.player.WardedWoodSignBlockEntity;
 import grondag.doomtree.entity.WardingEffect;
 import grondag.doomtree.model.BasinModel;
 import grondag.doomtree.model.BrazierModel;

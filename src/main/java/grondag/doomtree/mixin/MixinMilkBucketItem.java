@@ -16,7 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.MilkBucketItem;
 import net.minecraft.network.MessageType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Style;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 @Mixin(MilkBucketItem.class)
@@ -56,7 +58,9 @@ public class MixinMilkBucketItem {
 				}
 
 				if (taunt && livingEntity instanceof ServerPlayerEntity) {
-					((ServerPlayerEntity) livingEntity).sendChatMessage(new TranslatableText("taunt.doomtree.milk_" + (tauntCounter.getAndIncrement() & 3)), MessageType.SYSTEM);
+					((ServerPlayerEntity) livingEntity).sendChatMessage(
+						new TranslatableText("taunt.doomtree.milk_" + (tauntCounter.getAndIncrement() & 3))
+						.setStyle(new Style().setColor(Formatting.LIGHT_PURPLE)), MessageType.SYSTEM);
 				}
 			}
 		}

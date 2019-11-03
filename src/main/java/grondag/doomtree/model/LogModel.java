@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import grondag.doomtree.DoomTree;
-import grondag.doomtree.block.DoomLogBlock;
+import grondag.doomtree.block.tree.DoomLogBlock;
 import grondag.fermion.client.models.SimpleModel;
 import grondag.fermion.client.models.SimpleModels;
 import it.unimi.dsi.fastutil.HashCommon;

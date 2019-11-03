@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import grondag.doomtree.block.DoomSaplingBlockEntity;
+import grondag.doomtree.block.tree.DoomSaplingBlockEntity;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;

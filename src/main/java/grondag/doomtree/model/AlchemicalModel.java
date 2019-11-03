@@ -5,9 +5,9 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import grondag.doomtree.block.AlchemicalBlockEntity;
-import grondag.doomtree.block.AlchemicalBlockEntity.Mode;
-import grondag.doomtree.block.BasinBlockEntity;
+import grondag.doomtree.block.player.AlchemicalBlockEntity;
+import grondag.doomtree.block.player.BasinBlockEntity;
+import grondag.doomtree.block.player.AlchemicalBlockEntity.Mode;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.fermion.client.models.SimpleModel;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;

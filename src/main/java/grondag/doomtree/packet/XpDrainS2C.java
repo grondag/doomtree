@@ -3,8 +3,8 @@ package grondag.doomtree.packet;
 import java.util.Random;
 
 import grondag.doomtree.DoomTree;
-import grondag.doomtree.block.AlchemicalBlockEntity;
-import grondag.doomtree.block.BasinBlockEntity;
+import grondag.doomtree.block.player.AlchemicalBlockEntity;
+import grondag.doomtree.block.player.BasinBlockEntity;
 import grondag.doomtree.registry.DoomParticles;
 import io.netty.buffer.Unpooled;
 import io.netty.util.internal.ThreadLocalRandom;

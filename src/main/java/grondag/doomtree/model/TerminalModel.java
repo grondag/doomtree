@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import grondag.doomtree.DoomTree;
-import grondag.doomtree.block.DoomLogBlock;
+import grondag.doomtree.block.tree.DoomLogBlock;
 import grondag.fermion.client.models.SimpleModels;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;

@@ -3,7 +3,7 @@ package grondag.doomtree.packet;
 import java.util.Random;
 
 import grondag.doomtree.DoomTree;
-import grondag.doomtree.block.AlchemicalBlockEntity;
+import grondag.doomtree.block.player.AlchemicalBlockEntity;
 import io.netty.buffer.Unpooled;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.fabricmc.fabric.api.network.PacketContext;

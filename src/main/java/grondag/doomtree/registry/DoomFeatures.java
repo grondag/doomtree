@@ -2,7 +2,7 @@ package grondag.doomtree.registry;
 
 import static grondag.doomtree.DoomTree.REG;
 
-import grondag.doomtree.block.ForebodingShrubFeature;
+import grondag.doomtree.block.tree.ForebodingShrubFeature;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
