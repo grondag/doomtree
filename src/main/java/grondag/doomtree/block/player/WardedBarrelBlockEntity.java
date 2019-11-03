@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.player;
 
 import java.util.Iterator;
@@ -28,7 +49,7 @@ public class WardedBarrelBlockEntity extends LootableContainerBlockEntity {
 
 	public WardedBarrelBlockEntity(BlockEntityType<?> beType) {
 		super(beType);
-		this.inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+		inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
 	}
 
 	public WardedBarrelBlockEntity() {
@@ -38,8 +59,8 @@ public class WardedBarrelBlockEntity extends LootableContainerBlockEntity {
 	@Override
 	public CompoundTag toTag(CompoundTag tag) {
 		super.toTag(tag);
-		if (!this.serializeLootTable(tag)) {
-			Inventories.toTag(tag, this.inventory);
+		if (!serializeLootTable(tag)) {
+			Inventories.toTag(tag, inventory);
 		}
 
 		return tag;
@@ -48,9 +69,9 @@ public class WardedBarrelBlockEntity extends LootableContainerBlockEntity {
 	@Override
 	public void fromTag(CompoundTag tag) {
 		super.fromTag(tag);
-		this.inventory = DefaultedList.ofSize(this.getInvSize(), ItemStack.EMPTY);
-		if (!this.deserializeLootTable(tag)) {
-			Inventories.fromTag(tag, this.inventory);
+		inventory = DefaultedList.ofSize(getInvSize(), ItemStack.EMPTY);
+		if (!deserializeLootTable(tag)) {
+			Inventories.fromTag(tag, inventory);
 		}
 
 	}
@@ -62,7 +83,7 @@ public class WardedBarrelBlockEntity extends LootableContainerBlockEntity {
 
 	@Override
 	public boolean isInvEmpty() {
-		Iterator<ItemStack> it = this.inventory.iterator();
+		final Iterator<ItemStack> it = inventory.iterator();
 
 		ItemStack stack;
 
@@ -79,41 +100,41 @@ public class WardedBarrelBlockEntity extends LootableContainerBlockEntity {
 
 	@Override
 	public ItemStack getInvStack(int slot) {
-		return (ItemStack)this.inventory.get(slot);
+		return inventory.get(slot);
 	}
 
 	@Override
 	public ItemStack takeInvStack(int slot, int count) {
-		return Inventories.splitStack(this.inventory, slot, count);
+		return Inventories.splitStack(inventory, slot, count);
 	}
 
 	@Override
 	public ItemStack removeInvStack(int slot) {
-		return Inventories.removeStack(this.inventory, slot);
+		return Inventories.removeStack(inventory, slot);
 	}
 
 	@Override
 	public void setInvStack(int slot, ItemStack stack) {
-		this.inventory.set(slot, stack);
+		inventory.set(slot, stack);
 
-		if (stack.getCount() > this.getInvMaxStackAmount()) {
-			stack.setCount(this.getInvMaxStackAmount());
+		if (stack.getCount() > getInvMaxStackAmount()) {
+			stack.setCount(getInvMaxStackAmount());
 		}
 	}
 
 	@Override
 	public void clear() {
-		this.inventory.clear();
+		inventory.clear();
 	}
 
 	@Override
 	protected DefaultedList<ItemStack> getInvStackList() {
-		return this.inventory;
+		return inventory;
 	}
 
 	@Override
 	protected void setInvStackList(DefaultedList<ItemStack> stacks) {
-		this.inventory = stacks;
+		inventory = stacks;
 	}
 
 	@Override
@@ -129,45 +150,45 @@ public class WardedBarrelBlockEntity extends LootableContainerBlockEntity {
 	@Override
 	public void onInvOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
-			if (this.viewerCount < 0) {
-				this.viewerCount = 0;
+			if (viewerCount < 0) {
+				viewerCount = 0;
 			}
 
-			++this.viewerCount;
-			BlockState blockState = this.getCachedState();
-			boolean flag = (Boolean)blockState.get(WardedBarrelBlock.OPEN);
+			++viewerCount;
+			final BlockState blockState = getCachedState();
+			final boolean flag = blockState.get(WardedBarrelBlock.OPEN);
 			if (!flag) {
-				this.playSound(blockState, SoundEvents.BLOCK_BARREL_OPEN);
-				this.setOpen(blockState, true);
+				playSound(blockState, SoundEvents.BLOCK_BARREL_OPEN);
+				setOpen(blockState, true);
 			}
 
-			this.scheduleUpdate();
+			scheduleUpdate();
 		}
 
 	}
 
 	private void scheduleUpdate() {
-		this.world.getBlockTickScheduler().schedule(this.getPos(), this.getCachedState().getBlock(), 5);
+		world.getBlockTickScheduler().schedule(getPos(), getCachedState().getBlock(), 5);
 	}
 
 	public void tick() {
-		final int x = this.pos.getX();
-		final int y = this.pos.getY();
-		final int z = this.pos.getZ();
-		this.viewerCount = ChestBlockEntity.countViewers(this.world, this, x, y, z);
-		if (this.viewerCount > 0) {
-			this.scheduleUpdate();
+		final int x = pos.getX();
+		final int y = pos.getY();
+		final int z = pos.getZ();
+		viewerCount = ChestBlockEntity.countViewers(world, this, x, y, z);
+		if (viewerCount > 0) {
+			scheduleUpdate();
 		} else {
-			BlockState blockState = this.getCachedState();
+			final BlockState blockState = getCachedState();
 			if (blockState.getBlock() != DoomBlocks.WARDED_BARREL) {
-				this.invalidate();
+				invalidate();
 				return;
 			}
 
-			boolean flag = (Boolean)blockState.get(WardedBarrelBlock.OPEN);
+			final boolean flag = blockState.get(WardedBarrelBlock.OPEN);
 			if (flag) {
-				this.playSound(blockState, SoundEvents.BLOCK_BARREL_CLOSE);
-				this.setOpen(blockState, false);
+				playSound(blockState, SoundEvents.BLOCK_BARREL_CLOSE);
+				setOpen(blockState, false);
 			}
 		}
 	}
@@ -175,19 +196,19 @@ public class WardedBarrelBlockEntity extends LootableContainerBlockEntity {
 	@Override
 	public void onInvClose(PlayerEntity player) {
 		if (!player.isSpectator()) {
-			--this.viewerCount;
+			--viewerCount;
 		}
 	}
 
 	private void setOpen(BlockState blockState, boolean flag) {
-		this.world.setBlockState(this.getPos(), blockState.with(WardedBarrelBlock.OPEN, flag), 3);
+		world.setBlockState(getPos(), blockState.with(WardedBarrelBlock.OPEN, flag), 3);
 	}
 
 	private void playSound(BlockState blockState, SoundEvent soundEvent) {
 		final Vec3i vec3i = (blockState.get(WardedBarrelBlock.FACING)).getVector();
-		final double x = this.pos.getX() + 0.5D + vec3i.getX() / 2.0D;
-		final double y = this.pos.getY() + 0.5D + vec3i.getY() / 2.0D;
-		final double z = this.pos.getZ() + 0.5D + vec3i.getZ() / 2.0D;
-		this.world.playSound(null, x, y, z, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+		final double x = pos.getX() + 0.5D + vec3i.getX() / 2.0D;
+		final double y = pos.getY() + 0.5D + vec3i.getY() / 2.0D;
+		final double z = pos.getZ() + 0.5D + vec3i.getZ() / 2.0D;
+		world.playSound(null, x, y, z, soundEvent, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 	}
 }

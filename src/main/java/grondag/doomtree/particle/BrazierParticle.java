@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.particle;
 
 import net.fabricmc.api.EnvType;
@@ -11,25 +32,24 @@ import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
 public class BrazierParticle extends AlchemyParticle {
-
 	static final double RESISTANCE = 0.98;
-	
+
 	public BrazierParticle(World world, double x, double y, double z, double vX, double vY, double vZ,  SpriteProvider sprites) {
 		super(world, x, y, z, vX, vY, vZ, sprites);
-		this.colorRed = 1;
-		this.colorGreen = 0.2f + random.nextFloat() * 0.2f;
-		this.colorBlue = 0.2f + random.nextFloat() * 0.2f;
-		this.scale = 0.03f;
-		this.maxAge = 24;
-		this.collidesWithWorld = false;
+		colorRed = 1;
+		colorGreen = 0.2f + random.nextFloat() * 0.2f;
+		colorBlue = 0.2f + random.nextFloat() * 0.2f;
+		scale = 0.03f;
+		maxAge = 24;
+		collidesWithWorld = false;
 	}
 
 	@Override
 	public void tick() {
-		if (this.age++ >= this.maxAge) {
-			this.markDead();
+		if (age++ >= maxAge) {
+			markDead();
 		} else {
-			this.setSpriteForAge(this.spriteProvider);
+			setSpriteForAge(spriteProvider);
 			prevPosX = x;
 			prevPosY = y;
 			prevPosZ = z;
@@ -39,7 +59,7 @@ public class BrazierParticle extends AlchemyParticle {
 			velocityZ *= RESISTANCE;
 		}
 	}
-	
+
 	public static class BrazierParticleFactory implements ParticleFactory<DefaultParticleType> {
 		private final FabricSpriteProvider sprites;
 

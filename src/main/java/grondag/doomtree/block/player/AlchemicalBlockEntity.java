@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.player;
 
 import java.util.Random;
@@ -22,14 +43,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class AlchemicalBlockEntity extends BlockEntity implements Tickable, BlockEntityClientSerializable, RenderAttachmentBlockEntity {
-	public static enum Mode {
+	public enum Mode {
 		IDLE,
 		WAKING,
 		ACTIVE
 	}
-	
+
 	protected static Mode[] MODES = Mode.values();
-	
+
 	public static final int UNITS_PER_BUCKET = 1000  * 32 * 27;
 	public static final int MAX_BUCKETS = 8;
 	public static final int MAX_UNITS = UNITS_PER_BUCKET * MAX_BUCKETS;
@@ -42,23 +63,23 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 
 	public static final int COOKTIME_TICKS_PER_INGOT = 1600;
 	public static final int UNITS_PER_COOKTIME = UNITS_PER_INGOT / COOKTIME_TICKS_PER_INGOT;
-	
+
 	public static final int XP_COST = 8;
-	
+
 	protected static final String TAG_MODE = "mode";
 	protected static final String TAG_UNITS = "units";
 
 	protected Mode mode = Mode.IDLE;
 
 	protected int units = 0;
-	
+
 	protected final ParticleEffect particle;
-	
+
 	public AlchemicalBlockEntity(BlockEntityType<?> blockEntityType, ParticleEffect particle) {
 		super(blockEntityType);
 		this.particle = particle;
 	}
-	
+
 	public Mode mode() {
 		return mode;
 	}
@@ -76,8 +97,8 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 			if(mode != this.mode || units != this.units) {
 				this.mode = mode;
 				this.units = units;
-				this.markDirty();
-				this.sync();
+				markDirty();
+				sync();
 			}
 
 			return true;
@@ -100,7 +121,7 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 	public void invalidate() {
 		super.invalidate();
 	}
-	
+
 	int tickCounter = 0;
 
 	@Override
@@ -154,15 +175,15 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 				}
 
 				XpDrainS2C.send(world, player.x, player.y, player.z, pos);
-				this.units -= UNITS_PER_LEVEL;
+				units -= UNITS_PER_LEVEL;
 
-				if(this.units == 0) {
+				if(units == 0) {
 					setState(Mode.IDLE, 0);
 					sendCraftingParticles();
-					
+
 				} else {
-					this.markDirty();
-					this.sync();
+					markDirty();
+					sync();
 				}
 			}
 
@@ -173,16 +194,16 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 		final double x = pos.getX();
 		final double y = pos.getY();
 		final double z = pos.getZ();
-		world.addParticle(ParticleTypes.SMOKE, x + rand.nextDouble(), y + 1.0 + rand.nextDouble() * 0.2, z + rand.nextDouble(), 0.0D, 0.0D, 0.0D);		
+		world.addParticle(ParticleTypes.SMOKE, x + rand.nextDouble(), y + 1.0 + rand.nextDouble() * 0.2, z + rand.nextDouble(), 0.0D, 0.0D, 0.0D);
 
 		//		final int counter = soundCounter++;
-		//		
+		//
 		//		if (counter == 0) {
-		//				((ClientWorld) world).playSound(pos, 
+		//				((ClientWorld) world).playSound(pos,
 		//						DoomSounds.BOIL,
-		//						SoundCategory.BLOCKS, 
-		//						1f, 
-		//						1f, 
+		//						SoundCategory.BLOCKS,
+		//						1f,
+		//						1f,
 		//						false);
 		////			}
 		//		} else if (counter >= 90) {
@@ -190,11 +211,11 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 		//		}
 
 		if (rand.nextInt(4) == 0) {
-			world.addImportantParticle(ParticleTypes.BUBBLE_POP, 
-					x + 0.5 + rand.nextDouble() * 0.25, 
-					y + units / 32.0, 
-					z + 0.5 + rand.nextDouble() * 0.25,
-					0.0D, 0.04D, 0.0D);
+			world.addImportantParticle(ParticleTypes.BUBBLE_POP,
+				x + 0.5 + rand.nextDouble() * 0.25,
+				y + units / 32.0,
+				z + 0.5 + rand.nextDouble() * 0.25,
+				0.0D, 0.04D, 0.0D);
 		}
 	}
 
@@ -208,7 +229,7 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 		final double px = pos.getX() + 0.5;
 		final double py = pos.getY() + 1;
 		final double pz = pos.getZ() + 0.5;
-		
+
 		for (int i = 0; i < howMany; i++) {
 			final double dx = rand.nextGaussian() * 0.2;
 			final double dy = Math.abs(rand.nextGaussian()) * 0.2;
@@ -217,17 +238,17 @@ public abstract class AlchemicalBlockEntity extends BlockEntity implements Ticka
 			world.addParticle(particle, px + dx, py + dy, pz + dz, dx * v, dy * v, dz * v);
 		}
 	}
-	
+
 	public void sendCraftingParticles() {
 		AlchemyCraftS2C.send(world, pos);
 	}
-	
+
 	protected void doIdleParticles(Random rand) {
 		if (rand.nextInt(8) == 0) {
 			spawnIdleParticle(rand);
 		}
 	}
-	
+
 	public void spawnIdleParticle(Random rand) {
 		final double y = pos.getY() + 0.15f + rand.nextFloat() * 0.8f;
 		final double x, z;

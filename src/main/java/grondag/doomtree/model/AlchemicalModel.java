@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.model;
 
 import java.util.List;
@@ -6,8 +27,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import grondag.doomtree.block.player.AlchemicalBlockEntity;
-import grondag.doomtree.block.player.BasinBlockEntity;
 import grondag.doomtree.block.player.AlchemicalBlockEntity.Mode;
+import grondag.doomtree.block.player.BasinBlockEntity;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.fermion.client.models.SimpleModel;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -45,21 +66,21 @@ public abstract class AlchemicalModel extends SimpleModel {
 	protected static final float PX15 = 15f / 16f;
 
 	protected static final Direction[] SIDES = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
-	
+
 	protected final Renderer renderer = RendererAccess.INSTANCE.getRenderer();
 	protected final RenderMaterial matCutout = renderer.materialFinder().blendMode(0, BlockRenderLayer.CUTOUT).find();
 	protected final RenderMaterial matSolid = renderer.materialFinder().blendMode(0, BlockRenderLayer.SOLID).find();
 	protected final RenderMaterial matTranslucent = renderer.materialFinder().blendMode(0, BlockRenderLayer.TRANSLUCENT).find();
-	
+
 	protected final RenderMaterial matSolidGlow = renderer.materialFinder().blendMode(0, BlockRenderLayer.SOLID).emissive(0, true)
-			.disableAo(0, true).disableDiffuse(0, true).find();
-	
+		.disableAo(0, true).disableDiffuse(0, true).find();
+
 	protected final RenderMaterial matCutoutGlow = renderer.materialFinder().blendMode(0, BlockRenderLayer.CUTOUT).emissive(0, true)
-			.disableAo(0, true).disableDiffuse(0, true).find();
+		.disableAo(0, true).disableDiffuse(0, true).find();
 
 	protected final RenderMaterial matTranslucentGlow = renderer.materialFinder().blendMode(0, BlockRenderLayer.TRANSLUCENT).emissive(0, true)
-			.disableAo(0, true).disableDiffuse(0, true).find();
-	
+		.disableAo(0, true).disableDiffuse(0, true).find();
+
 	protected final List<Identifier> textures;
 	protected final Sprite[] sprites;
 	protected final Sprite waterSprite;
@@ -72,20 +93,20 @@ public abstract class AlchemicalModel extends SimpleModel {
 	protected final float levelMultiplier;
 
 	public AlchemicalModel(
-			Sprite sprite, 
-			Function<Identifier, Sprite> spriteMap, 
-			List<Identifier> textures, 
-			boolean isFrame, 
-			int activeColor,
-			float bottomHeight) {
+		Sprite sprite,
+		Function<Identifier, Sprite> spriteMap,
+		List<Identifier> textures,
+		boolean isFrame,
+		int activeColor,
+		float bottomHeight) {
 		super(sprite,  ModelHelper.MODEL_TRANSFORM_BLOCK);
 		this.textures = textures;
 		this.isFrame = isFrame;
-		this.sprites = new Sprite[textures.size()];
+		sprites = new Sprite[textures.size()];
 		this.activeColor = activeColor;
-		this.bottomDepth = 1f - bottomHeight;
-		this.depthSpan = PX1 - bottomDepth;
-		this.levelMultiplier = depthSpan / BasinBlockEntity.MAX_VISIBLE_LEVEL;
+		bottomDepth = 1f - bottomHeight;
+		depthSpan = PX1 - bottomDepth;
+		levelMultiplier = depthSpan / BasinBlockEntity.MAX_VISIBLE_LEVEL;
 
 		for (int i = 0; i < sprites.length; i++) {
 			sprites[i] = spriteMap.apply(textures.get(i));
@@ -100,12 +121,12 @@ public abstract class AlchemicalModel extends SimpleModel {
 		if (isFrame) {
 			emitFrameQuads(qe);
 		} else {
-			Object be = ((RenderAttachedBlockView) blockView).getBlockEntityRenderAttachment(pos);
+			final Object be = ((RenderAttachedBlockView) blockView).getBlockEntityRenderAttachment(pos);
 
 			if (be == null || !(be instanceof AlchemicalBlockEntity)) {
 				emitQuads(qe, false);
 			} else {
-				AlchemicalBlockEntity myBe = (AlchemicalBlockEntity) be;
+				final AlchemicalBlockEntity myBe = (AlchemicalBlockEntity) be;
 				emitContents(qe, myBe);
 				emitQuads(qe, myBe.mode() != Mode.WAKING);
 			}
@@ -132,7 +153,7 @@ public abstract class AlchemicalModel extends SimpleModel {
 			break;
 		}
 	}
-	
+
 	protected boolean hasTranslucentSides() {
 		return false;
 	}
@@ -140,25 +161,25 @@ public abstract class AlchemicalModel extends SimpleModel {
 	protected void renderFluidContent(QuadEmitter qe, int color, int level, boolean glow) {
 		final float depth = bottomDepth + levelMultiplier * level;
 		final float height = Math.min(PX13, 1f - depth);
-		final RenderMaterial mat = glow 
-				? (hasTranslucentSides() ? matTranslucentGlow : matSolidGlow)
+		final RenderMaterial mat = glow
+			? (hasTranslucentSides() ? matTranslucentGlow : matSolidGlow)
 				: (hasTranslucentSides() ? matTranslucent : matSolid);
-		
-		qe.material(mat)
-		.square(Direction.UP, PX1, PX1, PX15, PX15, depth)
-		.spriteColor(0, color, color, color, color)
-		.spriteBake(0, waterSprite, MutableQuadView.BAKE_LOCK_UV);
-		qe.emit();
-		
-		if (hasTranslucentSides()) {
-			for (Direction face : SIDES) {
-				qe.material(mat)
-				.square(face, PX2, PX4, PX14, height , PX1)
-				.spriteColor(0, color, color, color, color)
-				.spriteBake(0, waterSprite, MutableQuadView.BAKE_LOCK_UV);
-				qe.emit();
+
+			qe.material(mat)
+			.square(Direction.UP, PX1, PX1, PX15, PX15, depth)
+			.spriteColor(0, color, color, color, color)
+			.spriteBake(0, waterSprite, MutableQuadView.BAKE_LOCK_UV);
+			qe.emit();
+
+			if (hasTranslucentSides()) {
+				for (final Direction face : SIDES) {
+					qe.material(mat)
+					.square(face, PX2, PX4, PX14, height , PX1)
+					.spriteColor(0, color, color, color, color)
+					.spriteBake(0, waterSprite, MutableQuadView.BAKE_LOCK_UV);
+					qe.emit();
+				}
 			}
-		}
 	}
 
 	protected void renderFluidOverlay(QuadEmitter qe, int level) {
@@ -167,7 +188,7 @@ public abstract class AlchemicalModel extends SimpleModel {
 
 	@Override
 	protected final Mesh createMesh() {
-		MeshBuilder mb = renderer.meshBuilder();
+		final MeshBuilder mb = renderer.meshBuilder();
 		if (isFrame) {
 			emitFrameQuads(mb.getEmitter());
 		} else {

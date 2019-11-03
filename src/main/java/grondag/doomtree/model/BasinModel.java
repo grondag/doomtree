@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.model;
 
 import java.util.List;
@@ -14,15 +35,15 @@ import net.minecraft.util.math.Direction.Axis;
 
 public class BasinModel extends AlchemicalModel {
 	public static final List<Identifier> TEXTURES = DoomTree.REG.idList(
-			"block/basin_base",
-			"block/basin_feet",
-			"block/basin_glass",
-			"block/basin_inlay_a",
-			"block/basin_inlay_b",
-			"block/inert_basin_inlay_a",
-			"block/inert_basin_inlay_b",
-			"block/basin_side",
-			"block/basin_rim");
+		"block/basin_base",
+		"block/basin_feet",
+		"block/basin_glass",
+		"block/basin_inlay_a",
+		"block/basin_inlay_b",
+		"block/inert_basin_inlay_a",
+		"block/inert_basin_inlay_b",
+		"block/basin_side",
+		"block/basin_rim");
 
 	protected static final int BASE = 0;
 	protected static final int FEET = 1;
@@ -44,7 +65,7 @@ public class BasinModel extends AlchemicalModel {
 	protected boolean hasTranslucentSides() {
 		return true;
 	}
-	
+
 	@Override
 	protected final void emitQuads(QuadEmitter qe, boolean lit) {
 		emitFrameQuads(qe);
@@ -58,7 +79,7 @@ public class BasinModel extends AlchemicalModel {
 	}
 
 	private final void emitGlassQuadsInner(QuadEmitter qe, float depth) {
-		for (Direction face : SIDES) {
+		for (final Direction face : SIDES) {
 			qe.material(matTranslucent)
 			.square(face, PX2, PX4, PX14, PX13, depth)
 			.spriteColor(0, -1, -1, -1, -1)
@@ -77,7 +98,7 @@ public class BasinModel extends AlchemicalModel {
 		final int bSide = lit ? INLAY_B : INERT_B;
 		final RenderMaterial mat = lit ? matCutoutGlow : matCutout;
 
-		for (Direction face : SIDES) {
+		for (final Direction face : SIDES) {
 			qe.material(mat)
 			.square(face, PX2, PX7, PX14, PX15, depth)
 			.spriteColor(0, -1, -1, -1, -1)
@@ -112,28 +133,28 @@ public class BasinModel extends AlchemicalModel {
 		.spriteBake(0, sprites[RIM], MutableQuadView.BAKE_LOCK_UV);
 		qe.emit();
 
-		for (Direction face : SIDES) {
+		for (final Direction face : SIDES) {
 			// INNER SIDES BOTTOM
 			qe.material(matCutout)
 			.square(face, 0, 0, 1, PX2, PX14)
 			.spriteColor(0, -1, -1, -1, -1)
 			.spriteBake(0, sprites[SIDE], MutableQuadView.BAKE_LOCK_UV);
 			qe.emit();
-			
+
 			// FRAME OUTER EDGES
 			qe.material(matCutout)
 			.square(face, 0, PX4, 1, PX14, PX14)
 			.spriteColor(0, -1, -1, -1, -1)
 			.spriteBake(0, sprites[BASE], MutableQuadView.BAKE_LOCK_UV);
 			qe.emit();
-			
+
 			// OUTER SIDES
 			qe.material(matCutout)
 			.square(face, 0, 0, 1, 1, 0)
 			.spriteColor(0, -1, -1, -1, -1)
 			.spriteBake(0, sprites[SIDE], MutableQuadView.BAKE_LOCK_UV);
 			qe.emit();
-			
+
 			// INNER SIDES TOP
 			qe.material(matCutout)
 			.square(face, PX1, PX3, PX15, 1, PX15)

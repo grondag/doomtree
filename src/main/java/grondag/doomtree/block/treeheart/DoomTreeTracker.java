@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.treeheart;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -18,9 +39,9 @@ public final class DoomTreeTracker {
 		TreeData(int dimId, BlockPos pos) {
 			this.dimId = dimId;
 			this.pos = pos;
-			this.packedPos = pos.asLong();
-			this.x = pos.getX();
-			this.z = pos.getZ();
+			packedPos = pos.asLong();
+			x = pos.getX();
+			z = pos.getZ();
 		}
 
 		boolean isNear(BlockPos pos) {
@@ -57,7 +78,7 @@ public final class DoomTreeTracker {
 
 	static void untrack(World world, BlockPos pos) {
 		if (!world.isClient) {
-			TreeData tree = get(world, pos);
+			final TreeData tree = get(world, pos);
 
 			if (tree != null) {
 				TREES.remove(tree);
@@ -69,7 +90,7 @@ public final class DoomTreeTracker {
 		final int dim = world.dimension.getType().getRawId();
 		final long p = pos.asLong();
 
-		for (TreeData t : TREES) {
+		for (final TreeData t : TREES) {
 			if (t.dimId == dim && t.packedPos == p) {
 				return t;
 			}
@@ -81,7 +102,7 @@ public final class DoomTreeTracker {
 	private static TreeData getNear(World world, BlockPos pos) {
 		final int dim = world.dimension.getType().getRawId();
 
-		for (TreeData t : TREES) {
+		for (final TreeData t : TREES) {
 			if (t.dimId == dim && t.isNear(pos)) {
 				return t;
 			}
@@ -89,7 +110,7 @@ public final class DoomTreeTracker {
 
 		return null;
 	}
-	
+
 	public static boolean isNear(World world, BlockPos pos) {
 		return getNear(world, pos) != null;
 	}
@@ -97,10 +118,10 @@ public final class DoomTreeTracker {
 	public static void reportBreak(World world, BlockPos pos, boolean isLog) {
 		if (world.isClient) return;
 
-		TreeData t = getNear(world, pos);
+		final TreeData t = getNear(world, pos);
 
 		if (t != null) {
-			BlockEntity be = world.getBlockEntity(t.pos);
+			final BlockEntity be = world.getBlockEntity(t.pos);
 
 			if (be != null && be instanceof DoomHeartBlockEntity) {
 				((DoomHeartBlockEntity) be).reportBreak(pos, isLog);
@@ -113,7 +134,7 @@ public final class DoomTreeTracker {
 
 		final int dim = world.dimension.getType().getRawId();
 
-		for (TreeData t : TREES) {
+		for (final TreeData t : TREES) {
 			if (t.dimId == dim && t.horizontalDistance(pos) < GROW_LIMIT) {
 				return false;
 			}

@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.treeheart;
 
 import java.util.Comparator;
@@ -55,7 +76,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 
 		if (world !=null  && !world.isClient) {
 			DoomTreeTracker.track(world, pos);
-			forceChunks((ServerWorld) world, new ChunkPos(this.pos), true);
+			forceChunks((ServerWorld) world, new ChunkPos(pos), true);
 		}
 	}
 
@@ -73,7 +94,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 	public void invalidate() {
 		if (world !=null  && !world.isClient) {
 			DoomTreeTracker.untrack(world, pos);
-			forceChunks((ServerWorld) world, new ChunkPos(this.pos), false);
+			forceChunks((ServerWorld) world, new ChunkPos(pos), false);
 		}
 
 		super.invalidate();
@@ -108,7 +129,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 				return;
 			} else if (!noBuilds) {
 				if (builds.buildDistanceSquared() > branches.buildDistanceSquared()) {
-					branches.build(this);	
+					branches.build(this);
 				} else {
 					builds.build(this);
 				}
@@ -126,13 +147,13 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 
 	public void setTemplate(long[] blocks) {
 		final LogTracker logs = this.logs;
-		for (long p : blocks) {
+		for (final long p : blocks) {
 			logs.add(p);
 		}
 
 		job = new BuildPopulator(this);
 
-		this.markDirty();
+		markDirty();
 	}
 
 	static final String LOG_KEY = "logs";
@@ -147,7 +168,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		power = tag.getLong(POWER_KEY);
 
 		if (logs == null) {
-			logs = new LogTracker(this.getPos());
+			logs = new LogTracker(getPos());
 		}
 
 		if  (tag.containsKey(LOG_KEY)) {
@@ -155,11 +176,11 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		}
 
 		if (builds == null) {
-			builds = new TrunkBuilder(this.getPos());
+			builds = new TrunkBuilder(getPos());
 		}
 
 		if (branches == null) {
-			branches = new BranchBuilder(this.getPos());
+			branches = new BranchBuilder(getPos());
 		}
 
 		if (tag.containsKey(BRANCH_KEY)) {
@@ -167,7 +188,7 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		}
 
 		if (troll == null) {
-			troll = new Troll(this.getPos());
+			troll = new Troll(getPos());
 		}
 
 		if (tag.containsKey(TROLL_KEY)) {

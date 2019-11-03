@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.model;
 
 import java.util.List;
@@ -13,12 +34,12 @@ import net.minecraft.util.math.Direction;
 
 public class BrazierModel extends AlchemicalModel {
 	public static final List<Identifier> TEXTURES = DoomTree.REG.idList(
-			"block/brazier_base",
-			"block/brazier_frame",
-			"block/brazier_inlay",
-			"block/brazier_side",
-			"block/basin_burning_top",
-			"block/brazier_rim");
+		"block/brazier_base",
+		"block/brazier_frame",
+		"block/brazier_inlay",
+		"block/brazier_side",
+		"block/basin_burning_top",
+		"block/brazier_rim");
 
 	protected static final int BASE = 0;
 	protected static final int FRAME = 1;
@@ -26,7 +47,7 @@ public class BrazierModel extends AlchemicalModel {
 	protected static final int SIDE = 3;
 	protected static final int BURNING = 4;
 	protected static final int RIM = 5;
-	
+
 	public static final int ACTIVE_COLOR = 0xFFFF4040;
 
 	protected BrazierModel(Sprite sprite, Function<Identifier, Sprite> spriteMap, boolean isFrame) {
@@ -57,7 +78,7 @@ public class BrazierModel extends AlchemicalModel {
 	private final void emitInlayQuadsInner(QuadEmitter qe, float depth, boolean lit) {
 		final RenderMaterial mat = lit ? matCutoutGlow : matCutout;
 
-		for (Direction face : SIDES) {
+		for (final Direction face : SIDES) {
 			qe.material(mat)
 			.square(face, PX1, PX9, PX15, PX15, depth)
 			.spriteColor(0, -1, -1, -1, -1)
@@ -103,9 +124,9 @@ public class BrazierModel extends AlchemicalModel {
 		.spriteBake(0, sprites[RIM], MutableQuadView.BAKE_LOCK_UV);
 		qe.emit();
 
-		final int sideSprite = this.isFrame ? FRAME : SIDE;
+		final int sideSprite = isFrame ? FRAME : SIDE;
 
-		for (Direction face : SIDES) {
+		for (final Direction face : SIDES) {
 			// TOP OUTER SIDES
 			qe.material(matCutout)
 			.square(face, 0, PX8, 1, 1, 0)

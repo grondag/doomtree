@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.model;
 
 import java.util.List;
@@ -32,14 +53,14 @@ import net.minecraft.world.ExtendedBlockView;
 public class LogModel extends SimpleModel {
 
 	public static final List<Identifier> TEXTURES = DoomTree.REG.idList(
-			"block/doom_log_0_0",
-			"block/doom_log_0_1",
-			"block/doom_log_0_2",
-			"block/doom_log_0_3",
-			"block/doom_log_1_0",
-			"block/doom_log_1_1",
-			"block/doom_log_1_2",
-			"block/doom_log_1_3");
+		"block/doom_log_0_0",
+		"block/doom_log_0_1",
+		"block/doom_log_0_2",
+		"block/doom_log_0_3",
+		"block/doom_log_1_0",
+		"block/doom_log_1_1",
+		"block/doom_log_1_2",
+		"block/doom_log_1_3");
 
 	protected final Sprite innerSide;
 	protected final Sprite innerTop;
@@ -67,21 +88,21 @@ public class LogModel extends SimpleModel {
 
 	protected int getHeight(BlockState state, int y) {
 		final Block block = state.getBlock();
-		return (block instanceof DoomLogBlock) && !((DoomLogBlock) block).isPlaced 
-				? getHeightFromState(state) : glowHeightFromY(y);
+		return (block instanceof DoomLogBlock) && !((DoomLogBlock) block).isPlaced
+			? getHeightFromState(state) : glowHeightFromY(y);
 	}
-	
+
 	protected static int glowHeightFromY(int y) {
 		return DoomLogBlock.MAX_HEIGHT - Math.abs((y % (DoomLogBlock.MAX_HEIGHT * 2)) - DoomLogBlock.MAX_HEIGHT);
 	}
-	
+
 	protected int getHeightFromState(BlockState state) {
 		return state.get(DoomLogBlock.HEIGHT);
 	}
 
 	@Override
 	protected Mesh createMesh() {
-		MeshBuilder mb = renderer.meshBuilder();
+		final MeshBuilder mb = renderer.meshBuilder();
 		emitQuads(mb.getEmitter(), 0, 0);
 		return mb.build();
 	}
@@ -89,23 +110,23 @@ public class LogModel extends SimpleModel {
 	protected final void emitQuads(QuadEmitter qe, long bits, int height) {
 		emitGlowFace(qe, Direction.UP, (int) bits, height, true);
 		emitFace(qe, Direction.UP, (int) bits, height);
-		
+
 		bits >>= 8;
 		emitGlowFace(qe, Direction.DOWN, (int) bits, height, true);
 		emitFace(qe, Direction.DOWN, (int) bits, height);
-		
+
 		bits >>= 8;
 		emitGlowFace(qe, Direction.EAST, (int) bits, height, false);
 		emitSideFace(qe, Direction.EAST, (int) bits, height);
-		
+
 		bits >>= 8;
 		emitGlowFace(qe, Direction.WEST, (int) bits, height, false);
 		emitSideFace(qe, Direction.WEST, (int) bits, height);
-		
+
 		bits >>= 8;
 		emitGlowFace(qe, Direction.NORTH, (int) bits, height, false);
 		emitSideFace(qe, Direction.NORTH, (int) bits, height);
-		
+
 		bits >>= 8;
 		emitGlowFace(qe, Direction.SOUTH, (int) bits, height, false);
 		emitSideFace(qe, Direction.SOUTH, (int) bits, height);
@@ -119,7 +140,7 @@ public class LogModel extends SimpleModel {
 		SimpleModels.contractUVs(0, innerSide, qe);
 		qe.emit();
 	}
-	
+
 	protected void emitFace(QuadEmitter qe, Direction face, int bits, int height) {
 		final int logTexture = bits & 7;
 		final int logRotation = (bits >> 3) & 3;
@@ -134,7 +155,7 @@ public class LogModel extends SimpleModel {
 	protected void emitSideFace(QuadEmitter qe, Direction face, int bits, int height) {
 		emitFace(qe, face, bits, height);
 	}
-	
+
 	public static LogModel create(Function<Identifier, Sprite> spriteMap) {
 		return new LogModel(spriteMap.apply(TEXTURES.get(0)), spriteMap);
 	}
@@ -158,7 +179,7 @@ public class LogModel extends SimpleModel {
 	protected final int[] glowColors = makeGlowColors();
 
 	protected int[] makeGlowColors(int lowColor, int highColor) {
-		int[] result = new int[COLOR_COUNT];
+		final int[] result = new int[COLOR_COUNT];
 
 		for(int i = 0; i < COLOR_COUNT; i++) {
 			result[i] = interpolateColor(i, lowColor, highColor);

@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.treeheart;
 
 import net.minecraft.util.math.BlockPos;
@@ -10,33 +31,33 @@ public enum RelativePos {
 	private static final int COUNT = Math.abs(MIN) * 2 + 1;
 	private static final int MASK = MathHelper.smallestEncompassingPowerOfTwo(COUNT) - 1;
 	private static final int SHIFT = Integer.bitCount(MASK);
-	
+
 	public static int relativePos(final BlockPos originPos, final BlockPos blockPos) {
 		return relativePos(
-				originPos.getX(), originPos.getY(), originPos.getZ(),
-				blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			originPos.getX(), originPos.getY(), originPos.getZ(),
+			blockPos.getX(), blockPos.getY(), blockPos.getZ());
 	}
-	
+
 	public static int relativePos(final BlockPos originPos, final long blockPos) {
 		return relativePos(
-				originPos.getX(), originPos.getY(), originPos.getZ(),
-				BlockPos.unpackLongX(blockPos), BlockPos.unpackLongY(blockPos), BlockPos.unpackLongZ(blockPos));
+			originPos.getX(), originPos.getY(), originPos.getZ(),
+			BlockPos.unpackLongX(blockPos), BlockPos.unpackLongY(blockPos), BlockPos.unpackLongZ(blockPos));
 	}
 
 	public static int relativePos(final long originPos, final long blockPos) {
 		return relativePos(
-				BlockPos.unpackLongX(originPos), BlockPos.unpackLongY(originPos), BlockPos.unpackLongZ(originPos),
-				BlockPos.unpackLongX(blockPos), BlockPos.unpackLongY(blockPos), BlockPos.unpackLongZ(blockPos));
+			BlockPos.unpackLongX(originPos), BlockPos.unpackLongY(originPos), BlockPos.unpackLongZ(originPos),
+			BlockPos.unpackLongX(blockPos), BlockPos.unpackLongY(blockPos), BlockPos.unpackLongZ(blockPos));
 	}
 
 	public static int relativePos(final int originX, final int originY, final int originZ, final long blockPos) {
 		return relativePos(originX, originY, originZ, BlockPos.unpackLongX(blockPos), BlockPos.unpackLongY(blockPos), BlockPos.unpackLongZ(blockPos));
 	}
-	
+
 	public static int relativePos(final int originX, final int originY, final int originZ, final BlockPos blockPos) {
 		return relativePos(originX, originY, originZ, blockPos.getX(), blockPos.getY(), blockPos.getZ());
 	}
-	
+
 	public static int relativePos(final int originX, final int originY, final int originZ, final int x, final int y, final int z) {
 		return relativePos(x - originX, y - originY, z - originZ);
 	}

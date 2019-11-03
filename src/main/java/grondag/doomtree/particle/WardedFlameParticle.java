@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.particle;
 
 import net.fabricmc.api.EnvType;
@@ -16,14 +37,14 @@ import net.minecraft.world.World;
 public class WardedFlameParticle extends SpriteBillboardParticle {
 	private WardedFlameParticle(World world, double x, double y, double z, double dx, double dy, double dz, SpriteProvider sprites) {
 		super(world, x, y, z, dx, dy, dz);
-		this.sprite = sprites.getSprite(0, 1);
-		this.velocityX = this.velocityX * 0.009999999776482582D + dx;
-		this.velocityY = this.velocityY * 0.009999999776482582D + dy;
-		this.velocityZ = this.velocityZ * 0.009999999776482582D + dz;
-		this.x += ((this.random.nextFloat() - this.random.nextFloat()) * 0.05F);
-		this.y += ((this.random.nextFloat() - this.random.nextFloat()) * 0.05F);
-		this.z += ((this.random.nextFloat() - this.random.nextFloat()) * 0.05F);
-		this.maxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
+		sprite = sprites.getSprite(0, 1);
+		velocityX = velocityX * 0.009999999776482582D + dx;
+		velocityY = velocityY * 0.009999999776482582D + dy;
+		velocityZ = velocityZ * 0.009999999776482582D + dz;
+		this.x += ((random.nextFloat() - random.nextFloat()) * 0.05F);
+		this.y += ((random.nextFloat() - random.nextFloat()) * 0.05F);
+		this.z += ((random.nextFloat() - random.nextFloat()) * 0.05F);
+		maxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
 	}
 
 	@Override
@@ -33,23 +54,23 @@ public class WardedFlameParticle extends SpriteBillboardParticle {
 
 	@Override
 	public void move(double double_1, double double_2, double double_3) {
-		this.setBoundingBox(this.getBoundingBox().offset(double_1, double_2, double_3));
-		this.repositionFromBoundingBox();
+		setBoundingBox(getBoundingBox().offset(double_1, double_2, double_3));
+		repositionFromBoundingBox();
 	}
 
 	@Override
 	public float getSize(float tickDelta) {
-		float scale = (this.age + tickDelta) / this.maxAge;
+		final float scale = (age + tickDelta) / maxAge;
 		return this.scale * (1.0F - scale * scale * 0.5F);
 	}
 
 	@Override
 	public int getColorMultiplier(float tickDelta) {
-		float float_2 = (this.age + tickDelta) / (float)this.maxAge;
+		float float_2 = (age + tickDelta) / maxAge;
 		float_2 = MathHelper.clamp(float_2, 0.0F, 1.0F);
-		int int_1 = super.getColorMultiplier(tickDelta);
+		final int int_1 = super.getColorMultiplier(tickDelta);
 		int int_2 = int_1 & 255;
-		int int_3 = int_1 >> 16 & 255;
+		final int int_3 = int_1 >> 16 & 255;
 		int_2 += (int)(float_2 * 15.0F * 16.0F);
 		if (int_2 > 240) {
 			int_2 = 240;
@@ -60,21 +81,21 @@ public class WardedFlameParticle extends SpriteBillboardParticle {
 
 	@Override
 	public void tick() {
-		this.prevPosX = this.x;
-		this.prevPosY = this.y;
-		this.prevPosZ = this.z;
+		prevPosX = x;
+		prevPosY = y;
+		prevPosZ = z;
 
-		if (this.age++ >= this.maxAge) {
-			this.markDead();
+		if (age++ >= maxAge) {
+			markDead();
 		} else {
-			this.move(this.velocityX, this.velocityY, this.velocityZ);
-			this.velocityX *= 0.9599999785423279D;
-			this.velocityY *= 0.9599999785423279D;
-			this.velocityZ *= 0.9599999785423279D;
+			this.move(velocityX, velocityY, velocityZ);
+			velocityX *= 0.9599999785423279D;
+			velocityY *= 0.9599999785423279D;
+			velocityZ *= 0.9599999785423279D;
 
-			if (this.onGround) {
-				this.velocityX *= 0.699999988079071D;
-				this.velocityZ *= 0.699999988079071D;
+			if (onGround) {
+				velocityX *= 0.699999988079071D;
+				velocityZ *= 0.699999988079071D;
 			}
 		}
 	}

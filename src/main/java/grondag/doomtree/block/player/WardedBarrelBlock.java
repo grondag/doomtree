@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.player;
 
 import java.util.Random;
@@ -37,7 +58,7 @@ public class WardedBarrelBlock extends BlockWithEntity {
 
 	public WardedBarrelBlock(Block.Settings settings) {
 		super(settings);
-		this.setDefaultState(this.stateFactory.getDefaultState().with(FACING, Direction.NORTH).with(OPEN, false));
+		setDefaultState(stateFactory.getDefaultState().with(FACING, Direction.NORTH).with(OPEN, false));
 	}
 
 	@Override
@@ -45,7 +66,7 @@ public class WardedBarrelBlock extends BlockWithEntity {
 		if (world.isClient) {
 			return true;
 		} else {
-			BlockEntity be = world.getBlockEntity(pos);
+			final BlockEntity be = world.getBlockEntity(pos);
 
 			if (be instanceof WardedBarrelBlockEntity) {
 				player.openContainer((WardedBarrelBlockEntity) be);
@@ -59,7 +80,7 @@ public class WardedBarrelBlock extends BlockWithEntity {
 	@Override
 	public void onBlockRemoved(BlockState blockState, World world, BlockPos pos, BlockState otherState, boolean flag) {
 		if (blockState.getBlock() != otherState.getBlock()) {
-			BlockEntity be = world.getBlockEntity(pos);
+			final BlockEntity be = world.getBlockEntity(pos);
 
 			if (be instanceof Inventory) {
 				ItemScatterer.spawn(world, pos, (Inventory)be);
@@ -74,7 +95,7 @@ public class WardedBarrelBlock extends BlockWithEntity {
 
 	@Override
 	public void onScheduledTick(BlockState blockState, World world, BlockPos pos, Random random) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
+		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof WardedBarrelBlockEntity) {
 			((WardedBarrelBlockEntity) blockEntity).tick();
 		}
@@ -94,7 +115,7 @@ public class WardedBarrelBlock extends BlockWithEntity {
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState blockState, @Nullable LivingEntity entity, ItemStack stack) {
 		if (stack.hasCustomName()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
+			final BlockEntity blockEntity = world.getBlockEntity(pos);
 			if (blockEntity instanceof WardedBarrelBlockEntity) {
 				((WardedBarrelBlockEntity) blockEntity).setCustomName(stack.getName());
 			}
@@ -128,7 +149,7 @@ public class WardedBarrelBlock extends BlockWithEntity {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return this.getDefaultState().with(FACING, context.getPlayerLookDirection().getOpposite());
+		return getDefaultState().with(FACING, context.getPlayerLookDirection().getOpposite());
 	}
 
 	static {

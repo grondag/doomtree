@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.recipe;
 
 import java.util.ArrayList;
@@ -28,11 +49,11 @@ public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
 	public IchorRecipe read(Identifier id, JsonObject json) {
 		Item result;
 		int count;
-		ArrayList<Ingredient> ingredients = getIngredientList(json);
+		final ArrayList<Ingredient> ingredients = getIngredientList(json);
 
 		// get item result && count
 		if(json.get(RESULT_KEY).isJsonObject()) {
-			JsonObject resultObject = json.getAsJsonObject(RESULT_KEY);
+			final JsonObject resultObject = json.getAsJsonObject(RESULT_KEY);
 			result = getItem(resultObject);
 			count = getCount(resultObject);
 		} else {
@@ -74,7 +95,7 @@ public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
 		// get count int
 		if(countJson.has(COUNT_KEY)) {
 			if (countJson.get(COUNT_KEY).isJsonPrimitive()) {
-				JsonPrimitive countPrimitive = countJson.getAsJsonPrimitive(COUNT_KEY);
+				final JsonPrimitive countPrimitive = countJson.getAsJsonPrimitive(COUNT_KEY);
 
 				if (countPrimitive.isNumber()) {
 					count = countPrimitive.getAsNumber().intValue();
@@ -109,10 +130,10 @@ public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
 		Item result;
 
 		if(itemJson.get(ITEM_KEY).isJsonPrimitive()) {
-			JsonPrimitive itemPrimitive = itemJson.getAsJsonPrimitive(ITEM_KEY);
+			final JsonPrimitive itemPrimitive = itemJson.getAsJsonPrimitive(ITEM_KEY);
 
 			if(itemPrimitive.isString()) {
-				Identifier itemIdentifier = new Identifier(itemPrimitive.getAsString());
+				final Identifier itemIdentifier = new Identifier(itemPrimitive.getAsString());
 
 				if(Registry.ITEM.getIds().contains(itemIdentifier)) {
 					result = Registry.ITEM.get(itemIdentifier);
@@ -137,9 +158,9 @@ public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
 	 * @return list of Ingredients required for the recipe
 	 */
 	private ArrayList<Ingredient> getIngredientList(JsonObject json) {
-		ArrayList<Ingredient> ingredients = new ArrayList<>();
+		final ArrayList<Ingredient> ingredients = new ArrayList<>();
 		if(json.get(INPUT_KEY).isJsonArray()) {
-			JsonArray inputArray = json.get(INPUT_KEY).getAsJsonArray();
+			final JsonArray inputArray = json.get(INPUT_KEY).getAsJsonArray();
 			inputArray.forEach(jsonElement -> ingredients.add(Ingredient.fromJson(jsonElement)));
 		} else {
 			throw new JsonSyntaxException("Expected a JsonArray as \"input\", got " + json.get(INPUT_KEY).getClass() + "\n" + prettyPrintJson(json));
@@ -149,7 +170,7 @@ public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
 	}
 
 	private static String prettyPrintJson(JsonObject json) {
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		return gson.toJson(json);
 	}
 
@@ -162,9 +183,9 @@ public class IchorRecipeSerializer implements RecipeSerializer<IchorRecipe> {
 
 	@Override
 	public IchorRecipe read(Identifier id, PacketByteBuf buf) {
-		int size = buf.readInt();
+		final int size = buf.readInt();
 
-		ArrayList<Ingredient> ingredients = new ArrayList<>();
+		final ArrayList<Ingredient> ingredients = new ArrayList<>();
 		for(int i = 0; i < size; i++) {
 			ingredients.add(Ingredient.fromPacket(buf));
 		}

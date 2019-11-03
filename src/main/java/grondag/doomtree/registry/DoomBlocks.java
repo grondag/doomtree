@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.registry;
 
 import static grondag.doomtree.DoomTree.REG;
@@ -139,7 +160,7 @@ public enum DoomBlocks {
 	public static Block WARDED_STONE_BRICKS = REG.block("warded_stone_bricks", new WardedBlock(FabricBlockSettings.of(Material.STONE).strength(1.5F, 6.0F).build()));
 	public static Block WARDED_STONE_BRICK_SLAB = REG.block("warded_stone_brick_slab", new WardedSlabBlock(FabricBlockSettings.of(Material.STONE, MaterialColor.STONE).strength(2.0F, 6.0F).build()));
 	public static Block WARDED_STONE_BRICK_STAIRS = REG.block("warded_stone_brick_stairs", new WardedStairsBlock(WARDED_STONE_BRICKS.getDefaultState(), FabricBlockSettings.copy(WARDED_STONE_BRICKS).build()) {});
-	
+
 	public static Block WARDED_STONE_BUTTON = REG.block("warded_stone_button", new StoneButtonBlock(FabricBlockSettings.of(Material.PART).noCollision().strength(1, 8).build()) {
 		@Override
 		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
@@ -185,7 +206,7 @@ public enum DoomBlocks {
 			DoomTreeTracker.reportBreak(world, blockPos, false);
 		}
 	});
-	
+
 	public static Block WARDED_WOOD_FENCE_GATE = REG.block("warded_wood_fence_gate", new FenceGateBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {
 		@Override
 		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
@@ -194,7 +215,7 @@ public enum DoomBlocks {
 			DoomTreeTracker.reportBreak(world, blockPos, false);
 		}
 	});
-	
+
 	public static Block WARDED_WOOD_FENCE = REG.block("warded_wood_fence", new FenceBlock(FabricBlockSettings.copy(WARDED_WOOD_PLANKS).strength(2.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build()) {
 		@Override
 		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
@@ -203,7 +224,7 @@ public enum DoomBlocks {
 			DoomTreeTracker.reportBreak(world, blockPos, false);
 		}
 	});
-	
+
 	public static Block WARDED_WOOD_SIGN = REG.blockNoItem("warded_wood_sign", new OpenSignBlock(FabricBlockSettings.of(Material.WOOD).noCollision().strength(1.0F, 8.0F).sounds(BlockSoundGroup.WOOD).build(),  WardedWoodSignBlockEntity::new) {
 		@Override
 		public void onBlockRemoved(BlockState myState, World world, BlockPos blockPos, BlockState newState, boolean someFlag) {
@@ -256,11 +277,11 @@ public enum DoomBlocks {
 		@Override
 		@Environment(EnvType.CLIENT)
 		public void randomDisplayTick(BlockState blockState, World world, BlockPos pos, Random rand) {
-			Direction face = blockState.get(FACING);
+			final Direction face = blockState.get(FACING);
 			final double x = pos.getX() + 0.5D;
 			final double y = pos.getY() + 0.7D;
 			final double z = pos.getZ() + 0.5D;
-			Direction opposite = face.getOpposite();
+			final Direction opposite = face.getOpposite();
 			world.addParticle(ParticleTypes.SMOKE, x + 0.27D * opposite.getOffsetX(), y + 0.22D, z + 0.27D * opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
 			world.addParticle(DoomParticles.WARDED_FLAME, x + 0.27D * opposite.getOffsetX(), y + 0.22D, z + 0.27D * opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
 		}

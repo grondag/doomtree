@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.treeheart;
 
 import java.util.ArrayList;
@@ -139,7 +160,7 @@ class Troll extends IntHeapPriorityQueue {
 
 		final int px = originX + x;
 		final int pz = originZ + z;
-		WorldChunk chunk  = world.getWorldChunk(mPos.set(px, y, pz));
+		final WorldChunk chunk  = world.getWorldChunk(mPos.set(px, y, pz));
 
 		if (chunk != null) {
 			chunk.appendEntities((Entity)null, new Box(px, y, pz, px + 1, y + 16, pz + 1), targets, e -> DoomEffect.canDoom(e));
@@ -207,7 +228,7 @@ class Troll extends IntHeapPriorityQueue {
 	}
 
 	void placeMiasma(BlockPos pos, World world) {
-		BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
+		final BlockState state = (HashCommon.mix(pos.asLong()) & 31) == 0 ? DoomBlockStates.GLEAM_STATE : DoomBlockStates.MIASMA_STATE;
 		world.setBlockState(pos, state);
 
 		reports.add(PackedBlockPos.pack(pos, DoomS2C.MIASMA));
@@ -216,12 +237,12 @@ class Troll extends IntHeapPriorityQueue {
 	void doDamage(World world) {
 		if (targets.isEmpty()) return;
 
-		BooleanRule lootRule = world.getGameRules().get(GameRules.DO_MOB_LOOT);
+		final BooleanRule lootRule = world.getGameRules().get(GameRules.DO_MOB_LOOT);
 		final boolean loot = lootRule.get();
 
 		if (loot) lootRule.set(false, null);
 
-		for (Entity e : targets) {
+		for (final Entity e : targets) {
 			//TODO: collect energy
 			harvestEntity((LivingEntity) e);
 		}
@@ -229,10 +250,10 @@ class Troll extends IntHeapPriorityQueue {
 		if (loot) lootRule.set(true, null);
 	}
 
-	/** 
-	 * Assumes valid entity, takes percentage of health. 
+	/**
+	 * Assumes valid entity, takes percentage of health.
 	 * Does not prevent loot drops.
-	 * Returns hearts harvested. 
+	 * Returns hearts harvested.
 	 */
 	public static float harvestEntity(LivingEntity e) {
 		final float damage = e.getHealthMaximum() * (1 - DoomEffect.doomResistance(e));
@@ -245,7 +266,7 @@ class Troll extends IntHeapPriorityQueue {
 	}
 
 	int[] toIntArray() {
-		int[] result = new int[size + 2];
+		final int[] result = new int[size + 2];
 		result[0] = y;
 		result[1] = index;
 		System.arraycopy(heap, 0, result, 2, size);

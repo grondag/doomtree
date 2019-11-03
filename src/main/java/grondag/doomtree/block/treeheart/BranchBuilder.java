@@ -1,3 +1,24 @@
+/*******************************************************************************
+ * Copyright (C) 2019 grondag
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package grondag.doomtree.block.treeheart;
 
 import java.util.Random;
@@ -10,8 +31,8 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntHeapPriorityQueue;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.BlockPos.Mutable;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /** Tracks log spaces needing placement */
@@ -48,7 +69,7 @@ class BranchBuilder extends IntHeapPriorityQueue {
 	void build(DoomHeartBlockEntity heart) {
 		if (isEmpty()) return;
 
-		final int start = this.dequeueInt();
+		final int start = dequeueInt();
 		final World world = heart.getWorld();
 		final BlockPos.Mutable mPos = heart.mPos;
 		final BlockState currentState = world.getBlockState(RelativePos.set(mPos, originX,  originY, originZ, start));
@@ -118,9 +139,9 @@ class BranchBuilder extends IntHeapPriorityQueue {
 	private void setLog(World world, BlockPos.Mutable mPos, LogTracker logs, int relPos) {
 		logs.add(relPos);
 		world.setBlockState(RelativePos.set(mPos, originX, originY, originZ, relPos), LOG_STATE);
-		BlockState underState = world.getBlockState(mPos.setOffset(Direction.DOWN));
+		final BlockState underState = world.getBlockState(mPos.setOffset(Direction.DOWN));
 
-		if(underState != DoomBlockStates.MIASMA_STATE && underState != DoomBlockStates.GLEAM_STATE 
+		if(underState != DoomBlockStates.MIASMA_STATE && underState != DoomBlockStates.GLEAM_STATE
 			&& (underState == DoomBlockStates.LEAF_STATE || underState.isAir() || TreeUtils.canReplace(underState))) {
 
 			world.setBlockState(mPos, DoomBlockStates.MIASMA_STATE);
@@ -184,7 +205,7 @@ class BranchBuilder extends IntHeapPriorityQueue {
 	}
 
 	private static boolean isCrowding(LogTracker logs, int startPos, int x, int y, int z) {
-		final int p = RelativePos.relativePos(x, y, z); 
+		final int p = RelativePos.relativePos(x, y, z);
 		return p != startPos && logs.contains(p) && !isAdjacent(startPos, x, y, z);
 	}
 
@@ -193,14 +214,14 @@ class BranchBuilder extends IntHeapPriorityQueue {
 	}
 
 	int[] toIntArray() {
-		int[] result = new int[size];
+		final int[] result = new int[size];
 		System.arraycopy(heap, 0, result, 0, size);
 		return result;
 	}
 
 	void fromArray(int[] relativePositions) {
 		clear();
-		for (int p : relativePositions) {
+		for (final int p : relativePositions) {
 			enqueue(p);
 		}
 	}
