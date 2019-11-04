@@ -99,7 +99,7 @@ public enum DoomBlocks {
 	public static Block MIASMA_BLOCK = REG.blockNoItem("miasma", new MiasmaBlock());
 	public static Block DOOM_GLEAM_BLOCK =  REG.blockNoItem("doom_gleam", new DoomGleamBlock());
 
-	public static Block DOOM_SAPLING_BLOCK = REG.block("doom_sapling", new DoomSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS).lightLevel(5).build()));
+	public static Block DOOM_SAPLING_BLOCK = REG.block("doom_sapling", new DoomSaplingBlock(FabricBlockSettings.of(Material.PLANT).breakInstantly().sounds(BlockSoundGroup.GRASS).lightLevel(5).build()));
 	public static final BlockEntityType<DoomSaplingBlockEntity> DOOM_SAPLING = REG.blockEntityType("doom_sapling", DoomSaplingBlockEntity::new, DOOM_SAPLING_BLOCK);
 
 	public static Block DOOM_HEART_BLOCK = REG.blockNoItem("doom_heart", new DoomHeartBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 3).strength(200.0F, 1200.0F).build()));

@@ -44,7 +44,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 
 /**
- * FEAT: basin repair
  * FEAT: mobs - mines
  * FEAT: mobs - walkers
  * FEAT: mobs - floaters

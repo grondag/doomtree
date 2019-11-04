@@ -25,6 +25,7 @@ import grondag.doomtree.block.treeheart.DoomTreeTracker;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PlantBlock;
@@ -46,7 +47,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class ForebodingShrubBlock extends PlantBlock {
-	protected static final VoxelShape SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
+	protected static final VoxelShape SHAPE = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 14.0D, 14.0D);
 
 	public ForebodingShrubBlock(final Block.Settings settings) {
 		super(settings);
@@ -56,6 +57,11 @@ public class ForebodingShrubBlock extends PlantBlock {
 	@Override
 	public VoxelShape getOutlineShape(final BlockState blockState, final BlockView blockView, final BlockPos blockPos, final EntityContext entityContext) {
 		return SHAPE;
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.SOLID;
 	}
 
 	@Override

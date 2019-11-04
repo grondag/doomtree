@@ -186,6 +186,7 @@ public class DoomEffect extends StatusEffect {
 	public static boolean canDoom(final Entity e) {
 		return e instanceof LivingEntity
 			&& e.isAlive()
+			&& !(e instanceof PlayerEntity && ((PlayerEntity) e).isCreative())
 			&& !e.isInvulnerable()
 			&& !e.isSpectator()
 			&& ((LivingEntity) e).getGroup() != EntityGroup.UNDEAD
