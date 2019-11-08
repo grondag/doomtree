@@ -22,6 +22,8 @@
 package grondag.doomtree;
 
 import grondag.doomtree.block.player.WardedWoodSignBlockEntity;
+import grondag.doomtree.entity.WalkerEntity;
+import grondag.doomtree.entity.WalkerEntityRenderer;
 import grondag.doomtree.entity.WardingEffect;
 import grondag.doomtree.model.BasinModel;
 import grondag.doomtree.model.BrazierModel;
@@ -49,6 +51,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.render.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.render.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.render.entity.model.SignBlockEntityModel;
@@ -112,5 +115,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		ColorProviderRegistry.ITEM.register((s, i) -> WardingEffect.COLOR, DoomItems.WARDING_POTION);
 		ColorProviderRegistry.ITEM.register((s, i) -> 0xFFFFFFFF, DoomItems.MILK_POTION);
 		ColorProviderRegistry.ITEM.register((s, i) -> 0xFFB6D8FF, DoomItems.SALVATION_POTION);
+
+		EntityRendererRegistry.INSTANCE.register(WalkerEntity.class, (dispatcher, context) -> new WalkerEntityRenderer(dispatcher));
 	}
 }

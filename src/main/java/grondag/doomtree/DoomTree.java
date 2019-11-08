@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import grondag.doomtree.block.treeheart.DoomTreeTracker;
 import grondag.doomtree.registry.DoomBlocks;
 import grondag.doomtree.registry.DoomEffects;
+import grondag.doomtree.registry.DoomEntities;
 import grondag.doomtree.registry.DoomFeatures;
 import grondag.doomtree.registry.DoomFluids;
 import grondag.doomtree.registry.DoomItems;
@@ -78,6 +79,7 @@ public class DoomTree implements ModInitializer {
 		DoomParticles.values();
 		DoomFeatures.values();
 		DoomEffects.values();
+		DoomEntities.values();
 
 		ServerStopCallback.EVENT.register(s -> DoomTreeTracker.clear());
 		ServerStartCallback.EVENT.register(DoomRecipes.HELPER::init);

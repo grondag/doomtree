@@ -12,6 +12,7 @@
     "minecraft:magma_cube",
     "minecraft:ocelot",
     "minecraft:cat",
-    "minecraft:shulker"
+    "minecraft:shulker",
+    "doomtree:walker"
   ]
 }
