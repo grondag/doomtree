@@ -21,13 +21,14 @@
  ******************************************************************************/
 package grondag.doomtree.entity;
 
+import java.util.Random;
+
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import grondag.doomtree.DoomTreeClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.render.InvalidateRenderStateCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Cuboid;
 import net.minecraft.client.render.GameRenderer;
@@ -40,6 +41,7 @@ import net.minecraft.util.Identifier;
 public class WalkerEntityModel extends BipedEntityModel<WalkerEntity> {
 
 	private final static float Y_OFFSET = -10f;
+	private final Random random = new Random();
 
 	private void setRotationPoints() {
 		body.rotationPointY = Y_OFFSET;
@@ -140,7 +142,8 @@ public class WalkerEntityModel extends BipedEntityModel<WalkerEntity> {
 
 		init();
 
-		InvalidateRenderStateCallback.EVENT.register(this::init);
+		// Used for interactive debug of model changes
+		// InvalidateRenderStateCallback.EVENT.register(this::init);
 	}
 
 	@Override
@@ -149,50 +152,81 @@ public class WalkerEntityModel extends BipedEntityModel<WalkerEntity> {
 	}
 
 	@Override
-	public void method_17087(WalkerEntity livingEntity_1, float float_1, float float_2, float float_3, float float_4, float float_5, float float_6) {
-		super.method_17087(livingEntity_1, float_1, float_2, float_3, float_4, float_5, float_6);
+	public void method_17088(WalkerEntity walker, float float_1, float float_2, float float_3, float float_4, float float_5, float tickDelta) {
+		method_17087(walker, float_1, float_2, float_3, float_4, float_5, tickDelta);
+
+		final int pulseCount = walker.pulseCount();
+
+		if (pulseCount > 0) {
+			random.setSeed(pulseCount);
+			final float f = 0.002f * pulseCount;
+			final float x = (float) (random.nextGaussian() * f);
+			final float y = (float) (random.nextGaussian() * f);
+			final float z = (float) (random.nextGaussian() * f);
+			GlStateManager.pushMatrix();
+			GlStateManager.translatef(x, y, z);
+			head.render(tickDelta);
+			//headwear.render(tickDelta);
+			GlStateManager.popMatrix();
+		} else {
+			head.render(tickDelta);
+			headwear.render(tickDelta);
+		}
+
+		body.render(tickDelta);
+		rightArm.render(tickDelta);
+		leftArm.render(tickDelta);
+		rightLeg.render(tickDelta);
+		leftLeg.render(tickDelta);
+
+	}
+
+
+	@Override
+	public void method_17087(WalkerEntity walker, float float_1, float float_2, float float_3, float float_4, float float_5, float float_6) {
+		super.method_17087(walker, float_1, float_2, float_3, float_4, float_5, float_6);
 
 		head.visible = true;
 		headwear.visible = false;
 
-		body.pitch = 0.0F;
+		//		body.pitch = 0.0F;
 
-		rightArm.pitch = rightArm.pitch * 0.5F;
-		leftArm.pitch = leftArm.pitch * 0.5F;
-		rightLeg.pitch = rightLeg.pitch * 0.5F;
-		leftLeg.pitch = leftLeg.pitch * 0.5F;
-
-		if (rightArm.pitch > 0.4F) {
-			rightArm.pitch = 0.4F;
-		}
-
-		if (leftArm.pitch > 0.4F) {
-			leftArm.pitch = 0.4F;
-		}
-
-		if (rightArm.pitch < -0.4F) {
-			rightArm.pitch = -0.4F;
-		}
-
-		if (leftArm.pitch < -0.4F) {
-			leftArm.pitch = -0.4F;
-		}
-
-		if (rightLeg.pitch > 0.4F) {
-			rightLeg.pitch = 0.4F;
-		}
-
-		if (leftLeg.pitch > 0.4F) {
-			leftLeg.pitch = 0.4F;
-		}
-
-		if (rightLeg.pitch < -0.4F) {
-			rightLeg.pitch = -0.4F;
-		}
-
-		if (leftLeg.pitch < -0.4F) {
-			leftLeg.pitch = -0.4F;
-		}
+		//		rightArm.pitch = rightArm.pitch * 0.5F;
+		//		leftArm.pitch = leftArm.pitch * 0.5F;
+		//		rightLeg.pitch = rightLeg.pitch * 0.5F;
+		//		leftLeg.pitch = leftLeg.pitch * 0.5F;
+		//
+		//		if (rightArm.pitch > 0.4F) {
+		//			rightArm.pitch = 0.4F;
+		//		}
+		//
+		//		if (leftArm.pitch > 0.4F) {
+		//			leftArm.pitch = 0.4F;
+		//		}
+		//
+		//		if (rightArm.pitch < -0.4F) {
+		//			rightArm.pitch = -0.4F;
+		//		}
+		//
+		//		if (leftArm.pitch < -0.4F) {
+		//			leftArm.pitch = -0.4F;
+		//		}
+		//
+		//		if (rightLeg.pitch > 0.4F) {
+		//			rightLeg.pitch = 0.4F;
+		//		}
+		//
+		//		if (leftLeg.pitch > 0.4F) {
+		//			leftLeg.pitch = 0.4F;
+		//		}
+		//
+		//		if (rightLeg.pitch < -0.4F) {
+		//			rightLeg.pitch = -0.4F;
+		//		}
+		//
+		//		if (leftLeg.pitch < -0.4F) {
+		//			leftLeg.pitch = -0.4F;
+		//		}
 
 		// headwear.pitch = head.pitch;
 		// headwear.yaw = head.yaw;
@@ -214,14 +248,9 @@ public class WalkerEntityModel extends BipedEntityModel<WalkerEntity> {
 			final GameRenderer gameRenderer = MinecraftClient.getInstance().gameRenderer;
 			gameRenderer.setFogBlack(false);
 			GlStateManager.enableBlend();
-			//GlStateManager.disableAlphaTest();
-			//			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			GlStateManager.alphaFunc(516, 0.1F);
-			//			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-			//			GlStateManager.disableLighting();
 			GlStateManager.depthMask(!entity.isInvisible());
-			//			applyLightmapCoordinates(entity);
 			int light = entity.getLightmapCoordinates();
 			if (entity.isOnFire()) {
 				light = 15728880;
@@ -235,12 +264,11 @@ public class WalkerEntityModel extends BipedEntityModel<WalkerEntity> {
 			getModel().method_17088(entity, float_1, float_2, float_4, float_5, float_6, float_7);
 			GlStateManager.depthMask(true);
 			GlStateManager.disableBlend();
-			//GlStateManager.enableAlphaTest();
 		}
 
 		@Override
 		public boolean hasHurtOverlay() {
-			return false;
+			return true;
 		}
 	}
 }

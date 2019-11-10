@@ -31,7 +31,7 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
-public class IdleParticle extends AlchemyParticle {
+public class IdleParticle extends SimpleParticle {
 	public IdleParticle(World world, double x, double y, double z, SpriteProvider sprites) {
 		super(world, x, y, z, 0, 0, 0, sprites);
 		colorRed = random.nextFloat() * 0.4f + 0.6f;

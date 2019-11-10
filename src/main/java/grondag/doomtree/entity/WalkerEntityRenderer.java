@@ -44,16 +44,8 @@ public class WalkerEntityRenderer extends MobEntityRenderer<WalkerEntity, Walker
 		return SKIN;
 	}
 
-	//TODO: needed?
 	@Override
-	protected void scale(WalkerEntity entity, float f1) {
-		//		final float f2 = 1.2F;
-		//		GlStateManager.scalef(f2, f2, f2);
-		super.scale(entity, f1);
-	}
-
-	@Override
-	public void render(WalkerEntity entity_1, double double_1, double double_2, double double_3, float float_1, float float_2) {
+	public void render(WalkerEntity walker, double x, double y, double z, float float_1, float float_2) {
 		final int int_2 = 0xF00F0 % 65536;
 		final int int_3 = 0xF00F0 / 65536;
 		GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, int_2, int_3);
@@ -61,13 +53,17 @@ public class WalkerEntityRenderer extends MobEntityRenderer<WalkerEntity, Walker
 		final GameRenderer gameRenderer = MinecraftClient.getInstance().gameRenderer;
 		gameRenderer.setFogBlack(true);
 		GlStateManager.disableLighting();
-		super.render(entity_1, double_1, double_2, double_3, float_1, float_2);
 
-	}
+		//		final int pulseCount = walker.pulseCount();
+		//
+		//		if (pulseCount > 0) {
+		//			final double f = 0.002 * pulseCount;
+		//			x += random.nextGaussian() * f;
+		//			y += random.nextGaussian() * f;
+		//			z += random.nextGaussian() * f;
+		//		}
 
-	@Override
-	public void applyLightmapCoordinates(WalkerEntity entity_1) {
-		// TODO Auto-generated method stub
-		super.applyLightmapCoordinates(entity_1);
+		super.render(walker, x, y, z, float_1, float_2);
+
 	}
 }

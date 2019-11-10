@@ -31,7 +31,7 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
-public class BrazierParticle extends AlchemyParticle {
+public class BrazierParticle extends SimpleParticle {
 	static final double RESISTANCE = 0.98;
 
 	public BrazierParticle(World world, double x, double y, double z, double vX, double vY, double vZ,  SpriteProvider sprites) {

@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 
 
 @Environment(EnvType.CLIENT)
-public class SummoningParticle extends AlchemyParticle {
+public class SummoningParticle extends SimpleParticle {
 	public SummoningParticle(World world, double x, double y, double z, double vX, double vY, double vZ,  SpriteProvider sprites) {
 		super(world, x, y, z, vX, vY, vZ, sprites);
 		colorRed = 1f;

@@ -33,7 +33,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
-public class WakingParticle extends AlchemyParticle {
+public class WakingParticle extends SimpleParticle {
 	public WakingParticle(World world, double x, double y, double z, double vX, double vY, double vZ,  SpriteProvider sprites) {
 		super(world, x, y, z, vX, vY, vZ, sprites);
 		colorRed = 1f;

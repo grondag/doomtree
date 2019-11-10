@@ -29,10 +29,10 @@ import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.world.World;
 
 @Environment(EnvType.CLIENT)
-public abstract class AlchemyParticle extends SpriteBillboardParticle {
+public abstract class SimpleParticle extends SpriteBillboardParticle {
 	protected final SpriteProvider spriteProvider;
 
-	public AlchemyParticle(World world, double x, double y, double z, double vX, double vY, double vZ, SpriteProvider sprites) {
+	public SimpleParticle(World world, double x, double y, double z, double vX, double vY, double vZ, SpriteProvider sprites) {
 		super(world, x, y, z);
 		spriteProvider = sprites;
 		scale = 0.05f;
