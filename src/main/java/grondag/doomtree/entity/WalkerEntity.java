@@ -24,6 +24,8 @@ package grondag.doomtree.entity;
 import java.util.List;
 
 import grondag.doomtree.registry.DoomParticles;
+import grondag.doomtree.registry.DoomSounds;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -43,6 +45,7 @@ import net.minecraft.entity.passive.AbstractTraderEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.TypeFilterableList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -87,8 +90,19 @@ public class WalkerEntity extends HostileEntity {
 	@Override
 	public void onTrackedDataSet(TrackedData<?> trackedData) {
 		if (CHARGING.equals(trackedData) && world.isClient) {
-			// TODO: play charging sound
-			pulseCount = isPulsing() ? 1 : 0;
+			if (isPulsing()) {
+				final PlayerEntity player = MinecraftClient.getInstance().player;
+				if(player != null) {
+					final double d = 1 - (distanceTo(player) / 64d);
+
+					if (d > 0) {
+						world.playSound(x, y, z, DoomSounds.WALKER_CHARGE, SoundCategory.HOSTILE, (float) (d * d), 1, false);
+					}
+				}
+				pulseCount = 1;
+			} else {
+				pulseCount = 0;
+			}
 		}
 
 		super.onTrackedDataSet(trackedData);

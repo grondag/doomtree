@@ -29,6 +29,7 @@ import grondag.doomtree.entity.Explodinator.ExplosionFX;
 import grondag.doomtree.entity.WalkerAttackGoal;
 import grondag.doomtree.entity.WalkerEntity;
 import grondag.doomtree.registry.DoomParticles;
+import grondag.doomtree.registry.DoomSounds;
 import io.netty.buffer.Unpooled;
 import io.netty.util.internal.ThreadLocalRandom;
 import net.fabricmc.fabric.api.network.PacketContext;
@@ -38,6 +39,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.MathHelper;
@@ -121,6 +123,12 @@ public enum WalkerPulseS2C {
 
 		if (pvx !=0 || pvy != 0 || pvz != 0) {
 			client.player.setVelocity(client.player.getVelocity().add(pvx, pvy, pvz));
+		}
+
+		final double d = 1 - (Math.sqrt(client.player.squaredDistanceTo(from)) / 64d);
+
+		if (d > 0) {
+			world.playSound(x, y, z, DoomSounds.WALKER_SHOT, SoundCategory.HOSTILE, (float) (d * d), 1, false);
 		}
 	}
 

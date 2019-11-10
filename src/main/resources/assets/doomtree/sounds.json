@@ -20,5 +20,17 @@
 		"sounds": ["doomtree:doom_summon"],
 		"subtitle": "subtitle.doomtree.doom_summon",
 		"stream": true
+	},
+		"walker_shot": {
+		"category": "hostile",
+		"sounds": ["doomtree:pulse_0", "doomtree:pulse_1"],
+		"subtitle": "subtitle.doomtree.walker_shot",
+		"stream": true
+	},
+		"walker_charge": {
+		"category": "hostile",
+		"sounds": ["doomtree:charge"],
+		"subtitle": "subtitle.doomtree.walker_charge",
+		"stream": true
 	}
 }
