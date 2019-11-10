@@ -40,6 +40,7 @@ import grondag.doomtree.particle.BrazierParticle.BrazierParticleFactory;
 import grondag.doomtree.particle.IdleParticle.IdleParticleFactory;
 import grondag.doomtree.particle.SummoningParticle.SummoningParticleFactory;
 import grondag.doomtree.particle.WakingParticle.WakingParticleFactory;
+import grondag.doomtree.particle.WalkerPulseParticle.WalkerExplosionParticleFactory;
 import grondag.doomtree.particle.WalkerPulseParticle.WalkerPulseParticleFactory;
 import grondag.doomtree.particle.WardedFlameParticle;
 import grondag.doomtree.registry.DoomFluids;
@@ -106,6 +107,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.WARDED_FLAME, WardedFlameParticle.WardedFlameParticleFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.SUMMONING, SummoningParticleFactory::new);
 		ParticleFactoryRegistry.getInstance().register(DoomParticles.WALKER_PULSE, WalkerPulseParticleFactory::new);
+		ParticleFactoryRegistry.getInstance().register(DoomParticles.WALKER_EXPLOSION, WalkerExplosionParticleFactory::new);
 
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.PARTICLE_ATLAS_TEX).register((atlasTexture, registry) -> {
 			registry.register(REGISTRAR.id("warded_flame"));

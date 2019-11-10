@@ -36,16 +36,24 @@ import net.minecraft.world.World;
 public class WalkerPulseParticle extends SimpleParticle {
 	protected final boolean isMoving;
 
-	public WalkerPulseParticle(World world, double x, double y, double z, double vX, double vY, double vZ,  SpriteProvider sprites) {
+	public WalkerPulseParticle(World world, double x, double y, double z, double vX, double vY, double vZ,  SpriteProvider sprites, boolean explosive) {
 		super(world, x, y, z, vX, vY, vZ, sprites);
 		colorRed = 1f;
 		colorGreen = 1f;
 		colorBlue = 1f;
 		colorAlpha = 1f;
 		angle = (float) (random.nextFloat() * Math.PI * 2);
-		scale = random.nextFloat() * 0.05f + 0.05f;
-		maxAge = 4 + random.nextInt(4);
-		collidesWithWorld = false;
+
+		if (explosive) {
+			scale = random.nextFloat() * 0.2f + 0.2f;
+			maxAge = 6 + random.nextInt(6);
+			collidesWithWorld = true;
+		} else {
+			scale = random.nextFloat() * 0.05f + 0.05f;
+			maxAge = 4 + random.nextInt(4);
+			collidesWithWorld = false;
+		}
+
 		isMoving = vX != 0 || vY != 0 || vZ != 0;
 	}
 
@@ -83,7 +91,20 @@ public class WalkerPulseParticle extends SimpleParticle {
 
 		@Override
 		public Particle createParticle(DefaultParticleType type, World world, double x, double y, double z, double vX, double vY, double vZ) {
-			return new WalkerPulseParticle(world, x, y, z, vX, vY, vZ, sprites);
+			return new WalkerPulseParticle(world, x, y, z, vX, vY, vZ, sprites, false);
+		}
+	}
+
+	public static class WalkerExplosionParticleFactory implements ParticleFactory<DefaultParticleType> {
+		private final FabricSpriteProvider sprites;
+
+		public WalkerExplosionParticleFactory(FabricSpriteProvider sprites) {
+			this.sprites = sprites;
+		}
+
+		@Override
+		public Particle createParticle(DefaultParticleType type, World world, double x, double y, double z, double vX, double vY, double vZ) {
+			return new WalkerPulseParticle(world, x, y, z, vX, vY, vZ, sprites, true);
 		}
 	}
 }

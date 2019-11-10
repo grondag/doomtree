@@ -244,4 +244,8 @@ public class WalkerEntity extends HostileEntity {
 			return livingEntity_1 != null && livingEntity_1.isInsideWater();
 		}
 	}
+
+	public void dealDamage(Entity victim) {
+		super.dealDamage(this, victim);
+	}
 }

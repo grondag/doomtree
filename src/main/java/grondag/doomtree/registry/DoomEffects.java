@@ -42,6 +42,13 @@ public enum DoomEffects {
 		}
 	};
 
+	public static final DamageSource PLASMA = new DamageSource("plasma") {
+		{
+			setProjectile();
+			setExplosive();
+		}
+	};
+
 	public static final StatusEffect DOOM_EFFECT = REG.statusEffect("doom", new DoomEffect());
 	public static final StatusEffect WARDING_EFFECT = REG.statusEffect("warding", new WardingEffect());
 	public static final StatusEffect FRAILTY = REG.statusEffect("frailty", new HealthBoostStatusEffect(StatusEffectType.HARMFUL, 0xA0F080)

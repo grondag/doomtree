@@ -26,6 +26,7 @@ import java.util.EnumSet;
 import java.util.Optional;
 
 import grondag.doomtree.packet.WalkerPulseS2C;
+import grondag.doomtree.registry.DoomEffects;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -44,8 +45,10 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 public class WalkerAttackGoal extends Goal {
 	public static final double FIRE_HEIGHT_OFFSET = - 0.25;
@@ -291,6 +294,8 @@ public class WalkerAttackGoal extends Goal {
 		walker.getLookControl().lookAt(lastTargetX, lastTargetY, lastTargetZ);
 
 		if(count <= 0) {
+			final World world = walker.world;
+
 			final Vec3d from = new Vec3d(walker.x, walker.y + walker.getStandingEyeHeight() + FIRE_HEIGHT_OFFSET, walker.z);
 			final double dx = lastTargetX - from.x;
 			final double dy = lastTargetY - from.y;
@@ -298,7 +303,7 @@ public class WalkerAttackGoal extends Goal {
 			final double n = 1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz);
 			Vec3d to = new Vec3d(from.x + dx * n * MAX_RANGE, from.y + dy * n * MAX_RANGE, from.z + dz * n * MAX_RANGE);
 			final Entity dummy = new ArrowEntity(walker.world, from.x, from.y, from.z);
-			final HitResult blockHit = walker.world.rayTrace(new RayTraceContext(from, to, RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.ANY, dummy));
+			final HitResult blockHit = world.rayTrace(new RayTraceContext(from, to, RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.ANY, dummy));
 			to = (blockHit == null || blockHit.getType() == Type.MISS) ? to : blockHit.getPos();
 			final EntityHitResult entityHit = ProjectileUtil.getEntityCollision(walker.world, dummy, from, to, new Box(from, to).expand(1.0D), WalkerEntity::isValidTargetEntity);
 
@@ -310,11 +315,24 @@ public class WalkerAttackGoal extends Goal {
 
 					if (h.isPresent()) {
 						to = h.get();
+
+						final Entity victim = entityHit.getEntity();
+						victim.damage(DoomEffects.PLASMA, 10.0F);
+						((WalkerEntity) walker).dealDamage(victim);
 					}
 				}
 			}
 
-			WalkerPulseS2C.send(walker.world, (WalkerEntity) walker, to);
+			final Explosion.DestructionType destructionType =  world.getGameRules().getBoolean(GameRules.MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
+			final Explodinator ex = Explodinator.get().prepare(world, walker, to.x, to.y, to.z, 2, true, false, destructionType);
+			ex.collectBlocksAndDamageEntities();
+			ex.affectWorld(false);
+
+			if (destructionType == Explosion.DestructionType.NONE) {
+				ex.clearAffectedBlocks();
+			}
+
+			WalkerPulseS2C.send(walker.world, (WalkerEntity) walker, to, ex);
 
 			rangeCooldown = RANGE_COOLDOWN_TICKS;
 			walker.getNavigation().startMovingTo(walker.getTarget(), SPEED_FACTOR);

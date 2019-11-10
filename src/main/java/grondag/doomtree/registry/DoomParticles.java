@@ -35,4 +35,5 @@ public enum DoomParticles {
 	public static final DefaultParticleType WARDED_FLAME = REG.particle("warded_flame", true);
 	public static final DefaultParticleType SUMMONING = REG.particle("summoning", true);
 	public static final DefaultParticleType WALKER_PULSE = REG.particle("walker_pulse", true);
+	public static final DefaultParticleType WALKER_EXPLOSION = REG.particle("walker_explosion", true);
 }

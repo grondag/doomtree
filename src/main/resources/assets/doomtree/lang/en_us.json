@@ -1,5 +1,8 @@
 {
 	"death.attack.doom": "%1$s was killed by Doom",
+	"death.attack.doom.player": "%1$s was killed by Doom whilst fighting %2$s",
+	"death.attack.plasma": "%1$s was vaporized by plasma",
+	"death.attack.plasma.player": "%1$s was vaporized by plasma whilst fighting %2$s",
 	"category.doomtree.brazier_smelting": "Alchemical Brazier",
 	"category.doomtree.brazier": "Alchemical Brazier",
 	"category.doomtree.basin": "Alchemical Basin",

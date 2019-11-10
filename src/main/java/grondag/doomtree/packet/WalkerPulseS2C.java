@@ -24,6 +24,8 @@ package grondag.doomtree.packet;
 import java.util.Random;
 
 import grondag.doomtree.DoomTree;
+import grondag.doomtree.entity.Explodinator;
+import grondag.doomtree.entity.Explodinator.ExplosionFX;
 import grondag.doomtree.entity.WalkerAttackGoal;
 import grondag.doomtree.entity.WalkerEntity;
 import grondag.doomtree.registry.DoomParticles;
@@ -35,6 +37,7 @@ import net.fabricmc.fabric.api.server.PlayerStream;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.Packet;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.MathHelper;
@@ -44,18 +47,27 @@ import net.minecraft.world.World;
 public enum WalkerPulseS2C {
 	;
 
-	public static void send(World world, WalkerEntity from, Vec3d to) {
+	public static void send(World world, WalkerEntity from, Vec3d to, Explodinator explosion) {
 		final PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 		buf.writeVarInt(from.getEntityId());
 		buf.writeDouble(to.x);
 		buf.writeDouble(to.y);
 		buf.writeDouble(to.z);
+		explosion.toBuffer(buf);
 
 		final Vec3d middle = new Vec3d((from.x + to.x) * 0.5, (from.y + to.y) * 0.5, (from.z + to.z) * 0.5);
-		final double radius = MathHelper.sqrt(middle.squaredDistanceTo(from.x, from.y, from.z)) + 32;
+		final double radius = MathHelper.sqrt(middle.squaredDistanceTo(from.x, from.y, from.z)) + 64;
 
-		final Packet<?> packet = ServerSidePacketRegistry.INSTANCE.toPacket(IDENTIFIER, buf);
-		PlayerStream.around(world, middle, radius).forEach(p -> ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, packet));
+		PlayerStream.around(world, middle, radius).forEach(p -> {
+			final PacketByteBuf playerBuf = new PacketByteBuf(Unpooled.buffer());
+			playerBuf.writeBytes(buf, 0, buf.readableBytes());
+			final Vec3d v = explosion.getAffectedPlayers().get(p);
+			playerBuf.writeFloat(v == null ? 0 : (float) v.x);
+			playerBuf.writeFloat(v == null ? 0 : (float) v.y);
+			playerBuf.writeFloat(v == null ? 0 : (float) v.z);
+			final Packet<?> packet = ServerSidePacketRegistry.INSTANCE.toPacket(IDENTIFIER, playerBuf);
+			ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, packet);
+		});
 	}
 
 	public static void handle(PacketContext context, PacketByteBuf buf) {
@@ -63,14 +75,19 @@ public enum WalkerPulseS2C {
 
 		final WalkerEntity walker = (WalkerEntity) client.world.getEntityById(buf.readVarInt());
 		final Vec3d to = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
+		final Explodinator explosion = Explodinator.get().setWorld(client.world).fromBuffer(buf);
+		final float vx = buf.readFloat();
+		final float vy = buf.readFloat();
+		final float vz = buf.readFloat();
+
 		if (client.isOnThread()) {
-			handleInner(client, walker, to);
+			handleInner(client, walker, to, explosion, vx, vy, vz);
 		} else {
-			client.execute(() -> handleInner(client, walker, to));
+			client.execute(() -> handleInner(client, walker, to, explosion, vx, vy, vz));
 		}
 	}
 
-	private static void handleInner(MinecraftClient client, WalkerEntity walker, Vec3d to) {
+	private static void handleInner(MinecraftClient client, WalkerEntity walker, Vec3d to, Explodinator explosion, float pvx, float pvy, float pvz) {
 		final ClientWorld world = client.world;
 		if (world == null || walker == null) {
 			return;
@@ -99,14 +116,22 @@ public enum WalkerPulseS2C {
 			dd += d;
 		}
 
+		explosion.setParticles(PULSE_FX, ParticleTypes.SMOKE, ParticleTypes.POOF);
+		explosion.affectWorld(true);
 
-		for (int i = 0; i < 32; i++)  {
-			final double vx = rand.nextGaussian() * 0.2;
-			final double vy = rand.nextGaussian() * 0.2;
-			final double vz = rand.nextGaussian() * 0.2;
-			world.addParticle(DoomParticles.WALKER_PULSE, to.x + vx, to.y + vy, to.z + vz, vx, vy, vz);
+		if (pvx !=0 || pvy != 0 || pvz != 0) {
+			client.player.setVelocity(client.player.getVelocity().add(pvx, pvy, pvz));
 		}
 	}
 
 	public static Identifier IDENTIFIER = DoomTree.REG.id("walker_pulse");
+
+	public static final ExplosionFX PULSE_FX = (w, x, y, z, p, rand)  -> {
+		for (int i = 0; i < 32; i++)  {
+			final double vx = rand.nextGaussian() * 0.2;
+			final double vy = rand.nextGaussian() * 0.2;
+			final double vz = rand.nextGaussian() * 0.2;
+			w.addParticle(DoomParticles.WALKER_EXPLOSION, x + vx, y + vy, z + vz, vx, vy, vz);
+		}
+	};
 }
