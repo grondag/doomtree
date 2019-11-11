@@ -25,6 +25,8 @@ import java.util.List;
 
 import grondag.doomtree.registry.DoomParticles;
 import grondag.doomtree.registry.DoomSounds;
+import io.netty.util.internal.ThreadLocalRandom;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -42,6 +44,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.AbstractTraderEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -58,18 +63,34 @@ import net.minecraft.world.chunk.WorldChunk;
 public class WalkerEntity extends HostileEntity {
 	public static final int TARGET_RANGE = 32;
 
+	public static final ObjectOpenHashSet<WalkerEntity> LOADED = new ObjectOpenHashSet<>();
+
 	private static final TrackedData<Boolean> CHARGING = DataTracker.registerData(WalkerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
 	private boolean targetingUnderwater;
 	protected final SwimNavigation waterNavigation;
 	protected final MobNavigation landNavigation;
 	protected int pulseCount = 0;
+	protected final int healTick = ThreadLocalRandom.current().nextInt(255);
 
 	public WalkerEntity(EntityType<? extends WalkerEntity> type, World world) {
 		super(type, world);
 		stepHeight = 1.0F;
 		waterNavigation = new SwimNavigation(this, world);
 		landNavigation = new MobNavigation(this, world);
+
+		if(world != null && !world.isClient) {
+			LOADED.add(this);
+		}
+	}
+
+	@Override
+	public void remove() {
+		if(world != null && !world.isClient) {
+			LOADED.remove(this);
+		}
+
+		super.remove();
 	}
 
 	@Override
@@ -222,10 +243,15 @@ public class WalkerEntity extends HostileEntity {
 
 	@Override
 	public void tick() {
-		if(world.isClient && isPulsing()) {
-			pulseCount++;
-			doChargeParticles();
+		if(world.isClient) {
+			if(isPulsing()) {
+				pulseCount++;
+				doChargeParticles();
+			}
+		} else if (world != null && (world.getTime() & 0xFF) == healTick && getHealth() < getHealthMaximum()) {
+			heal(0.25f);
 		}
+
 		super.tick();
 	}
 
@@ -301,4 +327,20 @@ public class WalkerEntity extends HostileEntity {
 		return (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F;
 	}
 
+	@Override
+	public boolean canBreatheInWater() {
+		return true;
+	}
+
+	@Override
+	public boolean isPotionEffective(StatusEffectInstance effectInstance) {
+		final StatusEffect effect = effectInstance.getEffectType();
+
+		if (effect == StatusEffects.REGENERATION || effect == StatusEffects.POISON
+			|| effect == StatusEffects.POISON || effect == StatusEffects.WITHER) {
+			return false;
+		}
+
+		return super.isPotionEffective(effectInstance);
+	}
 }

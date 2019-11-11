@@ -33,7 +33,7 @@ import net.minecraft.util.registry.Registry;
 public enum DoomEntities {
 	;
 
-	public static final EntityType<WalkerEntity> WALKER = register("walker", FabricEntityTypeBuilder.create(EntityCategory.MONSTER, WalkerEntity::new).size(EntityDimensions.fixed(0.6F, 2.9F)).build());
+	public static final EntityType<WalkerEntity> WALKER = register("walker", FabricEntityTypeBuilder.create(EntityCategory.MONSTER, WalkerEntity::new).setImmuneToFire().size(EntityDimensions.fixed(0.6F, 2.9F)).build());
 
 	private static <T extends Entity> EntityType<T> register(String name, EntityType<T> entity) {
 		return Registry.register(Registry.ENTITY_TYPE, DoomTree.REG.id(name), entity);

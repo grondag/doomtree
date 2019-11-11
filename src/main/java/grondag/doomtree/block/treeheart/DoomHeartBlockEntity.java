@@ -22,8 +22,13 @@
 package grondag.doomtree.block.treeheart;
 
 import java.util.Comparator;
+import java.util.Random;
 
+import grondag.doomtree.entity.WalkerEntity;
 import grondag.doomtree.registry.DoomBlocks;
+import grondag.doomtree.registry.DoomEntities;
+import io.netty.util.internal.ThreadLocalRandom;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.CompoundTag;
@@ -33,6 +38,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.SpawnHelper;
+import net.minecraft.world.World;
 
 public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 	private static final ChunkTicketType<ChunkPos> DOOM_TREE_TICKET = ChunkTicketType.create("doom_tree", Comparator.comparingLong(ChunkPos::toLong));
@@ -120,9 +130,85 @@ public class DoomHeartBlockEntity extends BlockEntity implements Tickable {
 		itMe = false;
 	}
 
+	static final int MOB_COST = 2000;
+	static final int TARGET_COUNT = 8;
+
+	void spawnMobs() {
+		if (!world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) || world.getDifficulty() == Difficulty.PEACEFUL) return;
+
+		int count = 0;
+		final BlockPos pos = this.pos;
+		final int x = pos.getX();
+		final int y = pos.getY();
+		final int z = pos.getZ();
+
+		for (final WalkerEntity w : WalkerEntity.LOADED) {
+			if(w.squaredDistanceTo(x, y, z) < 4096) {
+				count++;
+			}
+		}
+		final int maxSpawnable = Math.min(TARGET_COUNT, (int) (power/ TARGET_COUNT));
+		final int spawnCount = MathHelper.clamp(TARGET_COUNT - count, 0, maxSpawnable);
+
+		for (int i = 0; i < spawnCount; i++) {
+			final BlockPos p = findSpawnPosition();
+			if (p != null) {
+				final WalkerEntity e = new WalkerEntity(DoomEntities.WALKER, world);
+				e.setPosition(p.getX(), p.getY() + 2, p.getZ());
+				world.spawnEntity(e);
+			}
+		}
+	}
+
+	BlockPos findSpawnPosition() {
+		final Random rand = ThreadLocalRandom.current();
+		final BlockPos pos = this.pos;
+		final World world = this.world;
+
+		for(int i = 0; i < 16; i++) {
+			final int x = rand.nextInt(65) - 32;
+			final int z = rand.nextInt(65) - 32;
+
+			if (x * x + z * z > 32 * 32) continue;
+
+			int y = pos.getY() + 16;
+			mPos.set(x + pos.getX(), y, z + pos.getZ());
+
+			while(!isClearForSpawn(world, mPos) && y > 16) {
+				mPos.setY(--y);
+			}
+			final int airTop = y;
+
+			while(y > 16 && isClearForSpawn(world, mPos)) {
+				mPos.setY(--y);
+			}
+
+			if (!world.getBlockState(mPos).allowsSpawning(world, mPos, DoomEntities.WALKER)) {
+				continue;
+			}
+
+			if (y > 16 && y < airTop - 3) {
+				mPos.setY(y + 1);
+				return mPos;
+			}
+		}
+
+		return null;
+	}
+
+	static boolean isClearForSpawn(World world, BlockPos pos) {
+		final BlockState state = world.getBlockState(pos);
+		return SpawnHelper.isClearForSpawn(world, pos, state, state.getFluidState());
+	}
+
 	void idle() {
 		if (tickCounter <= 0 && power >= 2000) {
 			final boolean noBuilds = builds.isEmpty() && branches.isEmpty();
+
+			if (power >= MOB_COST && noBuilds && (world.getTime() & 0x127) == 0) {
+				spawnMobs();
+			}
+
 			if((leafTick || noBuilds) && logs.hasBranches()) {
 				LeafGrower.growLeaves(this);
 				leafTick = false;
