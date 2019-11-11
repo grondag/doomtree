@@ -57,6 +57,7 @@ import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.render.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.model.SignBlockEntityModel;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 
@@ -126,5 +127,7 @@ public class DoomTreeClient implements ClientModInitializer {
 		ColorProviderRegistry.ITEM.register((s, i) -> 0xFFB6D8FF, DoomItems.SALVATION_POTION);
 
 		EntityRendererRegistry.INSTANCE.register(WalkerEntity.class, (dispatcher, context) -> new WalkerEntityRenderer(dispatcher));
+
+		DoomTree.PLAYER_PROXY = () -> MinecraftClient.getInstance().player;
 	}
 }

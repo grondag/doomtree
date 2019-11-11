@@ -21,6 +21,8 @@
  ******************************************************************************/
 package grondag.doomtree;
 
+import java.util.function.Supplier;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,6 +44,7 @@ import net.fabricmc.fabric.api.event.server.ServerStartCallback;
 import net.fabricmc.fabric.api.event.server.ServerStopCallback;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.resource.ResourceType;
 
 /**
@@ -67,6 +70,15 @@ public class DoomTree implements ModInitializer {
 	public static final String MOD_ID = "doomtree";
 	public static final Logger LOGGER = LogManager.getLogger("The Doom Tree");
 	public static final Registrar REG = new Registrar(MOD_ID, "doom_sapling");
+
+	static Supplier<PlayerEntity> PLAYER_PROXY = () -> null;
+
+	/**
+	 * Will be player on client side, null on server
+	 */
+	public static PlayerEntity player() {
+		return PLAYER_PROXY.get();
+	}
 
 	@Override
 	public void onInitialize() {

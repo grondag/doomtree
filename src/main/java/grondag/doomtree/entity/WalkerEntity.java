@@ -23,11 +23,12 @@ package grondag.doomtree.entity;
 
 import java.util.List;
 
+import grondag.doomtree.DoomTree;
 import grondag.doomtree.registry.DoomParticles;
 import grondag.doomtree.registry.DoomSounds;
 import io.netty.util.internal.ThreadLocalRandom;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import net.minecraft.client.MinecraftClient;
+//import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -115,7 +116,7 @@ public class WalkerEntity extends HostileEntity {
 	public void onTrackedDataSet(TrackedData<?> trackedData) {
 		if (CHARGING.equals(trackedData) && world.isClient) {
 			if (isPulsing()) {
-				final PlayerEntity player = MinecraftClient.getInstance().player;
+				final PlayerEntity player = DoomTree.player();
 				if(player != null) {
 					final double d = 1 - (distanceTo(player) / 64d);
 
