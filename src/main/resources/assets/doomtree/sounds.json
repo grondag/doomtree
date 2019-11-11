@@ -32,5 +32,29 @@
 		"sounds": ["doomtree:charge"],
 		"subtitle": "subtitle.doomtree.walker_charge",
 		"stream": true
+	},
+		"walker_death": {
+		"category": "hostile",
+		"sounds": ["doomtree:walker_death"],
+		"subtitle": "subtitle.doomtree.walker_death",
+		"stream": true
+	},
+		"walker_hurt": {
+		"category": "hostile",
+		"sounds": ["doomtree:walker_hurt_0", "doomtree:walker_hurt_1", "doomtree:walker_hurt_2", "doomtree:walker_hurt_3"],
+		"subtitle": "subtitle.doomtree.walker_hurt",
+		"stream": true
+	},
+		"walker_say": {
+		"category": "hostile",
+		"sounds": ["doomtree:walker_say_0", "doomtree:walker_say_1", "doomtree:walker_say_2"],
+		"subtitle": "subtitle.doomtree.walker_say",
+		"stream": true
+	},
+		"walker_step": {
+		"category": "hostile",
+		"sounds": ["doomtree:walker_step_0", "doomtree:walker_step_1", "doomtree:walker_step_2", "doomtree:walker_step_3"],
+		"subtitle": "subtitle.doomtree.walker_step",
+		"stream": true
 	}
 }

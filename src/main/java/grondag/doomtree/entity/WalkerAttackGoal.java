@@ -58,6 +58,8 @@ public class WalkerAttackGoal extends Goal {
 	protected static final int RANGE_CHARGE_TICKS = 16;
 	protected static final int MAX_RANGE = 32;
 	protected static final int MAX_RANGE_SQ = MAX_RANGE * MAX_RANGE;
+	protected static final int MIN_RANGE = 8;
+	protected static final int MIN_RANGE_SQ = MIN_RANGE * MIN_RANGE;
 
 	protected final MobEntityWithAi walker;
 	protected int meleeCooldown;
@@ -101,8 +103,6 @@ public class WalkerAttackGoal extends Goal {
 			// see if can get close enough for melee
 			path = walker.getNavigation().findPathTo(target, 0);
 			return path != null;
-
-			// TODO; try to move to a spot where can see if can't move
 		}
 	}
 
@@ -113,18 +113,23 @@ public class WalkerAttackGoal extends Goal {
 			return false;
 		}
 
-		if(!walker.getNavigation().isIdle() || walker.isInWalkTargetRange(new BlockPos(target))) {
-			// have chance at melee
+		// only chance is ranged
+		if(walker.squaredDistanceTo(target.x, target.getBoundingBox().minY, target.z) <= MAX_RANGE_SQ) {
 			return true;
 		}
 
-		// only chance is ranged
-		return walker.squaredDistanceTo(target.x, target.getBoundingBox().minY, target.z) <= MAX_RANGE_SQ;
+		// have chance at melee
+		return(!walker.getNavigation().isIdle() || walker.isInWalkTargetRange(new BlockPos(target)));
 	}
 
 	@Override
 	public void start() {
-		walker.getNavigation().startMovingAlong(path, SPEED_FACTOR);
+		final LivingEntity target = walker.getTarget();
+
+		if(walker.squaredDistanceTo(target.x, target.getBoundingBox().minY, target.z) > MAX_RANGE_SQ) {
+			walker.getNavigation().startMovingAlong(path, SPEED_FACTOR);
+		}
+
 		walker.setAttacking(true);
 		retargetCooldown = 0;
 	}
@@ -163,7 +168,9 @@ public class WalkerAttackGoal extends Goal {
 			return;
 		}
 
-		if (sqDistToTarget <= MAX_RANGE_SQ && rangeCooldown <= 0) {
+		final boolean inRange = sqDistToTarget <= MAX_RANGE_SQ && sqDistToTarget >= MIN_RANGE_SQ;
+
+		if (inRange && rangeCooldown <= 0) {
 			isRangedInProgress = true;
 
 			final LookControl looker  = walker.getLookControl();
@@ -183,14 +190,22 @@ public class WalkerAttackGoal extends Goal {
 			lastTargetZ = target.z;
 			retargetCooldown = 4 + walker.getRand().nextInt(7);
 
-			if (sqDistToTarget > 1024.0D) {
-				retargetCooldown += 10;
-			} else if (sqDistToTarget > 256.0D) {
-				retargetCooldown += 5;
-			}
 
-			if (!walker.getNavigation().startMovingTo(target, SPEED_FACTOR)) {
+			final boolean isIdle = walker.getNavigation().isIdle();
+
+			if (sqDistToTarget > MAX_RANGE_SQ) {
 				retargetCooldown += 15;
+
+				if (isIdle) {
+					walker.getNavigation().startMovingTo(target, SPEED_FACTOR);
+				}
+			} else if (sqDistToTarget < MIN_RANGE_SQ) {
+				if (isIdle) {
+					walker.getNavigation().startMovingTo(target, SPEED_FACTOR);
+				}
+
+			} else if (!isIdle) {
+				walker.getNavigation().stop();
 			}
 		}
 	}
@@ -256,15 +271,30 @@ public class WalkerAttackGoal extends Goal {
 	protected void findSplashTarget() {
 		final World world = walker.world;
 
-		final BlockPos.Mutable pos = new BlockPos.Mutable();
-		final int x = (int) Math.round(lastTargetX);
-		final int y = (int) Math.round(lastTargetY);
-		final int z = (int) Math.round(lastTargetZ);
+		final double lastX = lastTargetX;
+		final double lastY = lastTargetY;
+		final double lastZ = lastTargetZ;
 
-		if (findSplashTarget(world, pos.set(x, y, z))) return;
-		if (findSplashTarget(world, pos.set(x, y - 1, z))) return;
-		if (findSplashTarget(world, pos.set(x, y - 2, z))) return;
-		if (findSplashTarget(world, pos.set(x, y - 3, z))) return;
+		final BlockPos.Mutable pos = new BlockPos.Mutable();
+		final int x = (int) Math.round(lastX);
+		final int y = (int) Math.round(lastY);
+		final int z = (int) Math.round(lastZ);
+
+		if (findSplashTarget(world, pos.set(x, y, z))
+			|| findSplashTarget(world, pos.set(x, y - 1, z))
+			|| findSplashTarget(world, pos.set(x, y - 2, z))
+			|| findSplashTarget(world, pos.set(x, y - 3, z))) {
+
+			// if we can't see the splash block target entity instead
+			final Vec3d from = new Vec3d(walker.x, walker.y + walker.getStandingEyeHeight() + FIRE_HEIGHT_OFFSET, walker.z);
+			final Vec3d to = new Vec3d(lastTargetX, lastTargetY, lastTargetZ);
+
+			if(world.rayTrace(new RayTraceContext(from, to, RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.SOURCE_ONLY, walker)).getType() == HitResult.Type.MISS) {
+				lastTargetX = lastX;
+				lastTargetY = lastY;
+				lastTargetZ = lastZ;
+			}
+		}
 	}
 
 	protected void tickRanged() {
@@ -335,7 +365,7 @@ public class WalkerAttackGoal extends Goal {
 			WalkerPulseS2C.send(walker.world, (WalkerEntity) walker, to, ex);
 
 			rangeCooldown = RANGE_COOLDOWN_TICKS;
-			walker.getNavigation().startMovingTo(walker.getTarget(), SPEED_FACTOR);
+			//walker.getNavigation().startMovingTo(walker.getTarget(), SPEED_FACTOR);
 			// playSound(SoundEvents.ENTITY_DROWNED_SHOOT, 1.0F, 1.0F / (getRand().nextFloat() * 0.4F + 0.8F));
 			isRangedInProgress = false;
 			((WalkerEntity) walker).setPulsing(false);
@@ -365,20 +395,5 @@ public class WalkerAttackGoal extends Goal {
 	protected double getSquaredMeleeAttackRange(LivingEntity target) {
 		final float w = walker.getWidth();
 		return w * w * 4.0F + target.getWidth();
-	}
-
-	protected void doTheThing(HitResult hitResult_1) {
-		// TODO: do the thing
-		//		if (!mob.world.isClient) {
-		//			if (hitResult_1.getType() == HitResult.Type.ENTITY) {
-		//				final Entity entity_1 = ((EntityHitResult)hitResult_1).getEntity();
-		//				entity_1.damage(DamageSource.explosiveProjectile(this, mob), 6.0F);
-		//				mob.dealDamage(mob, entity_1);
-		//			}
-		//
-		//			final boolean boolean_1 = world.getGameRules().getBoolean(GameRules.MOB_GRIEFING);
-		//			world.createExplosion((Entity)null, x, y, z, (float)explosionPower, boolean_1, boolean_1 ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE);
-		//			this.remove();
-		//		}
 	}
 }

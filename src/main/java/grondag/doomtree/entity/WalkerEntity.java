@@ -31,12 +31,14 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.FleeEntityGoal;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.ai.pathing.SwimNavigation;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -46,6 +48,7 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.TypeFilterableList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -121,6 +124,7 @@ public class WalkerEntity extends HostileEntity {
 
 	@Override
 	protected void initGoals() {
+		goalSelector.add(3, new FleeEntityGoal<>(this, IronGolemEntity.class, 6.0F, 1.0D, 1.2D));
 		goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		goalSelector.add(8, new LookAroundGoal(this));
 		goalSelector.add(2, new WalkerAttackGoal(this));
@@ -202,7 +206,7 @@ public class WalkerEntity extends HostileEntity {
 							if (e instanceof LivingEntity && isValidTarget((LivingEntity) e)) {
 								final double d = e.squaredDistanceTo(this);
 
-								if (d < bestDist) {
+								if (d < bestDist || (e instanceof IronGolemEntity && !(best instanceof IronGolemEntity))) {
 									best = (LivingEntity) e;
 									bestDist = d;
 								}
@@ -262,4 +266,39 @@ public class WalkerEntity extends HostileEntity {
 	public void dealDamage(Entity victim) {
 		super.dealDamage(this, victim);
 	}
+
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return DoomSounds.WALKER_SAY;
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return DoomSounds.WALKER_HURT;
+	}
+
+	@Override
+	protected SoundEvent getDeathSound() {
+		return DoomSounds.WALKER_DEATH;
+	}
+
+	SoundEvent getStepSound() {
+		return DoomSounds.WALKER_STEP;
+	}
+
+	@Override
+	public int getMinAmbientSoundDelay() {
+		return 1000;
+	}
+
+	@Override
+	protected float getSoundVolume() {
+		return 0.05f;
+	}
+
+	@Override
+	protected float getSoundPitch() {
+		return (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F;
+	}
+
 }

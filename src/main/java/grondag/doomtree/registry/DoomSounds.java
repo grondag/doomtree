@@ -34,4 +34,8 @@ public enum DoomSounds {
 	public static final SoundEvent DOOM_SUMMON = REG.sound("doom_summon");
 	public static final SoundEvent WALKER_SHOT = REG.sound("walker_shot");
 	public static final SoundEvent WALKER_CHARGE = REG.sound("walker_charge");
+	public static final SoundEvent WALKER_DEATH = REG.sound("walker_death");
+	public static final SoundEvent WALKER_STEP = REG.sound("walker_step");
+	public static final SoundEvent WALKER_HURT = REG.sound("walker_hurt");
+	public static final SoundEvent WALKER_SAY = REG.sound("walker_say");
 }
