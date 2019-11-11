@@ -35,8 +35,7 @@ import io.netty.util.internal.ThreadLocalRandom;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.fabricmc.fabric.api.server.PlayerStream;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -73,27 +72,27 @@ public enum WalkerPulseS2C {
 	}
 
 	public static void handle(PacketContext context, PacketByteBuf buf) {
-		final MinecraftClient client = MinecraftClient.getInstance();
-
-		final WalkerEntity walker = (WalkerEntity) client.world.getEntityById(buf.readVarInt());
+		final World world = context.getPlayer().world;
+		final WalkerEntity walker = (WalkerEntity) world.getEntityById(buf.readVarInt());
 		final Vec3d to = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
-		final Explodinator explosion = Explodinator.get().setWorld(client.world).fromBuffer(buf);
+		final Explodinator explosion = Explodinator.get().setWorld(world).fromBuffer(buf);
 		final float vx = buf.readFloat();
 		final float vy = buf.readFloat();
 		final float vz = buf.readFloat();
 
-		if (client.isOnThread()) {
-			handleInner(client, walker, to, explosion, vx, vy, vz);
+		if (context.getTaskQueue().isOnThread()) {
+			handleInner(context.getPlayer(), walker, to, explosion, vx, vy, vz);
 		} else {
-			client.execute(() -> handleInner(client, walker, to, explosion, vx, vy, vz));
+			context.getTaskQueue().execute(() -> handleInner(context.getPlayer(), walker, to, explosion, vx, vy, vz));
 		}
 	}
 
-	private static void handleInner(MinecraftClient client, WalkerEntity walker, Vec3d to, Explodinator explosion, float pvx, float pvy, float pvz) {
-		final ClientWorld world = client.world;
-		if (world == null || walker == null) {
+	private static void handleInner(PlayerEntity player, WalkerEntity walker, Vec3d to, Explodinator explosion, float pvx, float pvy, float pvz) {
+		if (player == null || player.world == null || walker == null) {
 			return;
 		}
+
+		final World world = player.world;
 
 		final Vec3d from = new Vec3d(walker.x, walker.y + walker.getStandingEyeHeight() + WalkerAttackGoal.FIRE_HEIGHT_OFFSET, walker.z);
 		final double dStep =  0.25 / from.distanceTo(to);
@@ -122,10 +121,10 @@ public enum WalkerPulseS2C {
 		explosion.affectWorld(true);
 
 		if (pvx !=0 || pvy != 0 || pvz != 0) {
-			client.player.setVelocity(client.player.getVelocity().add(pvx, pvy, pvz));
+			player.setVelocity(player.getVelocity().add(pvx, pvy, pvz));
 		}
 
-		final double d = 1 - (Math.sqrt(client.player.squaredDistanceTo(from)) / 64d);
+		final double d = 1 - (Math.sqrt(player.squaredDistanceTo(from)) / 64d);
 
 		if (d > 0) {
 			world.playSound(x, y, z, DoomSounds.WALKER_SHOT, SoundCategory.HOSTILE, (float) (d * d), 1, false);
